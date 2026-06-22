@@ -1,0 +1,116 @@
+button#suggest-steps-btn:disabled {
+    background: rgba(147, 186, 125, 0.25) !important;
+    border-color: rgba(147, 186, 125, 0.3) !important;
+    color: rgba(79, 59, 47, 0.7) !important;
+    cursor: not-allowed !important;
+    opacity: 0.95;
+}
+
+.seed-preview {
+    background: rgba(255, 249, 227, 0.95);
+}
+
+.seed-chip {
+    font-size: 0.95rem;
+    color: #5f4a3d;
+}
+
+.watering-step .form-control {
+    border-right: none;
+}
+
+.watering-step .remove-step-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.create-seed-page {
+    background: var(--page-bg);
+    min-height: 100vh;
+    padding-bottom: 2rem;
+}
+
+.create-seed-shell {
+    max-width: 1180px;
+}
+
+.create-seed-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.create-seed-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.seed-form-panel,
+.seed-helper-panel {
+    width: 100%;
+}
+
+.seed-form-panel .form-control,
+.seed-form-panel textarea,
+.seed-form-panel select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.seed-helper-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.watering-step-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.watering-step-input {
+    flex: 1;
+    min-height: 52px;
+    resize: vertical;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: break-word;
+    padding: 12px 14px;
+}
+
+.watering-step-row .remove-step-btn {
+    flex-shrink: 0;
+    margin-top: 8px;
+}
+
+.create-seed-page .seed-preview {
+    padding: 1.25rem;
+}
+
+@media (max-width: 900px) {
+    .create-seed-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .watering-step-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .watering-step-input {
+        min-height: 60px;
+    }
+
+    .watering-step-row .remove-step-btn {
+        width: 100%;
+        margin-top: 0;
+    }
+}

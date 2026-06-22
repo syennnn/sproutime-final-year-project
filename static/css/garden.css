@@ -1,0 +1,375 @@
+.garden-page {
+    background-color: #d6f195;
+    background-image:
+        url('/static/images/garden-bg.png'),
+        radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.7), transparent 18%),
+        radial-gradient(circle at 78% 10%, rgba(255, 255, 255, 0.65), transparent 16%),
+        radial-gradient(circle at 32% 68%, rgba(255, 255, 255, 0.22), transparent 15%),
+        linear-gradient(180deg, #e8f6b3 0%, #b9d37c 100%);
+    background-repeat: no-repeat, repeat, repeat, repeat, repeat;
+    background-size: cover, auto, auto, auto, auto;
+    background-position: center, 12% 16%, 78% 10%, 32% 68%, center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.garden-header {
+    background: transparent;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.garden-top-left .garden-action-card {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.1rem 1.3rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(143, 95, 73, 0.16);
+    color: var(--sprout-brown);
+    box-shadow: 0 18px 40px rgba(143, 95, 73, 0.12);
+    max-width: 240px;
+}
+
+.garden-top-left .garden-action-card small {
+    color: #6a5947;
+    font-size: 0.92rem;
+}
+
+.garden-action-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--sprout-olive);
+}
+
+.garden-dashboard-btn {
+    min-width: 130px;
+    background: rgba(121, 81, 50, 0.95);
+    color: #fff;
+    border: 1px solid rgba(121, 81, 50, 0.22);
+}
+
+.garden-dashboard-btn:hover {
+    background: #8c5f3f;
+}
+
+.garden-root {
+    position: relative;
+    min-height: calc(100vh - 90px);
+    padding: 1rem 0 3rem;
+}
+
+.garden-side {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 84px;
+    z-index: 1;
+    background: linear-gradient(180deg, #7ea944 0%, #557a2d 100%);
+    overflow: hidden;
+}
+
+.garden-side::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow:
+        0 48px 0 rgba(255, 255, 255, 0.68),
+        0 96px 0 rgba(255, 255, 255, 0.58),
+        0 144px 0 rgba(255, 255, 255, 0.6),
+        0 192px 0 rgba(255, 255, 255, 0.5);
+}
+
+.garden-side-left {
+    left: 0;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.garden-side-right {
+    right: 0;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}
+
+.garden-scene {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 3rem;
+}
+
+.garden-plot-frame {
+    position: relative;
+    padding: 2rem;
+    border-radius: 42px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(147, 112, 78, 0.16);
+    box-shadow: 0 26px 70px rgba(79, 59, 47, 0.14);
+    overflow: hidden;
+}
+
+.garden-plot-frame::before,
+.garden-plot-frame::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% + 40px);
+    height: 16px;
+    background: rgba(155, 118, 82, 0.22);
+    border-radius: 999px;
+}
+
+.garden-plot-frame::before {
+    top: 10px;
+}
+
+.garden-plot-frame::after {
+    bottom: 10px;
+}
+
+.garden-plot {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    padding: 24px;
+    background: linear-gradient(180deg, #a97f5a 0%, #7f5c42 100%);
+    border-radius: 32px;
+    border: 10px solid rgba(147, 112, 78, 0.96);
+    box-shadow: inset 0 16px 38px rgba(0, 0, 0, 0.18);
+    min-height: 560px;
+}
+
+.garden-slot {
+    display: grid;
+    place-items: center;
+    min-height: 112px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, #7a533b 0%, #603f2d 100%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.18);
+    color: #f7edd8;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+    padding: 1rem;
+    gap: 0.35rem;
+    text-align: center;
+}
+
+.garden-slot.empty-slot {
+    background: linear-gradient(180deg, #7a533b 0%, #5f4735 100%);
+}
+
+.garden-slot-number {
+    font-size: 0.95rem;
+    color: #ffe9c5;
+}
+
+.garden-slot-state {
+    display: inline-flex;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(255, 244, 218, 0.35);
+    color: #4f3b2f;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.garden-slot-clickable {
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.garden-slot-clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 8px 12px rgba(0, 0, 0, 0.16), 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.garden-slot-selected {
+    border-color: rgba(255, 237, 176, 0.95);
+    box-shadow: inset 0 8px 14px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(255, 237, 176, 0.22);
+    transform: scale(1.03);
+}
+
+.seed-storage-tray {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: -100%;
+    z-index: 50;
+    background: linear-gradient(180deg, #fff8e5 0%, #f6e6c0 100%);
+    border-top: 1px solid rgba(143, 95, 73, 0.18);
+    box-shadow: 0 -18px 44px rgba(79, 59, 47, 0.16);
+    transition: bottom 0.28s ease;
+    padding: 1rem;
+}
+
+.seed-storage-tray.open {
+    bottom: 0;
+}
+
+.seed-storage-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.seed-storage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+}
+
+.seed-storage-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #5f4a3d;
+    font-weight: 700;
+}
+
+.seed-storage-message {
+    margin: 0.25rem 0 0;
+    color: #6d5a47;
+    font-size: 0.92rem;
+}
+
+.seed-storage-close {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: #e5d3a8;
+    color: #5f4a3d;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 5px 12px rgba(79, 59, 47, 0.16);
+}
+
+.seed-storage-body {
+    overflow-x: hidden;
+}
+
+.seed-storage-cards {
+    display: flex;
+    gap: 0.9rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+
+.seed-card {
+    min-width: 200px;
+    max-width: 230px;
+    background: #fff7e0;
+    border: 1px solid rgba(143, 95, 73, 0.18);
+    border-radius: 22px;
+    padding: 1rem;
+    box-shadow: 0 10px 24px rgba(79, 59, 47, 0.08);
+    text-align: left;
+    color: #4f3b2f;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.seed-card:hover,
+.seed-card.selected {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(79, 59, 47, 0.14);
+}
+
+.seed-card-type,
+.seed-card-duration,
+.seed-card-steps,
+.seed-card-status {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.88rem;
+}
+
+.seed-card-title {
+    display: block;
+    margin: 0.55rem 0 0.7rem;
+    font-size: 1rem;
+    color: #3e3529;
+}
+
+.seed-storage-empty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 22px;
+    border: 1px dashed rgba(143, 95, 73, 0.24);
+}
+
+.seed-storage-empty p {
+    margin: 0;
+    color: #5f4a3d;
+}
+
+.seed-storage-empty .btn {
+    min-width: 130px;
+}
+
+.garden-copy {
+    margin-top: 1.75rem;
+    color: #3e3529;
+}
+
+.garden-copy .eyebrow {
+    margin-bottom: 0.5rem;
+    color: #5a462f;
+}
+
+.garden-copy h2 {
+    font-size: 2.6rem;
+    margin-bottom: 0.8rem;
+}
+
+.garden-note {
+    color: #4f3b2f;
+    font-size: 1rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.garden-page .btn {
+    border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+    .seed-storage-tray {
+        padding: 0.85rem;
+    }
+
+    .seed-storage-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .seed-storage-cards {
+        gap: 0.75rem;
+    }
+
+    .seed-card {
+        min-width: 180px;
+    }
+
+    .garden-header .container {
+        gap: 1rem;
+    }
+}

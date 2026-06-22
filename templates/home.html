@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block navbar %}
+<header class="hero-top py-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="hero-brand" href="/">Sproutime</a>
+        <div class="hero-actions">
+            <a class="btn btn-sm btn-outline-dark" href="{% url 'accounts:login' %}">Log In</a>
+            <span class="hero-divider">/</span>
+            <a class="btn btn-sm btn-light btn-register" href="{% url 'accounts:register' %}">Register</a>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<section class="home-hero position-relative overflow-hidden">
+    <div class="hero-left-bg"></div>
+    <div class="hero-right-bg"></div>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <p class="eyebrow">Cozy garden focus for students</p>
+                <h1>Sproutime</h1>
+                <p class="hero-subtitle">A playful, plant-powered productivity space for growing focus, tasks, and calm study sessions.</p>
+                <div class="hero-links mt-4">
+                    <a class="btn btn-primary btn-lg me-3" href="{% url 'accounts:login' %}">Log In</a>
+                    <a class="btn btn-outline-primary btn-lg" href="{% url 'accounts:register' %}">Register</a>
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="hero-card p-4">
+                    <div class="hero-card-title">Your garden is waiting</div>
+                    <p class="mb-0">Plant your focus seeds, track your tasks, and watch progress bloom with gentle daily steps.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works py-5">
+    <div class="container">
+        <div class="section-heading text-center mb-4">
+            <p class="section-label">How it works</p>
+            <h2>Easy steps to grow your study garden</h2>
+        </div>
+        <div class="how-panel p-5 mx-auto">
+            <p>Slide show or scroll section explaining how Sproutime works</p>
+            <p>Images and illustrations will be added later</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

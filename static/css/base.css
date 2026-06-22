@@ -1,0 +1,126 @@
+:root {
+    --sprout-red: #ed453d;
+    --sprout-coral: #ec6e52;
+    --sprout-green: #5fc65d;
+    --sprout-brown: #8f5f49;
+    --sprout-blue-grey: #859aba;
+    --sprout-cream: #efe1a5;
+    --sprout-yellow: #f8c078;
+    --sprout-orange: #f7954b;
+    --sprout-light-green: #c2e577;
+    --sprout-olive: #719152;
+    --sprout-warm-brown: #b87849;
+    --page-bg: #fff7ec;
+    --card-bg: #fff6df;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--page-bg);
+    color: #4f3b2f;
+    font-family: 'Comfortaa', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+.btn {
+    border-radius: 14px;
+}
+
+.site-header {
+    background: rgba(255, 248, 226, 0.92);
+    border-bottom: 1px solid rgba(143, 95, 73, 0.16);
+}
+
+.navbar-brand,
+.nav-link {
+    font-family: 'Comfortaa', cursive;
+}
+
+.nav-link {
+    color: #5f4a3d !important;
+}
+
+.eyebrow {
+    font-size: 0.95rem;
+    color: var(--sprout-brown);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+}
+
+.form-control {
+    border-radius: 18px;
+    border: 1px solid rgba(143, 95, 73, 0.18);
+    background: #fffdf5;
+    padding: 16px 18px;
+    box-shadow: inset 0 1px 2px rgba(143, 95, 73, 0.04);
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(95, 198, 93, 0.18);
+    border-color: rgba(95, 198, 93, 0.5);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #5f4a3d;
+}
+
+.btn-primary,
+.btn-success {
+    color: #2d4730;
+    background: var(--sprout-green);
+    border-color: var(--sprout-green);
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background: #5bb755;
+    border-color: #5bb755;
+}
+
+.btn-outline-dark {
+    border-color: rgba(79, 59, 47, 0.2);
+    color: #5f4a3d;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.card-soft {
+    background: var(--card-bg);
+    border: 1px solid rgba(143, 95, 73, 0.12);
+    border-radius: 28px;
+}
+
+.alert-danger {
+    background: rgba(237, 69, 61, 0.08);
+    border-color: rgba(237, 69, 61, 0.2);
+    color: #7f2a2a;
+}
+
+.link-secondary {
+    color: var(--sprout-brown) !important;
+}
+
+.profile-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: var(--sprout-green);
+    color: #276231;
+    font-size: 1.25rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(79, 59, 47, 0.16);
+}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_class %}garden-page{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/garden.css' %}">
+{% endblock %}
+
+{% block navbar %}
+<header class="garden-header py-3">
+    <div class="container d-flex justify-content-between align-items-start gap-3 flex-wrap">
+        <div class="garden-top-left">
+            <a class="garden-action-card" href="/tasks/create/">
+                <span class="garden-action-label">Create Task</span>
+                <strong>Seed Storage</strong>
+            </a>
+        </div>
+        <div class="garden-top-right d-flex flex-column align-items-end gap-3">
+            <a class="profile-badge" href="/accounts/profile/">
+                {{ request.user.username|slice:":1"|upper }}
+            </a>
+            <a class="btn garden-dashboard-btn" href="/dashboard/">Dashboard</a>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<main class="garden-page">
+    <div class="garden-root">
+        <div class="garden-side garden-side-left"></div>
+        <div class="garden-side garden-side-right"></div>
+    <div class="garden-scene">
+        <div class="garden-plot-frame">
+            <div class="garden-plot">
+                {% for slot in slots %}
+                    <div class="garden-slot{% if not slot.is_occupied %} empty-slot garden-slot-clickable{% endif %}"
+                         data-slot-id="{{ slot.id }}"
+                         data-slot-number="{{ slot.slot_number }}"
+                         data-occupied="{{ slot.is_occupied|yesno:'true,false' }}">
+                        <span class="garden-slot-number">Slot {{ slot.slot_number }}</span>
+                        <span class="garden-slot-state">{% if slot.is_occupied %}Occupied{% else %}Empty{% endif %}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="garden-copy text-center mt-4">
+            <p class="eyebrow">Your focus garden</p>
+            <h2>Welcome to your personal garden, {{ request.user.username }}.</h2>
+            <p class="garden-note">Create tasks to grow seeds, then return here to watch them bloom.</p>
+        </div>
+    </div>
+</div>
+
+<div class="seed-storage-tray" id="seed-storage-tray" aria-hidden="true">
+    <div class="seed-storage-inner">
+        <div class="seed-storage-header">
+            <div>
+                <p class="seed-storage-label">Choose a seed for Slot <span id="selected-slot-number">1</span></p>
+                <p id="seed-storage-message" class="seed-storage-message">Click a seed to preview the planting confirmation next.</p>
+            </div>
+            <button type="button" class="seed-storage-close" id="seed-storage-close" aria-label="Close tray">×</button>
+        </div>
+        <div class="seed-storage-body">
+            {% if stored_seeds %}
+                <div class="seed-storage-cards">
+                    {% for seed in stored_seeds %}
+                        <button type="button" class="seed-card" data-task-id="{{ seed.id }}">
+                            <span class="seed-card-type">{{ seed.get_seed_type_display }} Seed</span>
+                            <strong class="seed-card-title">{{ seed.title }}</strong>
+                            <span class="seed-card-duration">{{ seed.estimated_duration }} min</span>
+                            <span class="seed-card-steps">{{ seed.subtasks.count }} watering steps</span>
+                            <span class="seed-card-status">Stored</span>
+                        </button>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="seed-storage-empty">
+                    <p>No seeds in storage yet. Create a task first to receive a seed.</p>
+                    <a class="btn btn-primary btn-sm" href="/tasks/create/">Create Seed</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

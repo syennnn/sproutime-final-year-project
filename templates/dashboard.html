@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-intro mb-4">
+    <h2 class="mb-3">Welcome back, {{ request.user.username }}!</h2>
+    <p class="text-muted">This is your private Sproutime dashboard. Your tasks, garden progress, and focus history will be available here as you build the app.</p>
+</div>
+<div class="row g-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="card card-soft h-100">
+            <div class="card-body">
+                <h5 class="card-title">Active Task</h5>
+                <p class="card-text">This card will show your current task and focus session.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card card-soft h-100">
+            <div class="card-body">
+                <h5 class="card-title">Flowers</h5>
+                <p class="card-text">Completed goals will bloom into flowers in your garden.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card card-soft h-100">
+            <div class="card-body">
+                <h5 class="card-title">Buds</h5>
+                <p class="card-text">Partial progress will grow into gentle buds over time.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card card-soft h-100">
+            <div class="card-body">
+                <h5 class="card-title">Task History</h5>
+                <p class="card-text">Your history and completed focus sessions will appear here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
