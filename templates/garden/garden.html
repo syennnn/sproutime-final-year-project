@@ -27,61 +27,195 @@
 {% endblock %}
 
 {% block content %}
-<main class="garden-page">
+<main class="garden-page"
+      data-seed-image="{% static 'images/seed.png' %}"
+      data-sprout-image="{% static 'images/sprout.png' %}">
     <div class="garden-root">
         <div class="garden-side garden-side-left"></div>
         <div class="garden-side garden-side-right"></div>
-    <div class="garden-scene">
-        <div class="garden-plot-frame">
-            <div class="garden-plot">
-                {% for slot in slots %}
-                    <div class="garden-slot{% if not slot.is_occupied %} empty-slot garden-slot-clickable{% endif %}"
-                         data-slot-id="{{ slot.id }}"
-                         data-slot-number="{{ slot.slot_number }}"
-                         data-occupied="{{ slot.is_occupied|yesno:'true,false' }}">
-                        <span class="garden-slot-number">Slot {{ slot.slot_number }}</span>
-                        <span class="garden-slot-state">{% if slot.is_occupied %}Occupied{% else %}Empty{% endif %}</span>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="garden-copy text-center mt-4">
-            <p class="eyebrow">Your focus garden</p>
-            <h2>Welcome to your personal garden, {{ request.user.username }}.</h2>
-            <p class="garden-note">Create tasks to grow seeds, then return here to watch them bloom.</p>
-        </div>
-    </div>
-</div>
-
-<div class="seed-storage-tray" id="seed-storage-tray" aria-hidden="true">
-    <div class="seed-storage-inner">
-        <div class="seed-storage-header">
-            <div>
-                <p class="seed-storage-label">Choose a seed for Slot <span id="selected-slot-number">1</span></p>
-                <p id="seed-storage-message" class="seed-storage-message">Click a seed to preview the planting confirmation next.</p>
-            </div>
-            <button type="button" class="seed-storage-close" id="seed-storage-close" aria-label="Close tray">×</button>
-        </div>
-        <div class="seed-storage-body">
-            {% if stored_seeds %}
-                <div class="seed-storage-cards">
-                    {% for seed in stored_seeds %}
-                        <button type="button" class="seed-card" data-task-id="{{ seed.id }}">
-                            <span class="seed-card-type">{{ seed.get_seed_type_display }} Seed</span>
-                            <strong class="seed-card-title">{{ seed.title }}</strong>
-                            <span class="seed-card-duration">{{ seed.estimated_duration }} min</span>
-                            <span class="seed-card-steps">{{ seed.subtasks.count }} watering steps</span>
-                            <span class="seed-card-status">Stored</span>
-                        </button>
+        <div class="garden-scene">
+            <div class="garden-plot-frame">
+                <div class="garden-grid">
+                    {% for item in garden_slots %}
+                        {% with slot=item.slot plant=item.plant %}
+                            <button type="button"
+                                    class="garden-slot{% if plant %} planted-slot focus-slot-clickable{% elif not slot.is_occupied %} empty-slot garden-slot-clickable{% else %} occupied-slot{% endif %}"
+                                    data-slot-id="{{ slot.id }}"
+                                    data-slot-number="{{ slot.slot_number }}"
+                                    data-occupied="{{ slot.is_occupied|yesno:'true,false' }}"
+                                    {% if plant %}
+                                        data-plant-id="{{ plant.id }}"
+                                    {% endif %}
+                                    aria-label="{% if plant %}Slot {{ slot.slot_number }} planted with {{ plant.task.get_seed_type_display }} seed{% else %}Empty soil slot {{ slot.slot_number }}{% endif %}"
+                                    {% if not plant and slot.is_occupied %}disabled{% endif %}>
+                                <img src="{% static 'images/empty_soil.jpg' %}"
+                                     alt="Soil slot"
+                                     class="slot-soil-image">
+                                {% if plant %}
+                                    {% if plant.state == 'seed' %}
+                                        <img src="{% static 'images/seed.png' %}"
+                                             alt="Seed"
+                                             class="slot-plant-image">
+                                    {% elif plant.state == 'growing' %}
+                                        <img src="{% static 'images/sprout.png' %}"
+                                             alt="Growing sprout"
+                                             class="slot-plant-image">
+                                    {% elif plant.state == 'flower' %}
+                                        <div class="slot-plant-stage slot-plant-flower" aria-hidden="true">
+                                            <span class="slot-flower-bloom"></span>
+                                        </div>
+                                    {% elif plant.state == 'bud' %}
+                                        <div class="slot-plant-stage slot-plant-bud" aria-hidden="true">
+                                            <span class="slot-bud-head"></span>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                <span class="slot-number">Slot {{ slot.slot_number }}</span>
+                                {% if plant %}
+                                    <span class="slot-state-badge">{{ plant.state|title }}</span>
+                                {% endif %}
+                            </button>
+                        {% endwith %}
                     {% endfor %}
                 </div>
-            {% else %}
-                <div class="seed-storage-empty">
-                    <p>No seeds in storage yet. Create a task first to receive a seed.</p>
-                    <a class="btn btn-primary btn-sm" href="/tasks/create/">Create Seed</a>
-                </div>
-            {% endif %}
+            </div>
+            <div class="garden-copy text-center mt-4">
+                <p class="eyebrow">Your focus garden</p>
+                <h2>Welcome to your personal garden, {{ request.user.username }}.</h2>
+                <p class="garden-note">Create tasks to grow seeds, then return here to watch them bloom.</p>
+            </div>
         </div>
+    </div>
+
+    <div class="seed-storage-tray" id="seed-storage-tray" aria-hidden="true">
+        <div class="seed-storage-inner">
+            <div class="seed-storage-header">
+                <div>
+                    <p class="seed-storage-label">Seed Storage</p>
+                    <p id="seed-storage-message" class="seed-storage-message">Choose a seed to plant in Slot <span id="selected-slot-number">1</span>.</p>
+                </div>
+                <button type="button" class="seed-storage-close" id="seed-storage-close" aria-label="Close tray">&times;</button>
+            </div>
+            <div class="seed-storage-body">
+                {% if stored_seeds %}
+                    <div class="seed-storage-cards" id="seed-storage-cards">
+                        {% for seed in stored_seeds %}
+                            <button type="button"
+                                    class="seed-card"
+                                    data-task-id="{{ seed.id }}"
+                                    data-seed-type="{{ seed.get_seed_type_display }} Seed"
+                                    data-task-title="{{ seed.title }}"
+                                    data-water-count="{{ seed.water_count }}">
+                                <span class="seed-card-type">{{ seed.get_seed_type_display }} Seed</span>
+                                <strong class="seed-card-title">{{ seed.title }}</strong>
+                            </button>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="seed-storage-empty">
+                        <p>No seeds in storage yet. Create a task first to receive a seed.</p>
+                        <a class="btn btn-primary btn-sm" href="/tasks/create/">Create Seed</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="planting-modal" id="planting-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="planting-modal-title">
+        <div class="planting-backdrop"></div>
+        <div class="planting-confirmation" id="planting-confirmation">
+            <div class="planting-confirmation-copy">
+                <p class="planting-kicker" id="planting-modal-title">PLANT THIS SEED?</p>
+                <h3 id="confirm-task-title">Selected seed</h3>
+            </div>
+            <dl class="planting-summary">
+                <div>
+                    <dt>Selected slot</dt>
+                    <dd>Slot <span id="confirm-slot-number">1</span></dd>
+                </div>
+                <div>
+                    <dt>Seed type</dt>
+                    <dd id="confirm-seed-type">Seed</dd>
+                </div>
+                <div>
+                    <dt>Watering steps</dt>
+                    <dd id="confirm-water-count">0 waters needed</dd>
+                </div>
+            </dl>
+            <form method="post" action="{% url 'garden:plant_seed' %}" id="plant-seed-form" class="planting-actions">
+                {% csrf_token %}
+                <input type="hidden" name="slot_id" id="plant-slot-id">
+                <input type="hidden" name="task_id" id="plant-task-id">
+                <button type="submit" class="btn plant-seed-submit">Plant Seed</button>
+                <button type="button" class="btn plant-cancel-btn" id="plant-cancel-btn">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="focus-session-modal" id="focus-session-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="focus-session-title">
+        <div class="focus-session-backdrop"></div>
+        <section class="focus-session-card">
+            <div class="focus-session-header">
+                <div>
+                    <p class="focus-session-kicker">Focus Session</p>
+                    <h3 id="focus-session-title">Selected task</h3>
+                </div>
+                <button type="button" class="focus-session-close" id="focus-session-close" aria-label="Close focus session">&times;</button>
+            </div>
+
+            <div class="focus-session-meta">
+                <div>
+                    <span>Seed type</span>
+                    <strong id="focus-seed-type">Seed</strong>
+                </div>
+                <div>
+                    <span>Plant state</span>
+                    <strong id="focus-plant-state">Seed</strong>
+                </div>
+                <div>
+                    <span>Focus time</span>
+                    <strong><span id="focus-duration">0</span> min</strong>
+                </div>
+            </div>
+
+            <div class="focus-timer" id="focus-timer">00:00</div>
+            <p class="focus-session-message" id="focus-session-message">Start the session to begin watering your steps.</p>
+
+            <div class="focus-session-actions" id="focus-active-actions">
+                <button type="button" class="btn focus-start-btn" id="focus-start-btn">Start</button>
+                <button type="button" class="btn focus-pause-btn" id="focus-pause-btn" disabled>Pause</button>
+                <button type="button" class="btn focus-resume-btn" id="focus-resume-btn" disabled>Resume</button>
+                <button type="button" class="btn focus-end-btn" id="focus-end-btn" disabled>End Session</button>
+            </div>
+
+            <div class="watering-panel" id="focus-watering-panel">
+                <div class="watering-panel-header">
+                    <h4>Watering steps</h4>
+                    <span id="watering-progress">0 / 0 watered</span>
+                </div>
+                <div class="watering-steps-list" id="focus-watering-steps"></div>
+            </div>
+
+            <div class="focus-result-panel" id="focus-result-panel" hidden>
+                <div class="focus-result-icon" id="focus-result-icon">🌸</div>
+                <p class="focus-result-label" id="focus-result-label">Flower result</p>
+                <h4 id="focus-result-title">Your plant has bloomed!</h4>
+                <dl class="focus-result-summary">
+                    <div>
+                        <dt>Task</dt>
+                        <dd id="focus-result-task">Selected task</dd>
+                    </div>
+                    <div>
+                        <dt>Watered steps</dt>
+                        <dd id="focus-result-steps">0 / 0</dd>
+                    </div>
+                    <div>
+                        <dt>Time spent</dt>
+                        <dd id="focus-result-time">00:00</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
     </div>
 </main>
 {% endblock %}

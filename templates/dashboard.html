@@ -1,42 +1,192 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sproutime Dashboard{% endblock %}
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="dashboard-intro mb-4">
-    <h2 class="mb-3">Welcome back, {{ request.user.username }}!</h2>
-    <p class="text-muted">This is your private Sproutime dashboard. Your tasks, garden progress, and focus history will be available here as you build the app.</p>
+<div class="dashboard-shell">
+    <section class="dashboard-header">
+        <div>
+            <p class="eyebrow">Sproutime Dashboard</p>
+            <h1>Welcome back, {{ request.user.username }}.</h1>
+        </div>
+        <div class="dashboard-actions" aria-label="Quick navigation">
+            <a class="dashboard-action primary" href="/garden/">Go to Garden</a>
+            <a class="dashboard-action" href="/tasks/create/">Create Task</a>
+            <a class="dashboard-action" href="/garden/">View Focus Session</a>
+        </div>
+    </section>
+
+    <section class="active-session-panel" aria-labelledby="active-session-heading">
+        <div class="panel-heading">
+            <div>
+                <p class="section-label">Active Session</p>
+                <h2 id="active-session-heading">
+                    {% if active_session %}
+                        {{ active_session.task_title }}
+                    {% else %}
+                        No active plant
+                    {% endif %}
+                </h2>
+            </div>
+            {% if active_session %}
+                <span class="status-pill{% if active_session.is_running %} running{% endif %}">
+                    {{ active_session.status_label }}
+                </span>
+            {% endif %}
+        </div>
+
+        {% if active_session %}
+            <div class="active-session-grid">
+                <div class="active-plant-visual {{ active_session.plant_state }}" aria-hidden="true">
+                    {% if active_session.plant_state == 'seed' %}
+                        <span class="plant-symbol">Seed</span>
+                    {% elif active_session.plant_state == 'growing' %}
+                        <span class="plant-symbol">Growing</span>
+                    {% else %}
+                        <span class="plant-symbol">{{ active_session.plant_state_label }}</span>
+                    {% endif %}
+                </div>
+                <div class="active-session-details">
+                    <dl class="session-metrics">
+                        <div>
+                            <dt>Plant state</dt>
+                            <dd>{{ active_session.plant_state_label }}</dd>
+                        </div>
+                        <div>
+                            <dt>Seed type</dt>
+                            <dd>{{ active_session.seed_type }}</dd>
+                        </div>
+                        <div>
+                            <dt>Elapsed</dt>
+                            <dd>{{ active_session.elapsed_display }}</dd>
+                        </div>
+                        <div>
+                            <dt>Remaining</dt>
+                            <dd>{{ active_session.remaining_display }}</dd>
+                        </div>
+                    </dl>
+                    <div class="progress-block">
+                        <div class="progress-copy">
+                            <span>Watering progress</span>
+                            <strong>{{ active_session.watered_count }} / {{ active_session.total_subtasks }} watered</strong>
+                        </div>
+                        <div class="dashboard-progress" aria-hidden="true">
+                            <span style="width: {{ active_session.progress_percent }}%;"></span>
+                        </div>
+                    </div>
+                    <a class="continue-focus-link" href="/garden/">Continue Focus Session</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-active-session">
+                <p>No active plant. Plant a seed to begin your journey.</p>
+                <a class="dashboard-action primary" href="/garden/">Go to Garden</a>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="stats-grid" aria-label="Garden progress summary">
+        <article class="stat-card seeds">
+            <span class="stat-icon" aria-hidden="true">Seed</span>
+            <p>Seeds</p>
+            <strong>{{ stats.seeds }}</strong>
+        </article>
+        <article class="stat-card active">
+            <span class="stat-icon" aria-hidden="true">Grow</span>
+            <p>Active</p>
+            <strong>{{ stats.active }}</strong>
+        </article>
+        <article class="stat-card flowers">
+            <span class="stat-icon" aria-hidden="true">Flower</span>
+            <p>Flowers</p>
+            <strong>{{ stats.flowers }}</strong>
+        </article>
+        <article class="stat-card buds">
+            <span class="stat-icon" aria-hidden="true">Bud</span>
+            <p>Buds</p>
+            <strong>{{ stats.buds }}</strong>
+        </article>
+    </section>
+
+    <section class="recent-results-section" aria-labelledby="recent-results-heading">
+        <div class="panel-heading compact">
+            <div>
+                <p class="section-label">Recent Results</p>
+                <h2 id="recent-results-heading">Latest flower and bud outcomes</h2>
+            </div>
+        </div>
+
+        {% if recent_results %}
+            <div class="recent-results-grid">
+                {% for result in recent_results %}
+                    <button type="button"
+                            class="result-card {{ result.plant_state }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#result-detail-modal"
+                            data-task-title="{{ result.task_title }}"
+                            data-seed-type="{{ result.seed_type }}"
+                            data-plant-state="{{ result.plant_state_label }}"
+                            data-watered="{{ result.watered_count }}"
+                            data-total="{{ result.total_subtasks }}"
+                            data-time-spent="{{ result.time_spent_display }}"
+                            data-result-message="{{ result.result_message }}">
+                        <span class="result-badge">{{ result.plant_state_label }}</span>
+                        <strong>{{ result.task_title }}</strong>
+                        <span>{{ result.watered_count }} / {{ result.total_subtasks }} watered</span>
+                        <span>{{ result.time_spent_display }} focused</span>
+                    </button>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-results">
+                <p>No flower or bud results yet. Complete a focus session to grow your first result.</p>
+            </div>
+        {% endif %}
+    </section>
 </div>
-<div class="row g-4">
-    <div class="col-md-6 col-xl-3">
-        <div class="card card-soft h-100">
-            <div class="card-body">
-                <h5 class="card-title">Active Task</h5>
-                <p class="card-text">This card will show your current task and focus session.</p>
+
+<div class="modal fade dashboard-result-modal" id="result-detail-modal" tabindex="-1" aria-labelledby="result-detail-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <p class="section-label">Result Details</p>
+                    <h2 class="modal-title" id="result-detail-title">Focus result</h2>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3">
-        <div class="card card-soft h-100">
-            <div class="card-body">
-                <h5 class="card-title">Flowers</h5>
-                <p class="card-text">Completed goals will bloom into flowers in your garden.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3">
-        <div class="card card-soft h-100">
-            <div class="card-body">
-                <h5 class="card-title">Buds</h5>
-                <p class="card-text">Partial progress will grow into gentle buds over time.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3">
-        <div class="card card-soft h-100">
-            <div class="card-body">
-                <h5 class="card-title">Task History</h5>
-                <p class="card-text">Your history and completed focus sessions will appear here.</p>
+            <div class="modal-body">
+                <p class="result-message" id="result-detail-message">Your plant has bloomed!</p>
+                <dl class="result-detail-list">
+                    <div>
+                        <dt>Seed type</dt>
+                        <dd id="result-detail-seed">Seed</dd>
+                    </div>
+                    <div>
+                        <dt>Plant state</dt>
+                        <dd id="result-detail-state">Flower</dd>
+                    </div>
+                    <div>
+                        <dt>Watered steps</dt>
+                        <dd id="result-detail-watered">0 / 0</dd>
+                    </div>
+                    <div>
+                        <dt>Time spent</dt>
+                        <dd id="result-detail-time">00:00</dd>
+                    </div>
+                </dl>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block page_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
 {% endblock %}

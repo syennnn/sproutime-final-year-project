@@ -4,10 +4,26 @@ from django.db import models
 
 class Task(models.Model):
     SEED_TYPES = [
+        ('rose', 'Rose'),
         ('sunflower', 'Sunflower'),
         ('tulip', 'Tulip'),
         ('daisy', 'Daisy'),
+        ('lavender', 'Lavender'),
+        ('lily', 'Lily'),
+        ('orchid', 'Orchid'),
+        ('cherry_blossom', 'Cherry Blossom'),
+        ('bluebell', 'Bluebell'),
+        ('peony', 'Peony'),
+        ('hibiscus', 'Hibiscus'),
+        ('lotus', 'Lotus'),
+        ('marigold', 'Marigold'),
+        ('poppy', 'Poppy'),
+        ('hydrangea', 'Hydrangea'),
+        ('cactus', 'Cactus'),
+        ('aloe', 'Aloe'),
         ('strawberry', 'Strawberry'),
+        ('mint', 'Mint'),
+        ('basil', 'Basil'),
         ('herb', 'Herb'),
     ]
 
