@@ -10,34 +10,48 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block page_css %}{% endblock %}
 </head>
+
 <body class="{% block body_class %}{% endblock %}">
 <div class="game-layout">
     <aside class="game-side-menu game-side-menu-left" aria-label="Main navigation">
         <a class="game-nav-item {% if request.resolver_match.url_name == 'home' %}game-nav-item-active{% endif %}"
            href="{% url 'home' %}">
-            <span class="game-nav-icon" aria-hidden="true">HM</span>
+            <span class="game-nav-icon" aria-hidden="true">
+                <img class="pixel-art" src="{% static 'images/game/icons/icon_home.png' %}" alt="">
+            </span>
             <span class="game-nav-label">Home</span>
         </a>
+
         {% if user.is_authenticated %}
             <a class="game-nav-item {% if request.resolver_match.app_name == 'tasks' and request.resolver_match.url_name == 'create_task' %}game-nav-item-active{% endif %}"
                href="{% url 'tasks:create_task' %}">
-                <span class="game-nav-icon" aria-hidden="true">SD</span>
-                <span class="game-nav-label">Create Task</span>
+                <span class="game-nav-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_sprout_soil.png' %}" alt="">
+                </span>
+                <span class="game-nav-label">Create Seed</span>
             </a>
+
             <a class="game-nav-item {% if request.resolver_match.app_name == 'garden' %}game-nav-item-active{% endif %}"
                href="{% url 'garden:garden_home' %}">
-                <span class="game-nav-icon" aria-hidden="true">GD</span>
+                <span class="game-nav-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_garden.png' %}" alt="">
+                </span>
                 <span class="game-nav-label">Garden</span>
             </a>
         {% else %}
             <a class="game-nav-item {% if request.resolver_match.app_name == 'accounts' and request.resolver_match.url_name == 'login' %}game-nav-item-active{% endif %}"
                href="{% url 'accounts:login' %}">
-                <span class="game-nav-icon" aria-hidden="true">IN</span>
+                <span class="game-nav-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_sprout.png' %}" alt="">
+                </span>
                 <span class="game-nav-label">Log In</span>
             </a>
+
             <a class="game-nav-item {% if request.resolver_match.app_name == 'accounts' and request.resolver_match.url_name == 'register' %}game-nav-item-active{% endif %}"
                href="{% url 'accounts:register' %}">
-                <span class="game-nav-icon" aria-hidden="true">RG</span>
+                <span class="game-nav-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/mascots/cat_face_white.png' %}" alt="">
+                </span>
                 <span class="game-nav-label">Register</span>
             </a>
         {% endif %}
@@ -47,22 +61,38 @@
         {% if user.is_authenticated %}
             <a class="game-nav-item {% if request.resolver_match.app_name == 'accounts' and request.resolver_match.url_name == 'profile' %}game-nav-item-active{% endif %}"
                href="{% url 'accounts:profile' %}">
-                <span class="game-nav-icon" aria-hidden="true">PF</span>
+                <span class="game-nav-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/mascots/cat_face_white.png' %}" alt="">
+                </span>
                 <span class="game-nav-label">Profile</span>
             </a>
+
             <a class="game-nav-item {% if request.resolver_match.app_name == 'dashboard' %}game-nav-item-active{% endif %}"
                href="{% url 'dashboard:dashboard_home' %}">
-                <span class="game-nav-icon" aria-hidden="true">DB</span>
+                <span class="game-nav-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_dashboard.png' %}" alt="">
+                </span>
                 <span class="game-nav-label">Dashboard</span>
             </a>
         {% endif %}
-        <button class="game-nav-item game-settings-trigger" type="button" id="game-settings-button" aria-haspopup="dialog" aria-controls="game-settings-modal" aria-expanded="false">
-            <span class="game-nav-icon" aria-hidden="true">ST</span>
+
+        <button class="game-nav-item game-settings-trigger"
+                type="button"
+                id="game-settings-button"
+                aria-haspopup="dialog"
+                aria-controls="game-settings-modal"
+                aria-expanded="false">
+            <span class="game-nav-icon" aria-hidden="true">
+                <img class="pixel-art" src="{% static 'images/game/icons/icon_setting.png' %}" alt="">
+            </span>
             <span class="game-nav-label">Settings</span>
         </button>
+
         {% if user.is_authenticated %}
             <a class="game-nav-item" href="{% url 'accounts:logout' %}">
-                <span class="game-nav-icon" aria-hidden="true">EX</span>
+                <span class="game-nav-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_wooden_door.png' %}" alt="">
+                </span>
                 <span class="game-nav-label">Logout</span>
             </a>
         {% endif %}
@@ -79,64 +109,119 @@
                 {% endfor %}
             </div>
         {% endif %}
+
         {% block content %}{% endblock %}
     </main>
 </div>
 
 <div class="settings-modal" id="game-settings-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="game-settings-title">
     <div class="settings-modal-backdrop" data-settings-close></div>
-    <section class="settings-modal-panel">
-        <div class="settings-modal-header">
-            <div>
-                <p class="settings-kicker">Sproutime Settings</p>
-                <h2 id="game-settings-title">Game options</h2>
-            </div>
-            <button type="button" class="settings-modal-close" id="game-settings-close" aria-label="Close settings">X</button>
+
+    <section class="settings-modal-panel settings-game-panel">
+        <div class="settings-ribbon">
+            <h2 id="game-settings-title">Sproutime Settings</h2>
         </div>
 
-        <div class="settings-list">
-            <label class="settings-toggle">
-                <span>
+        <p class="settings-section-label settings-section-label-top">
+            <span></span>
+            Game Options
+            <span></span>
+        </p>
+
+        <div class="settings-card settings-feel-card">
+            <h3 class="settings-card-title">Game Feel</h3>
+
+            <label class="settings-row settings-toggle">
+                <span class="settings-row-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_bg_music.png' %}" alt="">
+                </span>
+                <span class="settings-row-copy">
                     <strong>Background Music</strong>
-                    <small>Placeholder only. Audio can be added later.</small>
+                    <small>Play gentle garden music while focusing.</small>
                 </span>
                 <input type="checkbox" data-setting-key="backgroundMusic">
+                <span class="settings-switch-ui" aria-hidden="true"></span>
             </label>
-            <label class="settings-toggle">
-                <span>
-                    <strong>Sound Effects</strong>
-                    <small>Soft interaction sounds for watering and planting.</small>
+
+            <label class="settings-row settings-toggle">
+                <span class="settings-row-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_sound.png' %}" alt="">
                 </span>
-                <input type="checkbox" data-setting-key="soundEffects">
+                <span class="settings-row-copy">
+                    <strong>Sound Effects</strong>
+                    <small>Button clicks, planting, watering, and result sounds.</small>
+                </span>
+                <input type="checkbox" data-setting-key="soundEffects" checked>
+                <span class="settings-switch-ui" aria-hidden="true"></span>
             </label>
-            <label class="settings-toggle">
-                <span>
+
+            <label class="settings-row settings-toggle">
+                <span class="settings-row-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_touch.png' %}" alt="">
+                </span>
+                <span class="settings-row-copy">
                     <strong>Touch / Click Feedback</strong>
-                    <small>Gentle click feedback for game-style controls.</small>
+                    <small>Add small animations when buttons are clicked.</small>
                 </span>
                 <input type="checkbox" data-setting-key="touchFeedback" checked>
-            </label>
-            <label class="settings-toggle">
-                <span>
-                    <strong>Cozy Theme</strong>
-                    <small>Warm garden colors are active for this prototype.</small>
-                </span>
-                <input type="checkbox" data-setting-key="cozyTheme" checked>
+                <span class="settings-switch-ui" aria-hidden="true"></span>
             </label>
         </div>
 
-        <div class="settings-info-grid">
-            <article>
-                <h3>Privacy Policy</h3>
-                <p>Sproutime stores your tasks, watering steps, focus sessions, and garden progress so your personal garden can work. Avoid entering sensitive personal information in task descriptions.</p>
+        <div class="settings-card settings-about-card">
+            <h3 class="settings-card-title">About &amp; Privacy</h3>
+
+            <article class="settings-info-row">
+                <span class="settings-row-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_pp.png' %}" alt="">
+                </span>
+                <span class="settings-row-copy">
+                    <strong>Privacy Policy</strong>
+                    <small>Your tasks and garden progress stay personal to your account.</small>
+                </span>
+                <button class="settings-mini-btn" type="button">View Privacy</button>
             </article>
-            <article>
-                <h3>About Sproutime</h3>
-                <p>Sproutime is a cozy gamified focus tool that turns tasks into seeds, focus sessions into growth, and completed progress into flowers or buds.</p>
+
+            <article class="settings-info-row">
+                <span class="settings-row-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_sprout.png' %}" alt="">
+                </span>
+                <span class="settings-row-copy">
+                    <strong>About Sproutime</strong>
+                    <small>Sproutime turns study tasks into seeds, focus time into growth, and progress into flowers or buds.</small>
+                </span>
+                <button class="settings-mini-btn" type="button">Learn More</button>
+            </article>
+
+            <article class="settings-info-row">
+                <span class="settings-row-icon" aria-hidden="true">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_asset.png' %}" alt="">
+                </span>
+                <span class="settings-row-copy">
+                    <strong>Asset Credits</strong>
+                    <small>Pixel art assets are used for this student project prototype.</small>
+                </span>
+                <button class="settings-mini-btn" type="button">View Credits</button>
             </article>
         </div>
+
+        <div class="settings-actions">
+            <button class="settings-action-btn settings-save-btn" type="button" data-settings-close>
+                Save Settings
+            </button>
+            <button class="settings-action-btn settings-cancel-btn" type="button" data-settings-close>
+                Cancel
+            </button>
+        </div>
+
+        <p class="settings-footnote">
+            <img class="pixel-art" src="{% static 'images/game/icons/icon_footer.png' %}" alt="">
+            Some options are visual placeholders for the final year project prototype.
+            <img class="pixel-art" src="{% static 'images/game/icons/icon_footer.png' %}" alt="">
+        </p>
     </section>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{% static 'js/main.js' %}"></script>
 {% block page_js %}{% endblock %}

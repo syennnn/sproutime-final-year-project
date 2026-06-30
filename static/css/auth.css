@@ -1,17 +1,31 @@
+/* =========================================================
+   Sproutime Auth Pages
+   Cleaned auth.css for Login + Register pages
+   - Removes duplicated overrides
+   - Keeps current login/register HTML art paths working
+   - Makes register fonts and art icons bigger
+   - Keeps login and register centered on monitor and laptop
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Legacy auth styles
+   These are kept for any old auth templates/classes still used.
+   --------------------------------------------------------- */
+
 .auth-header {
-    background: rgba(232, 217, 179, 0.88);
-    border-bottom: 1px solid rgba(143, 95, 73, 0.16);
+    background: rgba(244, 217, 166, 0.86);
+    border-bottom: 1px solid rgba(122, 80, 53, 0.18);
 }
 
 .auth-logo {
-    font-family: 'Comfortaa', cursive;
+    font-family: "Terminal Grotesque", system-ui, sans-serif;
     font-size: 1.7rem;
-    color: var(--sprout-brown);
+    color: var(--color-brown);
 }
 
 .auth-tagline {
     font-size: 0.95rem;
-    color: rgba(79, 59, 47, 0.8);
+    color: rgba(75, 47, 34, 0.82);
 }
 
 .auth-page-content {
@@ -23,24 +37,24 @@
 }
 
 .auth-card {
-    border: 1px solid rgba(143, 95, 73, 0.1);
+    border: 1px solid rgba(122, 80, 53, 0.14);
 }
 
 .auth-icon {
     width: 62px;
     height: 62px;
     border-radius: 18px;
-    background: var(--sprout-light-green);
+    background: var(--color-green-soft);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 1.7rem;
-    box-shadow: inset 0 0 0 1px rgba(79, 59, 47, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(75, 47, 34, 0.1);
 }
 
 .badge-yellow {
-    background: var(--sprout-yellow);
-    color: #5f4329;
+    background: var(--color-yellow);
+    color: var(--color-brown-dark);
     font-weight: 600;
 }
 
@@ -49,15 +63,28 @@
 }
 
 .auth-tabs .btn-outline-secondary {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(143, 95, 73, 0.16);
-    color: #5f4a3d;
+    background: var(--color-panel-light);
+    border-color: rgba(122, 80, 53, 0.18);
+    color: var(--color-brown-dark);
 }
 
-.auth-tabs .active {
-    background: var(--sprout-green);
-    color: #2d4730;
-    border-color: var(--sprout-green);
+.auth-tabs .btn:first-child.active {
+    background: var(--color-green);
+    color: var(--color-brown-dark);
+    border-color: var(--color-green-dark);
+}
+
+.auth-tabs .btn:last-child {
+    background: var(--color-sky-soft);
+    color: var(--color-brown-dark);
+    border-color: rgba(71, 127, 159, 0.42);
+}
+
+.auth-tabs .btn:last-child.active,
+.auth-tabs .btn:last-child:hover {
+    background: var(--color-sky);
+    color: var(--color-brown-dark);
+    border-color: var(--color-sky-dark);
 }
 
 @media (max-width: 992px) {
@@ -74,5 +101,1123 @@
     .auth-header .container {
         flex-wrap: wrap;
         gap: 1rem;
+    }
+}
+
+/* ---------------------------------------------------------
+   Shared Login + Register page layout
+   --------------------------------------------------------- */
+
+body.login-page,
+body.register-page {
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background:
+        linear-gradient(180deg, rgba(255, 248, 232, 0.08) 0%, rgba(255, 243, 216, 0.18) 100%),
+        url("../images/game/backgrounds/bg_aun_garden.png") center / cover fixed no-repeat;
+    image-rendering: pixelated;
+}
+
+.login-page .game-layout,
+.login-page .game-content,
+.register-page .game-layout,
+.register-page .game-content {
+    min-height: 100vh;
+    padding: 0;
+    overflow: visible;
+}
+
+.login-page .game-content > .container,
+.register-page .game-content > .container {
+    position: fixed;
+    top: 0.75rem;
+    left: 50%;
+    z-index: 120;
+    width: min(560px, calc(100vw - 2rem));
+    transform: translateX(-50%);
+}
+
+.login-page .auth-screen,
+.register-page .auth-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 15rem;
+}
+
+.login-page .auth-card,
+.register-page .auth-card {
+    border: 3px solid rgba(122, 80, 53, 0.46);
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgba(255, 248, 232, 0.98) 0%, rgba(255, 240, 203, 0.96) 100%);
+    box-shadow:
+        inset 0 0 0 4px rgba(255, 243, 216, 0.82),
+        0 4px 0 rgba(75, 47, 34, 0.32),
+        0 24px 60px rgba(80, 50, 34, 0.2);
+    transform: none !important;
+    max-height: none;
+    overflow: visible !important;
+}
+
+.login-page .auth-card {
+    width: min(720px, calc(100vw - 32rem));
+    min-width: 650px;
+    max-width: 720px;
+    padding: 1.45rem 1.65rem 1.35rem;
+}
+
+.register-page .auth-card {
+    width: min(760px, calc(100vw - 31rem));
+    min-width: 680px;
+    max-width: 760px;
+    padding: 1.25rem 1.65rem 1.25rem;
+}
+
+.login-page .auth-card-header,
+.register-page .auth-card-header {
+    max-width: 600px;
+    margin: 0 auto 0.75rem;
+    text-align: center;
+}
+
+.login-page .auth-card-top-icon {
+    width: 76px;
+    height: auto;
+    max-height: 76px;
+    object-fit: contain;
+    margin-bottom: 0.22rem;
+}
+
+.register-page .auth-card-top-icon {
+    width: 70px;
+    height: auto;
+    max-height: 70px;
+    object-fit: contain;
+    margin-bottom: 0.2rem;
+}
+
+.login-page .auth-kicker,
+.register-page .auth-kicker {
+    margin: 0.18rem 0 0.32rem;
+    color: var(--color-brown);
+    font-size: 1.08rem;
+    font-weight: 800;
+}
+
+.login-page .auth-title,
+.register-page .auth-title {
+    max-width: 620px;
+    margin: 0 auto;
+    color: var(--color-brown-dark);
+    font-weight: 900;
+    line-height: 1.06;
+}
+
+.login-page .auth-title {
+    font-size: clamp(2.35rem, 2.9vw, 2.9rem);
+}
+
+.register-page .auth-title {
+    font-size: clamp(2.25rem, 2.7vw, 2.75rem);
+}
+
+.login-page .auth-subtitle,
+.register-page .auth-subtitle {
+    max-width: 560px;
+    margin: 0.52rem auto 0;
+    color: var(--color-brown);
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.32;
+}
+
+/* ---------------------------------------------------------
+   Shared tabs
+   --------------------------------------------------------- */
+
+.login-page .auth-tabs,
+.register-page .auth-tabs {
+    width: min(570px, calc(100% - 1.1rem));
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin: 0.85rem auto -0.15rem;
+    position: relative;
+    z-index: 2;
+}
+
+.login-page .auth-tab,
+.register-page .auth-tab {
+    min-height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 0.65rem 1rem;
+    border: 2px solid rgba(122, 80, 53, 0.3);
+    border-bottom-color: rgba(122, 80, 53, 0.46);
+    border-radius: 8px 8px 0 0;
+    background: rgba(255, 235, 197, 0.88);
+    color: var(--color-brown);
+    font-size: 1.14rem;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.login-page .auth-tab:hover,
+.register-page .auth-tab:hover {
+    color: var(--color-brown-dark);
+    background: rgba(255, 241, 214, 0.95);
+}
+
+.login-page .auth-tab-active,
+.register-page .auth-tab-active {
+    background: rgba(255, 248, 232, 0.98);
+    color: var(--color-brown-dark);
+    border-bottom-color: rgba(255, 248, 232, 0.98);
+}
+
+.login-page .auth-tab-icon,
+.register-page .auth-tab-icon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+/* ---------------------------------------------------------
+   Shared form panel
+   --------------------------------------------------------- */
+
+.login-page .auth-form-panel,
+.register-page .auth-form-panel {
+    border: 2px solid rgba(122, 80, 53, 0.34);
+    border-radius: 8px;
+    background: rgba(255, 248, 232, 0.9);
+    box-shadow: inset 0 0 0 3px rgba(255, 236, 196, 0.62);
+}
+
+.login-page .auth-form-panel {
+    padding: 1.08rem 1.2rem 1rem;
+}
+
+.register-page .auth-form-panel {
+    padding: 1rem 1.15rem 1.05rem;
+}
+
+.login-page .auth-form,
+.register-page .auth-form {
+    display: grid;
+}
+
+.login-page .auth-form {
+    gap: 0.82rem;
+}
+
+.register-page .auth-form {
+    gap: 0.64rem;
+}
+
+.login-page .auth-field,
+.register-page .auth-field {
+    display: grid;
+}
+
+.login-page .auth-field {
+    gap: 0.38rem;
+}
+
+.register-page .auth-field {
+    gap: 0.3rem;
+}
+
+.login-page .auth-label,
+.register-page .auth-label {
+    margin: 0;
+    color: var(--color-brown-dark);
+    font-weight: 900;
+}
+
+.login-page .auth-label {
+    font-size: 1.04rem;
+}
+
+.register-page .auth-label {
+    font-size: 1.04rem;
+}
+
+/* ---------------------------------------------------------
+   Inputs
+   Login inputs use icons. Register inputs intentionally do not.
+   --------------------------------------------------------- */
+
+.login-page .auth-input-wrap,
+.register-page .auth-input-wrap {
+    display: grid;
+    align-items: center;
+    padding: 0 0.95rem;
+    border: 2px solid rgba(122, 80, 53, 0.46);
+    border-radius: 8px;
+    background: rgba(255, 248, 232, 0.82);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+.login-page .auth-input-wrap {
+    min-height: 58px;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 0.32rem;
+}
+
+.register-page .auth-input-wrap,
+.register-page .auth-input-wrap-no-icon {
+    min-height: 54px;
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.login-page .auth-input-wrap:focus-within,
+.register-page .auth-input-wrap:focus-within {
+    border-color: rgba(79, 122, 53, 0.7);
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.5),
+        0 0 0 0.2rem rgba(142, 186, 89, 0.22);
+}
+
+.login-page .auth-input-icon {
+    width: 36px;
+    height: 36px;
+    justify-self: center;
+    object-fit: contain;
+}
+
+.login-page .auth-input-wrap .form-control,
+.register-page .auth-input-wrap .form-control,
+.login-page .auth-input-wrap input,
+.register-page .auth-input-wrap input {
+    width: 100%;
+    padding: 0;
+    border: 0 !important;
+    border-radius: 0;
+    background: transparent !important;
+    color: var(--color-brown-dark);
+    font: inherit;
+    font-weight: 700;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.login-page .auth-input-wrap .form-control,
+.login-page .auth-input-wrap input {
+    min-height: 48px;
+    font-size: 1.08rem;
+}
+
+.register-page .auth-input-wrap .form-control,
+.register-page .auth-input-wrap input {
+    min-height: 44px;
+    font-size: 1.04rem;
+}
+
+.login-page .auth-input-wrap .form-control::placeholder,
+.register-page .auth-input-wrap .form-control::placeholder,
+.login-page .auth-input-wrap input::placeholder,
+.register-page .auth-input-wrap input::placeholder {
+    color: rgba(122, 80, 53, 0.58);
+}
+
+/* ---------------------------------------------------------
+   Login remember row
+   --------------------------------------------------------- */
+
+.login-page .auth-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.login-page .auth-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-brown-dark);
+    font-size: 1.02rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.login-page .auth-check input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.login-page .auth-check-box {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 2px solid rgba(122, 80, 53, 0.42);
+    border-radius: 6px;
+    background: rgba(255, 248, 232, 0.92);
+    box-shadow: inset 0 -3px 0 rgba(75, 47, 34, 0.12);
+}
+
+.login-page .auth-check-box img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    opacity: 0;
+}
+
+.login-page .auth-check input:checked + .auth-check-box {
+    background: var(--color-green-soft);
+    border-color: var(--color-green-dark);
+}
+
+.login-page .auth-check input:checked + .auth-check-box img {
+    opacity: 1;
+}
+
+.login-page .auth-help-link,
+.login-page .auth-bottom-link a,
+.register-page .auth-bottom-link a {
+    color: #7351a8;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.login-page .auth-help-link {
+    font-size: 1.02rem;
+}
+
+.login-page .auth-help-link:hover,
+.login-page .auth-bottom-link a:hover,
+.register-page .auth-bottom-link a:hover {
+    color: var(--color-brown);
+}
+
+/* ---------------------------------------------------------
+   Submit buttons
+   --------------------------------------------------------- */
+
+.login-page .auth-submit,
+.register-page .auth-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 2px solid var(--color-green-dark);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #9bc461 0%, #78a945 100%);
+    color: var(--color-panel-light);
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 2px 0 rgba(75, 47, 34, 0.4);
+    box-shadow:
+        inset 0 3px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -4px 0 rgba(75, 47, 34, 0.16),
+        0 4px 0 rgba(75, 47, 34, 0.34);
+}
+
+.login-page .auth-submit:hover,
+.login-page .auth-submit:focus-visible,
+.register-page .auth-submit:hover,
+.register-page .auth-submit:focus-visible {
+    background: linear-gradient(180deg, #8fba56 0%, #638f39 100%);
+    color: var(--color-panel-light);
+}
+
+.login-page .auth-submit {
+    min-height: 64px;
+    gap: 0.8rem;
+    margin-top: 0.1rem;
+    font-size: 1.65rem;
+}
+
+.register-page .auth-submit {
+    min-height: 62px;
+    gap: 0.82rem;
+    margin-top: 0.3rem;
+    font-size: 1.58rem;
+}
+
+.login-page .auth-submit-icon {
+    width: 40px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.register-page .auth-submit-icon {
+    width: 38px;
+    height: 36px;
+    object-fit: contain;
+}
+
+/* ---------------------------------------------------------
+   Card footer
+   --------------------------------------------------------- */
+
+.login-page .auth-card-footer,
+.register-page .auth-card-footer {
+    border-top: 2px solid rgba(122, 80, 53, 0.2);
+    text-align: center;
+}
+
+.login-page .auth-card-footer {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+}
+
+.register-page .auth-card-footer {
+    margin-top: 0.68rem;
+    padding-top: 0.58rem;
+}
+
+.login-page .auth-bottom-link,
+.register-page .auth-bottom-link {
+    color: var(--color-brown-dark);
+    font-weight: 800;
+}
+
+.login-page .auth-bottom-link {
+    margin: 0 0 0.6rem;
+    font-size: 1.06rem;
+}
+
+.register-page .auth-bottom-link {
+    margin: 0 0 0.48rem;
+    font-size: 1.03rem;
+}
+
+.login-page .auth-note,
+.register-page .auth-note {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-brown);
+    font-weight: 700;
+}
+
+.login-page .auth-note {
+    max-width: 460px;
+    gap: 0.58rem;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.35;
+}
+
+.register-page .auth-note {
+    max-width: 530px;
+    gap: 0.62rem;
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.32;
+}
+
+.login-page .auth-note-icon {
+    width: 32px;
+    height: 30px;
+    flex: 0 0 auto;
+    object-fit: contain;
+}
+
+.register-page .auth-note-icon {
+    width: 30px;
+    height: 28px;
+    flex: 0 0 auto;
+    object-fit: contain;
+}
+
+/* ---------------------------------------------------------
+   Errors
+   --------------------------------------------------------- */
+
+.login-page .auth-error,
+.login-page .auth-field-error,
+.register-page .auth-error,
+.register-page .auth-field-error {
+    color: #7f2a35;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.login-page .auth-error,
+.register-page .auth-error {
+    padding: 0.7rem 0.85rem;
+    border: 2px solid rgba(216, 95, 104, 0.42);
+    border-radius: 8px;
+    background: rgba(216, 95, 104, 0.13);
+}
+
+.login-page .auth-error,
+.login-page .auth-field-error {
+    font-size: 0.92rem;
+}
+
+.register-page .auth-error,
+.register-page .auth-field-error {
+    font-size: 0.9rem;
+}
+
+.login-page .auth-error ul,
+.login-page .auth-field-error ul,
+.register-page .auth-error ul,
+.register-page .auth-field-error ul {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+/* ---------------------------------------------------------
+   Pixel rendering
+   --------------------------------------------------------- */
+
+.login-page .pixel-art,
+.login-page .game-nav-icon,
+.login-page .auth-card-top-icon,
+.login-page .auth-tab-icon,
+.login-page .auth-input-icon,
+.login-page .auth-submit-icon,
+.login-page .auth-note-icon,
+.register-page .pixel-art,
+.register-page .game-nav-icon,
+.register-page .auth-card-top-icon,
+.register-page .auth-tab-icon,
+.register-page .auth-submit-icon,
+.register-page .auth-note-icon {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* ---------------------------------------------------------
+   Shared side menu + settings for login/register
+   --------------------------------------------------------- */
+
+.login-page .game-side-menu,
+.register-page .game-side-menu {
+    z-index: 90;
+    border: 3px solid rgba(122, 80, 53, 0.36);
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgba(255, 248, 232, 0.98) 0%, rgba(244, 217, 166, 0.95) 100%);
+    box-shadow:
+        inset 0 0 0 4px rgba(255, 243, 216, 0.72),
+        0 4px 0 rgba(75, 47, 34, 0.3),
+        0 20px 44px rgba(75, 47, 34, 0.2);
+    backdrop-filter: none;
+}
+
+.login-page .game-side-menu-left,
+.register-page .game-side-menu-left {
+    top: 50%;
+    left: 4.2rem;
+    transform: translateY(-50%);
+    width: 220px;
+    gap: 0.82rem;
+    padding: 0.9rem;
+}
+
+.login-page .game-side-menu-left .game-nav-item,
+.register-page .game-side-menu-left .game-nav-item,
+.login-page .game-side-menu-right .game-settings-trigger,
+.register-page .game-side-menu-right .game-settings-trigger {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: center;
+    justify-items: start;
+    gap: 0.85rem;
+    min-height: 80px;
+    padding: 0.7rem 0.95rem;
+    border: 2px solid rgba(122, 80, 53, 0.26);
+    border-radius: 8px;
+    background: rgba(255, 248, 232, 0.9);
+    color: var(--color-brown-dark);
+    font-size: 1.24rem;
+    font-weight: 900;
+    text-align: left;
+    box-shadow: inset 0 -3px 0 rgba(75, 47, 34, 0.12);
+}
+
+.login-page .game-side-menu-left .game-nav-item:hover,
+.register-page .game-side-menu-left .game-nav-item:hover,
+.login-page .game-side-menu-right .game-settings-trigger:hover,
+.register-page .game-side-menu-right .game-settings-trigger:hover {
+    transform: translateY(-2px);
+    border-color: rgba(79, 122, 53, 0.46);
+    background: rgba(207, 232, 162, 0.82);
+    color: var(--color-brown-dark);
+}
+
+.login-page .game-side-menu-left .game-nav-item-active,
+.register-page .game-side-menu-left .game-nav-item-active {
+    border-color: rgba(79, 122, 53, 0.72);
+    background: linear-gradient(180deg, #9bc461 0%, #78a945 100%);
+    color: var(--color-panel-light);
+    text-shadow: 0 2px 0 rgba(75, 47, 34, 0.4);
+}
+
+.login-page .game-side-menu .game-nav-icon,
+.register-page .game-side-menu .game-nav-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 0;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: transparent;
+    font-size: 0;
+    box-shadow: none;
+}
+
+.login-page .game-side-menu-left .game-nav-item[href="/"] .game-nav-icon,
+.register-page .game-side-menu-left .game-nav-item[href="/"] .game-nav-icon {
+    background-image: url("../images/game/icons/icon_home.png");
+}
+
+.login-page .game-side-menu-left .game-nav-item[href$="/login/"] .game-nav-icon,
+.register-page .game-side-menu-left .game-nav-item[href$="/login/"] .game-nav-icon {
+    background-image: url("../images/game/icons/icon_sprout.png");
+}
+
+.login-page .game-side-menu-left .game-nav-item[href$="/register/"] .game-nav-icon,
+.register-page .game-side-menu-left .game-nav-item[href$="/register/"] .game-nav-icon {
+    background-image: url("../images/game/mascots/cat_face_white.png");
+}
+
+.login-page .game-side-menu .game-nav-label,
+.register-page .game-side-menu .game-nav-label {
+    font-size: inherit;
+    line-height: 1.1;
+}
+
+.login-page .game-side-menu-right,
+.register-page .game-side-menu-right {
+    top: 2rem;
+    right: 3.2rem;
+    transform: none;
+    width: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.login-page .game-side-menu-right > .game-nav-item:not(.game-settings-trigger),
+.register-page .game-side-menu-right > .game-nav-item:not(.game-settings-trigger) {
+    display: none;
+}
+
+.login-page .game-side-menu-right .game-settings-trigger,
+.register-page .game-side-menu-right .game-settings-trigger {
+    width: 198px;
+    min-height: 74px;
+    grid-template-columns: 54px minmax(0, 1fr);
+    background:
+        linear-gradient(180deg, rgba(255, 248, 232, 0.98) 0%, rgba(244, 217, 166, 0.96) 100%);
+    font-size: 1.2rem;
+}
+
+.login-page .game-side-menu-right .game-settings-trigger .game-nav-icon,
+.register-page .game-side-menu-right .game-settings-trigger .game-nav-icon {
+    width: 44px;
+    height: 44px;
+    background-image: url("../images/game/icons/icon_setting.png");
+}
+
+/* ---------------------------------------------------------
+   Laptop height version
+   Keeps pages fitting on your laptop without shrinking too much.
+   --------------------------------------------------------- */
+
+@media (max-height: 820px) and (min-width: 1061px) {
+    body.login-page,
+    body.register-page {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    .login-page .game-layout,
+    .login-page .game-content,
+    .register-page .game-layout,
+    .register-page .game-content {
+        min-height: 100vh;
+        overflow: visible !important;
+    }
+
+    .login-page .auth-screen,
+    .register-page .auth-screen {
+        min-height: 100vh;
+        align-items: center;
+        padding: 1.4rem 15rem 1.1rem;
+    }
+
+    .login-page .auth-card {
+        width: 650px;
+        min-width: 650px;
+        max-width: 650px;
+        padding: 0.95rem 1.25rem;
+    }
+
+    .register-page .auth-card {
+        width: 700px;
+        min-width: 700px;
+        max-width: 700px;
+        padding: 0.9rem 1.2rem 0.95rem;
+    }
+
+    .login-page .auth-card-header,
+    .register-page .auth-card-header {
+        margin-bottom: 0.5rem;
+    }
+
+    .login-page .auth-card-top-icon {
+        width: 50px !important;
+        max-height: 50px !important;
+    }
+
+    .register-page .auth-card-top-icon {
+        width: 52px !important;
+        max-height: 52px !important;
+    }
+
+    .login-page .auth-kicker {
+        font-size: 0.95rem;
+    }
+
+    .register-page .auth-kicker {
+        font-size: 0.98rem;
+    }
+
+    .login-page .auth-title {
+        font-size: 2.05rem;
+    }
+
+    .register-page .auth-title {
+        font-size: 2.1rem;
+    }
+
+    .login-page .auth-subtitle {
+        font-size: 0.92rem;
+        line-height: 1.25;
+    }
+
+    .register-page .auth-subtitle {
+        font-size: 0.92rem;
+        line-height: 1.25;
+    }
+
+    .login-page .auth-tabs,
+    .register-page .auth-tabs {
+        margin-top: 0.5rem;
+        width: min(540px, calc(100% - 1.2rem));
+    }
+
+    .login-page .auth-tab,
+    .register-page .auth-tab {
+        min-height: 44px;
+        padding: 0.42rem 0.8rem;
+        font-size: 1rem;
+    }
+
+    .login-page .auth-tab-icon,
+    .register-page .auth-tab-icon {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .login-page .auth-form-panel,
+    .register-page .auth-form-panel {
+        padding: 0.75rem 0.9rem;
+    }
+
+    .login-page .auth-form {
+        gap: 0.52rem;
+    }
+
+    .register-page .auth-form {
+        gap: 0.48rem;
+    }
+
+    .login-page .auth-label,
+    .register-page .auth-label {
+        font-size: 0.92rem;
+    }
+
+    .login-page .auth-input-wrap {
+        min-height: 46px;
+        grid-template-columns: 44px minmax(0, 1fr);
+    }
+
+    .register-page .auth-input-wrap {
+        min-height: 44px;
+    }
+
+    .login-page .auth-input-icon {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .login-page .auth-input-wrap .form-control,
+    .login-page .auth-input-wrap input {
+        min-height: 38px;
+        font-size: 0.95rem;
+    }
+
+    .register-page .auth-input-wrap .form-control,
+    .register-page .auth-input-wrap input {
+        min-height: 36px;
+        font-size: 0.94rem;
+    }
+
+    .login-page .auth-check {
+        font-size: 0.9rem;
+    }
+
+    .login-page .auth-check-box {
+        width: 26px;
+        height: 26px;
+    }
+
+    .login-page .auth-help-link {
+        font-size: 0.9rem;
+    }
+
+    .login-page .auth-submit,
+    .register-page .auth-submit {
+        min-height: 50px;
+        font-size: 1.3rem;
+    }
+
+    .login-page .auth-submit-icon,
+    .register-page .auth-submit-icon {
+        width: 30px !important;
+        height: 28px !important;
+    }
+
+    .login-page .auth-card-footer,
+    .register-page .auth-card-footer {
+        margin-top: 0.5rem;
+        padding-top: 0.42rem;
+    }
+
+    .login-page .auth-bottom-link,
+    .register-page .auth-bottom-link {
+        margin-bottom: 0.28rem;
+        font-size: 0.9rem;
+    }
+
+    .login-page .auth-note,
+    .register-page .auth-note {
+        font-size: 0.84rem;
+        line-height: 1.2;
+    }
+
+    .login-page .auth-note-icon,
+    .register-page .auth-note-icon {
+        width: 24px !important;
+        height: 22px !important;
+    }
+
+    .login-page .game-side-menu-left,
+    .register-page .game-side-menu-left {
+        left: 3.5rem !important;
+        width: 205px;
+    }
+
+    .login-page .game-side-menu-left .game-nav-item,
+    .register-page .game-side-menu-left .game-nav-item {
+        min-height: 66px;
+        grid-template-columns: 48px minmax(0, 1fr);
+        font-size: 1.08rem;
+    }
+
+    .login-page .game-side-menu .game-nav-icon,
+    .register-page .game-side-menu .game-nav-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .login-page .game-side-menu-right,
+    .register-page .game-side-menu-right {
+        top: 1.4rem;
+        right: 2rem !important;
+    }
+
+    .login-page .game-side-menu-right .game-settings-trigger,
+    .register-page .game-side-menu-right .game-settings-trigger {
+        width: 170px;
+        min-height: 60px;
+        font-size: 1rem;
+    }
+
+    .login-page .game-side-menu-right .game-settings-trigger .game-nav-icon,
+    .register-page .game-side-menu-right .game-settings-trigger .game-nav-icon {
+        width: 34px !important;
+        height: 34px !important;
+    }
+}
+
+/* ---------------------------------------------------------
+   Tablet
+   --------------------------------------------------------- */
+
+@media (max-width: 1060px) {
+    body.login-page,
+    body.register-page {
+        overflow-y: auto;
+    }
+
+    .login-page .game-layout,
+    .login-page .game-content,
+    .register-page .game-layout,
+    .register-page .game-content {
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .login-page .auth-screen,
+    .register-page .auth-screen {
+        min-height: auto;
+        padding: 1rem 0.75rem 2rem;
+    }
+
+    .login-page .auth-card,
+    .register-page .auth-card {
+        width: min(720px, 100%);
+        min-width: 0;
+        max-width: 720px;
+        transform: none !important;
+    }
+
+    .login-page .game-side-menu-left,
+    .register-page .game-side-menu-left {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: min(580px, calc(100% - 1.5rem));
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0.75rem auto 0;
+    }
+
+    .login-page .game-side-menu-left .game-nav-item,
+    .register-page .game-side-menu-left .game-nav-item {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        min-height: 58px;
+        gap: 0.25rem;
+        text-align: center;
+    }
+
+    .login-page .game-side-menu .game-nav-icon,
+    .register-page .game-side-menu .game-nav-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .login-page .game-side-menu-right,
+    .register-page .game-side-menu-right {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .login-page .game-side-menu-right .game-settings-trigger,
+    .register-page .game-side-menu-right .game-settings-trigger {
+        width: 64px;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 0.55rem;
+    }
+
+    .login-page .game-side-menu-right .game-settings-trigger .game-nav-label,
+    .register-page .game-side-menu-right .game-settings-trigger .game-nav-label {
+        display: none;
+    }
+}
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 640px) {
+    .login-page .game-side-menu-left,
+    .register-page .game-side-menu-left {
+        gap: 0.45rem;
+        padding: 0.55rem;
+    }
+
+    .login-page .game-side-menu-left .game-nav-item,
+    .register-page .game-side-menu-left .game-nav-item {
+        min-height: 52px;
+        padding: 0.45rem 0.35rem;
+        font-size: 0.86rem;
+    }
+
+    .login-page .auth-card,
+    .register-page .auth-card {
+        padding: 0.9rem;
+    }
+
+    .login-page .auth-card-top-icon,
+    .register-page .auth-card-top-icon {
+        width: 52px;
+    }
+
+    .login-page .auth-title,
+    .register-page .auth-title {
+        font-size: 1.8rem;
+    }
+
+    .login-page .auth-subtitle,
+    .register-page .auth-subtitle {
+        font-size: 0.92rem;
+    }
+
+    .login-page .auth-tabs,
+    .register-page .auth-tabs {
+        width: 100%;
+    }
+
+    .login-page .auth-tab,
+    .register-page .auth-tab {
+        min-height: 46px;
+        padding: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .login-page .auth-tab-icon,
+    .register-page .auth-tab-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    .login-page .auth-form-panel,
+    .register-page .auth-form-panel {
+        padding: 0.8rem;
+    }
+
+    .login-page .auth-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.55rem;
+    }
+
+    .login-page .auth-submit,
+    .register-page .auth-submit {
+        min-height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .login-page .auth-input-wrap {
+        grid-template-columns: 42px minmax(0, 1fr);
+    }
+
+    .login-page .auth-input-icon {
+        width: 28px;
+        height: 28px;
     }
 }

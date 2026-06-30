@@ -1,64 +1,163 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Profile | Sproutime{% endblock %}
 
 {% block body_class %}profile-page{% endblock %}
 
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="card shadow-sm rounded-4 p-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="profile-screen">
+    <section class="profile-card" aria-labelledby="profile-title">
+        <div class="profile-card-header">
             <div>
-                <p class="text-muted mb-1">Profile</p>
-                <h1 class="h3 mb-0">Manage your account</h1>
+                <p class="profile-kicker">
+                    <img class="profile-kicker-icon pixel-art"
+                         src="{% static 'images/game/icons/icon_sprout.png' %}"
+                         alt="">
+                    Player Profile
+                </p>
+
+                <h1 id="profile-title">Manage your account</h1>
+
+                <p class="profile-subtitle">
+                    Update your Sproutime profile details.
+                </p>
             </div>
-            <div class="profile-badge d-flex align-items-center justify-content-center rounded-circle bg-primary text-white" style="width:56px;height:56px;">
+
+            <div class="profile-avatar pixel-art" aria-label="Profile avatar">
                 {{ request.user.username|slice:":1"|upper }}
             </div>
         </div>
 
-        <form method="post" novalidate>
+        <form class="profile-form" method="post" novalidate>
             {% csrf_token %}
+
             {% if form.non_field_errors %}
-                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                <div class="profile-error" role="alert">
+                    {{ form.non_field_errors }}
+                </div>
             {% endif %}
-            <div class="row gy-3">
-                <div class="col-md-6">
-                    <label class="form-label" for="id_username">Username</label>
-                    {{ form.username }}
+
+            <div class="profile-form-grid">
+                <div class="profile-field">
+                    <label for="id_username">Username</label>
+                    <div class="profile-input-wrap">
+                        {{ form.username }}
+                    </div>
                     {% if form.username.errors %}
-                        <div class="form-text text-danger">{{ form.username.errors }}</div>
+                        <div class="profile-field-error">
+                            {{ form.username.errors }}
+                        </div>
                     {% endif %}
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="id_email">Email</label>
-                    {{ form.email }}
+
+                <div class="profile-field">
+                    <label for="id_email">Email</label>
+                    <div class="profile-input-wrap">
+                        {{ form.email }}
+                    </div>
                     {% if form.email.errors %}
-                        <div class="form-text text-danger">{{ form.email.errors }}</div>
+                        <div class="profile-field-error">
+                            {{ form.email.errors }}
+                        </div>
                     {% endif %}
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="id_first_name">First name</label>
-                    {{ form.first_name }}
+
+                <div class="profile-field">
+                    <label for="id_first_name">First name</label>
+                    <div class="profile-input-wrap">
+                        {{ form.first_name }}
+                    </div>
                     {% if form.first_name.errors %}
-                        <div class="form-text text-danger">{{ form.first_name.errors }}</div>
+                        <div class="profile-field-error">
+                            {{ form.first_name.errors }}
+                        </div>
                     {% endif %}
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="id_last_name">Last name</label>
-                    {{ form.last_name }}
+
+                <div class="profile-field">
+                    <label for="id_last_name">Last name</label>
+                    <div class="profile-input-wrap">
+                        {{ form.last_name }}
+                    </div>
                     {% if form.last_name.errors %}
-                        <div class="form-text text-danger">{{ form.last_name.errors }}</div>
+                        <div class="profile-field-error">
+                            {{ form.last_name.errors }}
+                        </div>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="mt-4 d-flex flex-column flex-sm-row gap-2">
-                <button type="submit" name="save_profile" class="btn btn-primary">Save changes</button>
-                <button type="submit" name="delete_account" class="btn btn-outline-danger" onclick="return confirm('Delete your account? This cannot be undone.');">Delete account</button>
-                <a class="btn btn-outline-secondary" href="/dashboard/">Back to dashboard</a>
+            <div class="profile-actions">
+                <button type="submit" name="save_profile" class="profile-btn profile-btn-save">
+                    Save Changes
+                </button>
+
+                <button type="submit"
+                        name="delete_account"
+                        class="profile-btn profile-btn-danger"
+                        onclick="return confirm('Delete your account? This cannot be undone.');">
+                    Delete Account
+                </button>
+
+                <a class="profile-btn profile-btn-secondary" href="{% url 'dashboard:dashboard_home' %}">
+                    Back to Dashboard
+                </a>
             </div>
         </form>
-    </div>
+
+        <section class="profile-identity" aria-labelledby="profile-identity-title">
+            <h2 id="profile-identity-title">Garden Identity</h2>
+
+            <div class="profile-identity-grid">
+                <article class="profile-identity-item">
+                    <span class="profile-identity-icon">
+                        <img class="pixel-art"
+                             src="{% static 'images/game/mascots/cat_face_white.png' %}"
+                             alt="">
+                    </span>
+                    <div>
+                        <p>Player</p>
+                        <strong>{{ request.user.username }}</strong>
+                    </div>
+                </article>
+
+                <article class="profile-identity-item">
+                    <span class="profile-identity-icon">
+                        <img class="pixel-art"
+                             src="{% static 'images/game/icons/icon_sprout_soil.png' %}"
+                             alt="">
+                    </span>
+                    <div>
+                        <p>Garden Status</p>
+                        <strong>Growing</strong>
+                    </div>
+                </article>
+
+                <article class="profile-identity-item">
+                    <span class="profile-identity-icon">
+                        <img class="pixel-art"
+                             src="{% static 'images/game/icons/icon_watercan.png' %}"
+                             alt="">
+                    </span>
+                    <div>
+                        <p>Account Type</p>
+                        <strong>Student Gardener</strong>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <p class="profile-note">
+            <img class="profile-note-icon pixel-art"
+                 src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                 alt="">
+            Your profile information is used only for your Sproutime account and personal garden experience.
+        </p>
+    </section>
 </div>
 {% endblock %}

@@ -1,18 +1,30 @@
 button#suggest-steps-btn:disabled {
-    background: rgba(147, 186, 125, 0.25) !important;
-    border-color: rgba(147, 186, 125, 0.3) !important;
-    color: rgba(79, 59, 47, 0.7) !important;
+    background: rgba(199, 236, 247, 0.32) !important;
+    border-color: rgba(71, 127, 159, 0.24) !important;
+    color: rgba(75, 47, 34, 0.68) !important;
     cursor: not-allowed !important;
     opacity: 0.95;
 }
 
+#suggest-steps-btn {
+    background: var(--color-sky-soft);
+    border-color: rgba(71, 127, 159, 0.42);
+    color: var(--color-brown-dark);
+}
+
+#suggest-steps-btn:hover {
+    background: var(--color-sky);
+    border-color: var(--color-sky-dark);
+    color: var(--color-brown-dark);
+}
+
 .seed-preview {
-    background: rgba(255, 249, 227, 0.95);
+    background: rgba(255, 248, 232, 0.95);
 }
 
 .seed-chip {
     font-size: 0.95rem;
-    color: #5f4a3d;
+    color: var(--color-brown-dark);
 }
 
 .watering-step .form-control {
@@ -22,6 +34,18 @@ button#suggest-steps-btn:disabled {
 .watering-step .remove-step-btn {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.remove-step-btn {
+    background: rgba(233, 160, 184, 0.16);
+    border-color: rgba(216, 95, 104, 0.45);
+    color: #8d3640;
+}
+
+.remove-step-btn:hover {
+    background: var(--color-danger);
+    border-color: var(--color-danger);
+    color: var(--color-panel-light);
 }
 
 .create-seed-page {

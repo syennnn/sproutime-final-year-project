@@ -1,60 +1,117 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block body_class %}home-page{% endblock %}
+{% block body_class %}home-page landing-page{% endblock %}
 
 {% block page_css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
-{% block navbar %}
-<header class="hero-top py-4">
-    <div class="container d-flex justify-content-between align-items-center">
-        <a class="hero-brand" href="/">Sproutime</a>
-        <div class="hero-actions">
-            <a class="btn btn-sm btn-outline-dark" href="{% url 'accounts:login' %}">Log In</a>
-            <span class="hero-divider">/</span>
-            <a class="btn btn-sm btn-light btn-register" href="{% url 'accounts:register' %}">Register</a>
-        </div>
-    </div>
-</header>
-{% endblock %}
-
 {% block content %}
-<section class="home-hero position-relative overflow-hidden">
-    <div class="hero-left-bg"></div>
-    <div class="hero-right-bg"></div>
-    <div class="container py-5">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <p class="eyebrow">Cozy garden focus for students</p>
-                <h1>Sproutime</h1>
-                <p class="hero-subtitle">A playful, plant-powered productivity space for growing focus, tasks, and calm study sessions.</p>
-                <div class="hero-links mt-4">
-                    <a class="btn btn-primary btn-lg me-3" href="{% url 'accounts:login' %}">Log In</a>
-                    <a class="btn btn-outline-primary btn-lg" href="{% url 'accounts:register' %}">Register</a>
-                </div>
-            </div>
-            <div class="col-lg-5 offset-lg-1">
-                <div class="hero-card p-4">
-                    <div class="hero-card-title">Your garden is waiting</div>
-                    <p class="mb-0">Plant your focus seeds, track your tasks, and watch progress bloom with gentle daily steps.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="landing-screen">
+    <header class="landing-nav" aria-label="Landing navigation">
+        <a class="landing-brand" href="/">
+            <img class="landing-brand-icon pixel-art"
+                 src="{% static 'images/game/icons/icon_sprout.png' %}"
+                 alt="Sproutime sprout icon">
+            <span>Sproutime</span>
+        </a>
+        <nav class="landing-nav-links" aria-label="Landing links">
+            <a class="landing-nav-link" href="#how-it-works">How It Works</a>
+            <a class="btn landing-btn landing-btn-cream" href="{% url 'accounts:login' %}">Login</a>
+            <a class="btn landing-btn landing-btn-sky" href="{% url 'accounts:register' %}">Register</a>
+        </nav>
+    </header>
 
-<section class="how-it-works py-5">
-    <div class="container">
-        <div class="section-heading text-center mb-4">
-            <p class="section-label">How it works</p>
-            <h2>Easy steps to grow your study garden</h2>
+    <section class="landing-hero" aria-labelledby="landing-title">
+        <div class="landing-hero-panel">
+            <h1 id="landing-title">
+                <img class="landing-title-icon pixel-art"
+                     src="{% static 'images/game/icons/icon_sprout.png' %}"
+                     alt="">
+                Sproutime
+            </h1>
+            <p class="landing-subtitle">Turn your tasks into a growing focus garden.</p>
+            <p class="landing-description">
+                Plan study tasks, break them into watering steps, focus with a timer, and watch your progress bloom into flowers or buds.
+            </p>
+            <div class="landing-hero-actions">
+                {% if user.is_authenticated %}
+                    <a class="btn landing-btn landing-btn-primary" href="{% url 'garden:garden_home' %}">
+                        <img class="landing-btn-icon pixel-art"
+                             src="{% static 'images/game/icons/icon_sprout.png' %}"
+                             alt="">
+                        Start Growing
+                    </a>
+                {% else %}
+                    <a class="btn landing-btn landing-btn-primary" href="{% url 'accounts:register' %}">
+                        <img class="landing-btn-icon pixel-art"
+                             src="{% static 'images/game/icons/icon_sprout.png' %}"
+                             alt="">
+                        Start Growing
+                    </a>
+                {% endif %}
+                <a class="btn landing-btn landing-btn-cream" href="{% url 'accounts:login' %}">Login</a>
+            </div>
         </div>
-        <div class="how-panel p-5 mx-auto">
-            <p>Slide show or scroll section explaining how Sproutime works</p>
-            <p>Images and illustrations will be added later</p>
+
+        <div class="landing-preview-wrap" aria-label="Sproutime garden preview">
+            <div class="landing-preview-frame">
+                <img class="landing-preview-image pixel-art"
+                     src="{% static 'images/game/landing/landing_garden_preview2.png' %}"
+                     alt="Pixel-art preview of a cozy Sproutime garden">
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <section class="landing-how" id="how-it-works" aria-labelledby="how-title">
+        <div class="landing-heading">
+            <h2 id="how-title">How Sproutime Works</h2>
+        </div>
+
+        <div class="landing-steps-grid">
+            <article class="landing-step-card">
+                <img class="landing-step-icon pixel-art"
+                     src="{% static 'images/game/icons/icon_seed_packet.png' %}"
+                     alt="Seed packet icon">
+                <h3>Create a Seed</h3>
+                <p>Write your task and prepare watering steps.</p>
+            </article>
+            <article class="landing-step-card">
+                <img class="landing-step-icon pixel-art"
+                     src="{% static 'images/game/icons/icon_sprout_soil.png' %}"
+                     alt="Sprout in soil icon">
+                <h3>Plant It</h3>
+                <p>Choose a slot in your personal garden.</p>
+            </article>
+            <article class="landing-step-card">
+                <img class="landing-step-icon landing-step-icon-small pixel-art"
+                     src="{% static 'images/game/icons/icon_clock.png' %}"
+                     alt="Clock icon">
+                <h3>Focus &amp; Water</h3>
+                <p>Use the timer and water completed steps.</p>
+            </article>
+            <article class="landing-step-card">
+                <img class="landing-step-icon pixel-art"
+                    src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                    alt="Flower icon">
+                <h3>Bloom or Bud</h3>
+                <p>Complete work for a flower, or save partial progress as a bud.</p>
+            </article>
+        </div>
+    </section>
+
+    <footer class="landing-footer">
+        <img class="landing-footer-star pixel-art"
+             src="{% static 'images/game/icons/icon_star_small.png' %}"
+             alt="">
+        <span>Sproutime</span>
+        <a href="#">Privacy</a>
+        <a href="#how-it-works">About</a>
+        <a href="#">Credits</a>
+        <img class="landing-footer-star pixel-art"
+             src="{% static 'images/game/icons/icon_star_small.png' %}"
+             alt="">
+    </footer>
+</div>
 {% endblock %}
