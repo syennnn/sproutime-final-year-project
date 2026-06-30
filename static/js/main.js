@@ -578,14 +578,46 @@ document.addEventListener('DOMContentLoaded', function () {
         return stateLabels[state] || 'Seed';
     }
 
-    function updatePlantSlotVisual(plantId, state) {
+    function getResultImageUrl(slot, state, payload) {
+        if (state === 'flower') {
+            return (payload && payload.flower_image_url) || slot.dataset.flowerImageUrl || '';
+        }
+        if (state === 'bud') {
+            return (payload && payload.bud_image_url) || slot.dataset.budImageUrl || '';
+        }
+        return '';
+    }
+
+    function getSeedTypeLabel(payload) {
+        if (payload && payload.seed_type_display) {
+            return payload.seed_type_display;
+        }
+        if (payload && payload.seed_type) {
+            return payload.seed_type.replace(/_/g, ' ');
+        }
+        return 'Plant';
+    }
+
+    function updatePlantSlotVisual(plantId, state, payload) {
         const slot = document.querySelector(`.focus-slot-clickable[data-plant-id="${plantId}"]`);
         if (!slot || !gardenPage) {
             return;
         }
-        let visual = slot.querySelector('.slot-plant-image, .slot-plant-stage');
+        let visual = slot.querySelector('.slot-plant-image');
         const marker = slot.querySelector('.slot-state-badge');
         const soilImage = slot.querySelector('.slot-soil-image');
+
+        if (payload) {
+            if (payload.bud_image_url) {
+                slot.dataset.budImageUrl = payload.bud_image_url;
+            }
+            if (payload.flower_image_url) {
+                slot.dataset.flowerImageUrl = payload.flower_image_url;
+            }
+            if (payload.seed_type) {
+                slot.dataset.seedType = payload.seed_type;
+            }
+        }
 
         if (state === 'seed' || state === 'growing') {
             const isGrowing = state === 'growing';
@@ -600,26 +632,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     slot.prepend(image);
                 }
             }
-            image.className = 'slot-plant-image';
+            image.className = `slot-plant-image slot-plant-${isGrowing ? 'growing' : 'seed'}-img pixel-art`;
             image.src = isGrowing ? gardenPage.dataset.sproutImage : gardenPage.dataset.seedImage;
             image.alt = isGrowing ? 'Growing sprout' : 'Seed';
         } else if (state === 'flower' || state === 'bud') {
-            let stage = visual && visual.classList.contains('slot-plant-stage') ? visual : null;
-            if (!stage) {
-                stage = document.createElement('div');
-                stage.setAttribute('aria-hidden', 'true');
+            let image = visual && visual.classList.contains('slot-plant-image') ? visual : null;
+            if (!image) {
+                image = document.createElement('img');
                 if (visual) {
-                    visual.replaceWith(stage);
+                    visual.replaceWith(image);
                 } else if (soilImage) {
-                    soilImage.insertAdjacentElement('afterend', stage);
+                    soilImage.insertAdjacentElement('afterend', image);
                 } else {
-                    slot.prepend(stage);
+                    slot.prepend(image);
                 }
             }
-            stage.className = `slot-plant-stage slot-plant-${state}`;
-            stage.innerHTML = state === 'flower'
-                ? '<span class="slot-flower-bloom"></span>'
-                : '<span class="slot-bud-head"></span>';
+            image.className = `slot-plant-image slot-plant-${state}-img pixel-art`;
+            image.src = getResultImageUrl(slot, state, payload);
+            image.alt = `${getSeedTypeLabel(payload)} ${state}`;
         }
 
         if (marker) {
@@ -717,7 +747,8 @@ document.addEventListener('DOMContentLoaded', function () {
             focusSessionTitle.textContent = payload.task_title || 'Selected task';
         }
         if (focusSeedType) {
-            focusSeedType.textContent = payload.seed_type ? `${payload.seed_type} Seed` : 'Seed';
+            const seedTypeLabel = payload.seed_type_display || payload.seed_type;
+            focusSeedType.textContent = seedTypeLabel ? `${seedTypeLabel} Seed` : 'Seed';
         }
         if (focusPlantState) {
             focusPlantState.textContent = formatPlantStateLabel(displayPlantState);
@@ -730,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         renderWateringSteps(payload.subtasks || []);
-        updatePlantSlotVisual(selectedFocusPlantId, displayPlantState);
+        updatePlantSlotVisual(selectedFocusPlantId, displayPlantState, payload);
         setActiveFocusViewVisible(!showingResult);
         if (showingResult) {
             renderFocusResult(payload, result);

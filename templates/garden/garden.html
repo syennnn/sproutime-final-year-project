@@ -45,8 +45,11 @@
                                     data-occupied="{{ slot.is_occupied|yesno:'true,false' }}"
                                     {% if plant %}
                                         data-plant-id="{{ plant.id }}"
+                                        data-seed-type="{{ plant.seed_type }}"
+                                        data-bud-image-url="{% static plant.bud_image_path %}"
+                                        data-flower-image-url="{% static plant.flower_image_path %}"
                                     {% endif %}
-                                    aria-label="{% if plant %}Slot {{ slot.slot_number }} planted with {{ plant.task.get_seed_type_display }} seed{% else %}Empty soil slot {{ slot.slot_number }}{% endif %}"
+                                    aria-label="{% if plant %}Slot {{ slot.slot_number }} planted with {{ plant.get_seed_type_display }} seed{% else %}Empty soil slot {{ slot.slot_number }}{% endif %}"
                                     {% if not plant and slot.is_occupied %}disabled{% endif %}>
                                 <img src="{% static 'images/empty_soil.jpg' %}"
                                      alt="Soil slot"
@@ -55,19 +58,19 @@
                                     {% if plant.state == 'seed' %}
                                         <img src="{% static 'images/seed.png' %}"
                                              alt="Seed"
-                                             class="slot-plant-image">
+                                             class="slot-plant-image slot-plant-seed-img pixel-art">
                                     {% elif plant.state == 'growing' %}
                                         <img src="{% static 'images/sprout.png' %}"
                                              alt="Growing sprout"
-                                             class="slot-plant-image">
+                                             class="slot-plant-image slot-plant-growing-img pixel-art">
                                     {% elif plant.state == 'flower' %}
-                                        <div class="slot-plant-stage slot-plant-flower" aria-hidden="true">
-                                            <span class="slot-flower-bloom"></span>
-                                        </div>
+                                        <img src="{% static plant.flower_image_path %}"
+                                             alt="{{ plant.get_seed_type_display }} flower"
+                                             class="slot-plant-image slot-plant-flower-img pixel-art">
                                     {% elif plant.state == 'bud' %}
-                                        <div class="slot-plant-stage slot-plant-bud" aria-hidden="true">
-                                            <span class="slot-bud-head"></span>
-                                        </div>
+                                        <img src="{% static plant.bud_image_path %}"
+                                             alt="{{ plant.get_seed_type_display }} bud"
+                                             class="slot-plant-image slot-plant-bud-img pixel-art">
                                     {% endif %}
                                 {% endif %}
                                 <span class="slot-number">Slot {{ slot.slot_number }}</span>

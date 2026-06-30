@@ -25,29 +25,6 @@
 
                 <h1 id="dashboard-title">Welcome back, {{ request.user.username }}.</h1>
             </div>
-
-            <div class="dashboard-actions" aria-label="Quick navigation">
-                <a class="dashboard-action" href="{% url 'garden:garden_home' %}">
-                    <img class="dashboard-action-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_sprout_soil.png' %}"
-                         alt="">
-                    <span>Go to Garden</span>
-                </a>
-
-                <a class="dashboard-action" href="{% url 'tasks:create_task' %}">
-                    <img class="dashboard-action-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_seed_packet.png' %}"
-                         alt="">
-                    <span>Create Seed</span>
-                </a>
-
-                <a class="dashboard-action" href="{% url 'garden:garden_home' %}">
-                    <img class="dashboard-action-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_watering_can.png' %}"
-                         alt="">
-                    <span>View Focus<br>Session</span>
-                </a>
-            </div>
         </section>
 
         <section class="dashboard-panel active-session-panel" aria-labelledby="active-session-heading">
@@ -135,9 +112,6 @@
                         <p>No active plant. Plant a seed to begin your journey.</p>
 
                         <a class="dashboard-action dashboard-action-primary" href="{% url 'garden:garden_home' %}">
-                            <img class="dashboard-action-icon pixel-art"
-                                 src="{% static 'images/game/icons/icon_sprout_soil.png' %}"
-                                 alt="">
                             <span>Go to Garden</span>
                         </a>
                     </div>

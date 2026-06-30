@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.templatetags.static import static
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
@@ -16,6 +17,15 @@ HEARTBEAT_STALE_SECONDS = 30
 
 def focus_home(request):
     return render(request, 'focus/placeholder.html')
+
+
+def _plant_asset_payload(plant):
+    return {
+        'seed_type': plant.seed_type,
+        'seed_type_display': plant.get_seed_type_display(),
+        'bud_image_url': static(plant.bud_image_path),
+        'flower_image_url': static(plant.flower_image_path),
+    }
 
 
 def _current_elapsed_seconds(session, now=None):
@@ -40,8 +50,8 @@ def _session_payload(session):
         'session_id': session.id,
         'plant_id': session.plant_id,
         'task_title': session.task.title,
-        'seed_type': session.task.get_seed_type_display(),
         'plant_state': session.plant.state,
+        **_plant_asset_payload(session.plant),
         'target_duration_minutes': session.target_duration_minutes,
         'target_duration_seconds': target_duration_seconds,
         'elapsed_seconds': elapsed_seconds,
@@ -326,8 +336,8 @@ def get_focus_session_status(request):
         'session_id': None,
         'plant_id': plant.id,
         'task_title': plant.task.title,
-        'seed_type': plant.task.get_seed_type_display(),
         'plant_state': plant.state,
+        **_plant_asset_payload(plant),
         'target_duration_minutes': plant.task.estimated_duration,
         'target_duration_seconds': target_duration_seconds,
         'elapsed_seconds': 0,

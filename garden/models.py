@@ -65,3 +65,17 @@ class Plant(models.Model):
 
     def __str__(self):
         return f'{self.task.title} in slot {self.slot.slot_number}'
+
+    def get_bud_image_path(self):
+        return f'images/game/buds/{self.seed_type}_bud.png'
+
+    def get_flower_image_path(self):
+        return f'images/game/flowers/{self.seed_type}_flower.png'
+
+    @property
+    def bud_image_path(self):
+        return self.get_bud_image_path()
+
+    @property
+    def flower_image_path(self):
+        return self.get_flower_image_path()

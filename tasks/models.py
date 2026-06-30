@@ -2,31 +2,29 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+SEED_TYPE_CHOICES = [
+    ('rose', 'Rose'),
+    ('sunflower', 'Sunflower'),
+    ('tulip', 'Tulip'),
+    ('white_daisy', 'White Daisy'),
+    ('pink_peony', 'Pink Peony'),
+    ('love_in_a_mist', 'Love-in-a-Mist'),
+    ('lavender', 'Lavender'),
+    ('lily', 'Lily'),
+    ('spider_lily', 'Spider Lily'),
+    ('purple_daisy', 'Purple Daisy'),
+    ('hibiscus', 'Hibiscus'),
+    ('hydrangea', 'Hydrangea'),
+    ('gladiolus', 'Gladiolus'),
+    ('calla_lilies', 'Calla Lilies'),
+    ('yellow_iris', 'Yellow Iris'),
+    ('red_anemones', 'Red Anemones'),
+    ('candy_cane_sorrel', 'Candy Cane Sorrel'),
+]
+
+
 class Task(models.Model):
-    SEED_TYPES = [
-        ('rose', 'Rose'),
-        ('sunflower', 'Sunflower'),
-        ('tulip', 'Tulip'),
-        ('white_daisy', 'White Daisy'),
-        ('pink_peony', 'Pink_Peony'),
-        ('blue_peony', 'Blue_Peony'),
-        ('lavender', 'Lavender'),
-        ('lily', 'Lily'),
-        ('spider_lily', 'Spider_Lily'),
-        ('prurple_daisy', 'Purple Daisy'),
-        ('hibiscus', 'Hibiscus'),
-        ('hydrangea', 'Hydrangea'),
-        ('bluebell', 'Bluebell'),
-        ('lotus', 'Lotus'),
-        ('marigold', 'Marigold'),
-        ('poppy', 'Poppy'),
-        ('cactus', 'Cactus'),
-        ('aloe', 'Aloe'),
-        ('strawberry', 'Strawberry'),
-        ('mint', 'Mint'),
-        ('basil', 'Basil'),
-        ('herb', 'Herb'),
-    ]
+    SEED_TYPES = SEED_TYPE_CHOICES
 
     STATUS_STORED = 'stored'
     STATUS_PLANTED = 'planted'
