@@ -28,8 +28,8 @@
 
 {% block content %}
 <main class="garden-page"
-      data-seed-image="{% static 'images/seed.png' %}"
-      data-sprout-image="{% static 'images/sprout.png' %}">
+      data-seed-image="{% static 'images/game/icons/icon_seed.png' %}"
+      data-sprout-image="{% static 'images/game/icons/icon_sprout_plain.png' %}">
     <div class="garden-screen">
         <section class="garden-summary-bar" aria-label="Garden summary">
             <div class="garden-summary-item garden-summary-welcome">
@@ -93,11 +93,11 @@
                                          class="slot-soil-image">
                                     {% if plant %}
                                         {% if plant.state == 'seed' %}
-                                            <img src="{% static 'images/seed.png' %}"
+                                            <img src="{% static 'images/game/icons/icon_seed.png' %}"
                                                  alt="Seed"
                                                  class="slot-plant-image slot-plant-seed-img pixel-art">
                                         {% elif plant.state == 'growing' %}
-                                            <img src="{% static 'images/sprout.png' %}"
+                                            <img src="{% static 'images/game/icons/icon_sprout_plain.png' %}"
                                                  alt="Growing sprout"
                                                  class="slot-plant-image slot-plant-growing-img pixel-art">
                                         {% elif plant.state == 'flower' %}

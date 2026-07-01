@@ -50,6 +50,10 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: calc(100% + 2px);
+}
+
 body {
     margin: 0;
     min-height: 100vh;
@@ -1288,7 +1292,7 @@ body:not(.landing-page) .card {
 }
 
 body:not(.landing-page) .form-control {
-    border: 2px solid var(--sprout-panel-border-soft);
+    /* border: 2px solid var(--sprout-panel-border-soft); */
     border-radius: 14px;
     background: var(--sprout-panel-bg-inner);
     color: var(--sprout-brown);

@@ -18,9 +18,6 @@
                          src="{% static 'images/game/icons/icon_sprout.png' %}"
                          alt="">
                     Sproutime Dashboard
-                    <img class="dashboard-kicker-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_sprout_plain.png' %}"
-                         alt="">
                 </p>
 
                 <h1 id="dashboard-title">Welcome back, {{ request.user.username }}.</h1>
@@ -31,7 +28,7 @@
             <div class="dashboard-panel-heading">
                 <h2 id="active-session-heading">
                     <img class="dashboard-section-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_footer.png' %}"
+                         src="{% static 'images/game/icons/icon_sprout_plain.png' %}"
                          alt="">
                     Active Session
                 </h2>
@@ -164,68 +161,78 @@
         <section class="dashboard-panel recent-results-section" aria-labelledby="recent-results-heading">
             <div class="dashboard-panel-heading">
                 <h2 id="recent-results-heading">
+                    <img class="dashboard-section-icon pixel-art"
+                         src="{% static 'images/game/icons/icon_footer.png' %}"
+                         alt="">
                     Latest flower and bud outcomes
                 </h2>
             </div>
 
             {% if recent_results %}
-                <div class="recent-results-grid">
-                    {% for result in recent_results %}
-                        <button type="button"
-                                class="result-card {{ result.plant_state }}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#result-detail-modal"
-                                data-task-title="{{ result.task_title }}"
-                                data-seed-type="{{ result.seed_type }}"
-                                data-plant-state="{{ result.plant_state_label }}"
-                                data-watered="{{ result.watered_count }}"
-                                data-total="{{ result.total_subtasks }}"
-                                data-time-spent="{{ result.time_spent_display }}"
-                                data-result-message="{{ result.result_message }}">
-                            <span class="result-badge">
-                                {% if result.plant_state == 'flower' %}
-                                    <img class="result-badge-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_flower.png' %}"
-                                         alt="">
-                                {% else %}
-                                    <img class="result-badge-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_bud.png' %}"
-                                         alt="">
-                                {% endif %}
-                                {{ result.plant_state_label }}
-                            </span>
+                <div class="outcome-carousel" data-outcome-carousel data-page-size="5">
+                    <button class="outcome-carousel-arrow outcome-carousel-prev"
+                            type="button"
+                            data-outcome-prev
+                            aria-label="Show previous outcomes">
+                        &lt;
+                    </button>
 
-                            <div class="result-card-main">
-                                <strong>{{ result.task_title }}</strong>
-
-                                {% if result.plant_state == 'flower' %}
+                    <div class="recent-results-grid" data-outcome-track>
+                        {% for result in recent_results %}
+                            <button type="button"
+                                    class="result-card {{ result.result_type }}"
+                                    data-outcome-card
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#result-detail-modal"
+                                    data-task-title="{{ result.task_title }}"
+                                    data-seed-type="{{ result.seed_display_name }}"
+                                    data-seed-slug="{{ result.seed_slug }}"
+                                    data-result-type="{{ result.result_type }}"
+                                    data-plant-state="{{ result.plant_state_label }}"
+                                    data-watered="{{ result.watered_count }}"
+                                    data-total="{{ result.total_subtasks }}"
+                                    data-focus-completed="{{ result.focus_completed_display }}"
+                                    data-focus-target="{{ result.focus_target_display }}"
+                                    data-time-spent="{{ result.time_spent_display }}"
+                                    data-result-title="{{ result.result_title }}"
+                                    data-result-heading="{{ result.result_heading }}"
+                                    data-result-subtext="{{ result.result_subtext }}"
+                                    data-result-message="{{ result.result_message }}"
+                                    data-result-image="{{ result.result_image_url }}"
+                                    {% if forloop.counter0 >= 5 %}hidden{% endif %}>
+                                <div class="result-card-main">
                                     <img class="result-plant-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_flower.png' %}"
+                                         src="{{ result.result_image_url }}"
+                                         alt="{{ result.seed_display_name }} {{ result.plant_state_label }}">
+                                </div>
+
+                                <span class="result-divider"></span>
+
+                                <strong title="{{ result.task_title }}">{{ result.task_title }}</strong>
+
+                                <span class="result-meta">
+                                    <img class="result-meta-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_watercan.png' %}"
                                          alt="">
-                                {% else %}
-                                    <img class="result-plant-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_bud.png' %}"
+                                    {{ result.watered_count }} / {{ result.total_subtasks }} watered
+                                </span>
+
+                                <span class="result-meta">
+                                    <img class="result-meta-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_clock.png' %}"
                                          alt="">
-                                {% endif %}
-                            </div>
+                                    {{ result.time_spent_display }} focused
+                                </span>
+                            </button>
+                        {% endfor %}
+                    </div>
 
-                            <span class="result-divider"></span>
-
-                            <span class="result-meta">
-                                <img class="result-meta-icon pixel-art"
-                                     src="{% static 'images/game/icons/icon_watercan.png' %}"
-                                     alt="">
-                                {{ result.watered_count }} / {{ result.total_subtasks }} watered
-                            </span>
-
-                            <span class="result-meta">
-                                <img class="result-meta-icon pixel-art"
-                                     src="{% static 'images/game/icons/icon_clock.png' %}"
-                                     alt="">
-                                {{ result.time_spent_display }} focused
-                            </span>
-                        </button>
-                    {% endfor %}
+                    <button class="outcome-carousel-arrow outcome-carousel-next"
+                            type="button"
+                            data-outcome-next
+                            aria-label="Show next outcomes">
+                        &gt;
+                    </button>
                 </div>
             {% else %}
                 <div class="empty-results">
@@ -237,43 +244,109 @@
 </div>
 
 <div class="modal fade dashboard-result-modal" id="result-detail-modal" tabindex="-1" aria-labelledby="result-detail-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content dashboard-modal-panel">
-            <div class="modal-header">
-                <div>
-                    <p class="section-label">Result Details</p>
-                    <h2 class="modal-title" id="result-detail-title">Focus result</h2>
+            <div class="modal-header result-modal-header">
+                <div class="result-modal-heading-wrap">
+                    <p class="result-modal-heading-box" id="result-detail-kicker">Flower Result</p>
+                    <h2 class="modal-title" id="result-detail-title">Your plant has bloomed!</h2>
+                    <p class="result-detail-subtext" id="result-detail-subtext">Great focus work - your seed grew into a flower.</p>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <button type="button" class="btn-close result-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body">
-                <p class="result-message" id="result-detail-message">Your plant has bloomed!</p>
+            <div class="modal-body result-modal-body">
+                <div class="result-modal-grid">
+                    <div class="result-modal-plant-stage" aria-hidden="true">
+                        <span class="result-sparkle sparkle-one">✦</span>
+                        <span class="result-sparkle sparkle-two">✧</span>
+                        <span class="result-sparkle sparkle-three">✦</span>
 
-                <dl class="result-detail-list">
-                    <div>
-                        <dt>Seed type</dt>
-                        <dd id="result-detail-seed">Seed</dd>
+                        <img class="result-modal-plant-img pixel-art"
+                             id="result-detail-image"
+                             src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                             alt="">
+
+                        <span class="result-saved-badge">✓ Progress saved</span>
                     </div>
-                    <div>
-                        <dt>Plant state</dt>
-                        <dd id="result-detail-state">Flower</dd>
+
+                    <div class="result-modal-details">
+                        <dl class="result-detail-list">
+                            <div>
+                                <dt>
+                                    <img class="result-detail-row-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_footer.png' %}"
+                                         alt="">
+                                    Task
+                                </dt>
+                                <dd id="result-detail-task">Selected task</dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <img class="result-detail-row-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_seed_packet.png' %}"
+                                         alt="">
+                                    Seed Type
+                                </dt>
+                                <dd id="result-detail-seed">Seed</dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <img class="result-detail-row-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_bud.png' %}"
+                                         alt="">
+                                    Plant State
+                                </dt>
+                                <dd id="result-detail-state">Flower</dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <img class="result-detail-row-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_watercan.png' %}"
+                                         alt="">
+                                    Watered Steps
+                                </dt>
+                                <dd id="result-detail-watered">0 / 0</dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <img class="result-detail-row-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_clock.png' %}"
+                                         alt="">
+                                    Focus Time Completed
+                                </dt>
+                                <dd id="result-detail-focus-completed">Yes</dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <img class="result-detail-row-icon pixel-art"
+                                         src="{% static 'images/game/icons/icon_clock.png' %}"
+                                         alt="">
+                                    Time Spent
+                                </dt>
+                                <dd id="result-detail-time">00:00</dd>
+                            </div>
+                        </dl>
                     </div>
-                    <div>
-                        <dt>Watered steps</dt>
-                        <dd id="result-detail-watered">0 / 0</dd>
-                    </div>
-                    <div>
-                        <dt>Time spent</dt>
-                        <dd id="result-detail-time">00:00</dd>
-                    </div>
-                </dl>
+                </div>
+
+                <p class="result-message" id="result-detail-message">
+                    You completed both your focus time and all watering steps. This flower will stay in your garden as proof of your progress.
+                </p>
+            </div>
+
+            <div class="modal-footer result-modal-actions">
+                <a class="dashboard-action dashboard-action-primary" href="{% url 'garden:garden_home' %}">Back to Garden</a>
+                <button class="dashboard-action" type="button" data-bs-dismiss="modal">View Dashboard</button>
+                <button class="dashboard-action" type="button" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
+
+{% endblock content %}
 
 {% block page_js %}
 <script src="{% static 'js/dashboard.js' %}"></script>
-{% endblock %}
+{% endblock page_js %}
