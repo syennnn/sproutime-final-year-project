@@ -1594,3 +1594,155 @@ body:not(.landing-page) .btn-outline-secondary {
         justify-self: start;
     }
 }
+
+/* =========================================================
+   Sproutime popup messages / Django toasts
+   ========================================================= */
+
+.sprout-toast-area {
+    position: fixed;
+    top: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    width: min(720px, calc(100vw - 2rem));
+    display: grid;
+    gap: 0.65rem;
+    pointer-events: none;
+}
+
+.sprout-toast {
+    pointer-events: auto;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 34px;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 0.9rem;
+    border: 3px solid #8a5a3b;
+    border-radius: 16px;
+    background: rgba(255, 246, 222, 0.9);
+    color: #4b2f22;
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, 0.3),
+        0 5px 0 rgba(75, 47, 34, 0.28),
+        0 18px 40px rgba(75, 47, 34, 0.18);
+    backdrop-filter: blur(4px);
+    animation: sproutToastIn 220ms ease-out both;
+}
+
+.sprout-toast-success {
+    background: rgba(224, 245, 194, 0.92);
+    border-color: #5f8d3d;
+}
+
+.sprout-toast-error,
+.sprout-toast-danger {
+    background: rgba(255, 218, 213, 0.92);
+    border-color: #b94e54;
+}
+
+.sprout-toast-warning {
+    background: rgba(255, 238, 184, 0.92);
+    border-color: #b98734;
+}
+
+.sprout-toast-info,
+.sprout-toast-debug {
+    background: rgba(218, 240, 247, 0.92);
+    border-color: #4f88a5;
+}
+
+.sprout-toast-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(255, 248, 232, 0.72);
+    border: 2px solid rgba(122, 80, 53, 0.28);
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.sprout-toast-success .sprout-toast-icon {
+    color: #3f772d;
+}
+
+.sprout-toast-error .sprout-toast-icon,
+.sprout-toast-danger .sprout-toast-icon {
+    color: #9e3239;
+}
+
+.sprout-toast-warning .sprout-toast-icon {
+    color: #8a5a16;
+}
+
+.sprout-toast-message {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.25;
+    font-weight: 800;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.sprout-toast-close {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #5a3724;
+    font-size: 1.45rem;
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.sprout-toast-close:hover {
+    background: rgba(75, 47, 34, 0.1);
+}
+
+.sprout-toast.sprout-toast-hide {
+    animation: sproutToastOut 260ms ease-in both;
+}
+
+@keyframes sproutToastIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes sproutToastOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.96);
+    }
+}
+
+@media (max-width: 700px) {
+    .sprout-toast-area {
+        top: 0.75rem;
+        width: calc(100vw - 1rem);
+    }
+
+    .sprout-toast {
+        grid-template-columns: 34px minmax(0, 1fr) 30px;
+        padding: 0.7rem;
+    }
+
+    .sprout-toast-message {
+        font-size: 0.9rem;
+    }
+}

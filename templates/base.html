@@ -100,14 +100,29 @@
 
     <main class="game-content">
         {% if messages %}
-            <div class="container px-0">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="sprout-toast-area" aria-live="polite" aria-atomic="true">
+            {% for message in messages %}
+                <div class="sprout-toast sprout-toast-{{ message.tags|default:'info' }}" role="alert">
+                    <div class="sprout-toast-icon">
+                        {% if 'success' in message.tags %}
+                            ✓
+                        {% elif 'error' in message.tags or 'danger' in message.tags %}
+                            !
+                        {% elif 'warning' in message.tags %}
+                            !
+                        {% else %}
+                            i
+                        {% endif %}
                     </div>
-                {% endfor %}
-            </div>
+
+                    <p class="sprout-toast-message">{{ message }}</p>
+
+                    <button class="sprout-toast-close" type="button" aria-label="Close message">
+                        ×
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
         {% block content %}{% endblock %}
@@ -215,6 +230,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/audio.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toasts = document.querySelectorAll(".sprout-toast");
+
+    toasts.forEach(function (toast) {
+        const closeButton = toast.querySelector(".sprout-toast-close");
+
+        function hideToast() {
+            if (toast.classList.contains("sprout-toast-hide")) return;
+
+            toast.classList.add("sprout-toast-hide");
+
+            window.setTimeout(function () {
+                toast.remove();
+            }, 280);
+        }
+
+        if (closeButton) {
+            closeButton.addEventListener("click", hideToast);
+        }
+
+        window.setTimeout(hideToast, 5000);
+    });
+});
+</script>
 {% block page_js %}{% endblock %}
 </body>
 </html>

@@ -154,8 +154,66 @@
                                     data-seed-type="{{ seed.get_seed_type_display }} Seed"
                                     data-task-title="{{ seed.title }}"
                                     data-water-count="{{ seed.water_count }}">
-                                <span class="seed-card-type">{{ seed.get_seed_type_display }} Seed</span>
-                                <strong class="seed-card-title">{{ seed.title }}</strong>
+                                <span class="seed-card-sparkle">✦</span>
+
+                                <span class="seed-card-art-wrap">
+                                    {% with seed_key=seed.seed_type %}
+                                        {% if seed_key == 'sunflower' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/sunflower_flower.png' %}" alt="">
+                                        {% elif seed_key == 'tulip' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/tulip_flower.png' %}" alt="">
+                                        {% elif seed_key == 'rose' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/rose_flower.png' %}" alt="">
+                                        {% elif seed_key == 'white_daisy' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/white_daisy_flower.png' %}" alt="">
+                                        {% elif seed_key == 'pink_peony' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/pink_peony_flower.png' %}" alt="">
+                                        {% elif seed_key == 'love_in_a_mist' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/love-in-a-mist_flower.png' %}" alt="">
+                                        {% elif seed_key == 'lavender' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/lavender_flower.png' %}" alt="">
+                                        {% elif seed_key == 'lily' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/lily_flower.png' %}" alt="">
+                                        {% elif seed_key == 'spider_lily' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/spider_lily_flower.png' %}" alt="">
+                                        {% elif seed_key == 'purple_daisy' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/purple_daisy_flower.png' %}" alt="">
+                                        {% elif seed_key == 'hibiscus' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/hibiscus_flower.png' %}" alt="">
+                                        {% elif seed_key == 'hydrangea' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/hydrangea_flower.png' %}" alt="">
+                                        {% elif seed_key == 'gladiolus' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/gladiolus_flower.png' %}" alt="">
+                                        {% elif seed_key == 'calla_lilies' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/calla_lilies_flower.png' %}" alt="">
+                                        {% elif seed_key == 'yellow_iris' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/yellow_iris_flower.png' %}" alt="">
+                                        {% elif seed_key == 'red_anemones' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/red_anemones_flower.png' %}" alt="">
+                                        {% elif seed_key == 'candy_cane_sorrel' %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/flowers/candy_cane_sorrel_flower.png' %}" alt="">
+                                        {% else %}
+                                            <img class="seed-card-art pixel-art" src="{% static 'images/game/icons/icon_seed.png' %}" alt="">
+                                        {% endif %}
+                                    {% endwith %}
+                                </span>
+
+                                <span class="seed-card-copy">
+                                    <span class="seed-card-type">{{ seed.get_seed_type_display }}</span>
+                                    <strong class="seed-card-title">{{ seed.title }}</strong>
+
+                                    <span class="seed-card-meta-row">
+                                        <span class="seed-card-meta">
+                                            <span class="seed-card-meta-icon">⏱</span>
+                                            <span>{{ seed.focus_minutes|default:30 }} min</span>
+                                        </span>
+
+                                        <span class="seed-card-meta">
+                                            <span class="seed-card-meta-icon">▣</span>
+                                            <span>{{ seed.water_count }} steps</span>
+                                        </span>
+                                    </span>
+                                </span>
                             </button>
                         {% endfor %}
                     </div>
