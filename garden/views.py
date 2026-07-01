@@ -17,13 +17,13 @@ def garden_home(request):
         )
 
     slots = GardenSlot.objects.filter(user=request.user).order_by('slot_number')
-    plants = Plant.objects.filter(
+    plants = list(Plant.objects.filter(
         user=request.user,
     ).select_related(
         'task',
         'slot',
         'focus_session',
-    ).prefetch_related('task__subtasks')
+    ).prefetch_related('task__subtasks'))
     plants_by_slot = {plant.slot_id: plant for plant in plants}
     garden_slots = [
         {
@@ -38,10 +38,22 @@ def garden_home(request):
     ).annotate(
         water_count=Count('subtasks'),
     ).order_by('-created_at')
+    active_plant = (
+        next((plant for plant in plants if plant.state == Plant.STATE_GROWING), None)
+        or next((plant for plant in plants if plant.state == Plant.STATE_SEED), None)
+    )
+    active_plant_name = active_plant.get_seed_type_display() if active_plant else 'None'
 
     return render(request, 'garden/garden.html', {
         'garden_slots': garden_slots,
         'stored_seeds': stored_seeds,
+        'username': request.user.username,
+        'stored_seeds_count': stored_seeds.count(),
+        'flowers_count': sum(1 for plant in plants if plant.state == Plant.STATE_FLOWER),
+        'buds_count': sum(1 for plant in plants if plant.state == Plant.STATE_BUD),
+        'active_plant_name': active_plant_name,
+        'active_plant_seed_type': active_plant.seed_type if active_plant else '',
+        'active_plant_flower_image_path': active_plant.flower_image_path if active_plant else '',
     })
 
 

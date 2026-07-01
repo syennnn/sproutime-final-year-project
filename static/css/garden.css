@@ -1,16 +1,45 @@
-.garden-page {
+body.garden-page {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
     background-color: var(--color-green-soft);
     background-image:
-        url('/static/images/garden-bg.png'),
-        radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.7), transparent 18%),
-        radial-gradient(circle at 78% 10%, rgba(255, 255, 255, 0.65), transparent 16%),
-        radial-gradient(circle at 32% 68%, rgba(255, 255, 255, 0.22), transparent 15%),
+        url('/static/images/game/backgrounds/bg_private_garden.png'),
         linear-gradient(180deg, #dfeeb0 0%, #a9c977 100%);
-    background-repeat: no-repeat, repeat, repeat, repeat, repeat;
-    background-size: cover, auto, auto, auto, auto;
-    background-position: center, 12% 16%, 78% 10%, 32% 68%, center;
-    min-height: 100vh;
-    overflow-x: hidden;
+    background-repeat: no-repeat, repeat;
+    background-size: cover, auto;
+    background-position: center, center;
+    overflow: hidden !important;
+}
+
+body.garden-page .game-layout,
+body.garden-page .game-content {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden !important;
+}
+
+body.garden-page .game-content {
+    padding: clamp(0.35rem, 1vh, 0.8rem) 105px clamp(0.45rem, 1vh, 0.9rem);
+}
+
+main.garden-page {
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+}
+
+.garden-screen {
+    height: 100%;
+    max-height: 100dvh;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: clamp(0.35rem, 1vh, 0.85rem);
+    align-content: center;
 }
 
 .garden-header {
@@ -56,20 +85,91 @@
     color: var(--color-brown-dark);
 }
 
+.garden-summary-bar {
+    width: min(1120px, calc(100% - 0.5rem));
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    overflow: hidden;
+    border: 3px solid #9d6f4f;
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgba(255, 251, 240, 0.98) 0%, rgba(246, 227, 190, 0.98) 100%);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.58),
+        0 8px 0 rgba(112, 76, 48, 0.18),
+        0 14px 28px rgba(80, 52, 35, 0.14);
+    color: var(--color-brown-dark);
+}
+
+.garden-summary-item {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.35rem, 0.8vw, 0.65rem);
+    padding: clamp(0.45rem, 1vh, 0.65rem) clamp(0.55rem, 1vw, 1rem);
+    border-right: 2px solid rgba(157, 111, 79, 0.26);
+    font-size: clamp(0.76rem, 1vw, 1.02rem);
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.garden-summary-active {
+    flex-grow: 1.35;
+}
+
+.garden-summary-item:last-child {
+    border-right: none;
+}
+
+.garden-summary-item span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.garden-summary-icon {
+    flex: 0 0 auto;
+    width: clamp(28px, 3.2vw, 42px);
+    height: clamp(28px, 3.2vw, 42px);
+    object-fit: contain;
+}
+
+.garden-title-box {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto clamp(0.45rem, 1vh, 0.8rem);
+    padding: clamp(0.38rem, 0.9vh, 0.55rem) clamp(1.2rem, 3vw, 2rem);
+    border: 3px solid rgba(122, 80, 53, 0.42);
+    border-radius: 10px;
+    background: linear-gradient(180deg, #fff8e8 0%, #f4d9a6 100%);
+    color: var(--color-brown-dark);
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 243, 216, 0.7),
+        0 4px 0 rgba(75, 47, 34, 0.22);
+    font-size: clamp(1.05rem, 2vw, 1.6rem);
+    font-weight: 900;
+    line-height: 1.1;
+    text-align: center;
+}
+
 .garden-root {
     position: relative;
-    min-height: calc(100vh - 90px);
-    padding: 1rem 0 3rem;
+    min-height: 0;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    padding: 0;
 }
 
 .garden-side {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 84px;
-    z-index: 1;
-    background: linear-gradient(180deg, var(--color-green) 0%, var(--color-green-dark) 100%);
-    overflow: hidden;
+    display: none;
 }
 
 .garden-side::before {
@@ -103,31 +203,35 @@
 .garden-scene {
     position: relative;
     z-index: 10;
-    max-width: 1100px;
+    width: min(800px, 100%, calc((100dvh - 8rem) * 1.08));
+    max-width: 100%;
+    max-height: 100%;
     margin: 0 auto;
-    padding: 1rem 1.5rem 3rem;
+    padding: 0 0.35rem;
+    display: grid;
+    grid-template-rows: minmax(0, auto) auto;
+    align-content: center;
+    gap: clamp(0.4rem, 1vh, 0.9rem);
 }
 
 .garden-plot-frame {
     position: relative;
-    padding: 2rem;
-    border-radius: 42px;
-    background: rgba(255, 248, 232, 0.82);
-    border: 1px solid rgba(122, 80, 53, 0.18);
-    box-shadow: 0 26px 70px rgba(90, 60, 35, 0.16);
-    overflow: hidden;
+    margin-top: 0;
+    padding: clamp(0.65rem, 1.6vh, 1.15rem) clamp(0.75rem, 2vw, 1.35rem) clamp(0.75rem, 1.8vh, 1.2rem);
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgba(255, 248, 232, 0.97) 0%, rgba(250, 232, 192, 0.95) 100%);
+    border: 3px solid #aa7651;
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, 0.5),
+        0 16px 0 rgba(119, 79, 48, 0.18),
+        0 24px 42px rgba(75, 47, 34, 0.18);
+    overflow: visible;
 }
 
 .garden-plot-frame::before,
 .garden-plot-frame::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% + 40px);
-    height: 16px;
-    background: rgba(122, 80, 53, 0.22);
-    border-radius: 999px;
+    display: none;
 }
 
 .garden-plot-frame::before {
@@ -142,37 +246,42 @@
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     grid-template-rows: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-    padding: 14px;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(79, 122, 53, 0.16) 0,
-            rgba(79, 122, 53, 0.16) 2px,
-            transparent 2px,
-            transparent 8px
-        ),
-        radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.22), transparent 18%),
-        linear-gradient(180deg, var(--color-green-soft) 0%, #a8cc72 100%);
-    border-radius: 32px;
-    border: 8px solid rgba(79, 122, 53, 0.36);
-    box-shadow: inset 0 12px 28px rgba(79, 122, 53, 0.18);
+    gap: clamp(6px, 1.4vh, 13px);
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .garden-page .garden-slot {
     position: relative;
     display: block;
-    aspect-ratio: 1 / 0.78;
+    aspect-ratio: 1 / 0.94;
     min-width: 0;
     overflow: hidden;
     padding: 0;
     background: transparent;
     border: none;
-    border-radius: 18px;
+    border-radius: 8px;
     color: var(--color-panel-light);
     text-align: center;
-    box-shadow: 0 5px 12px rgba(79, 122, 53, 0.16);
+    box-shadow: 0 4px 0 rgba(117, 80, 50, 0.18);
     transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+
+.garden-page .garden-slot.has-plant::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: clamp(8px, 10%, 14px);
+    z-index: 1;
+    width: 54%;
+    height: clamp(7px, 1.6vh, 12px);
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: rgba(40, 24, 12, 0.18);
+    pointer-events: none;
 }
 
 .garden-page .garden-slot:disabled {
@@ -213,8 +322,8 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    z-index: 1;
-    transform: translate(-50%, -45%);
+    z-index: 2;
+    transform: translate(-50%, -40%);
     width: 70%;
     max-width: 132px;
     height: auto;
@@ -225,14 +334,30 @@
     pointer-events: none;
 }
 
+.garden-page .slot-plant-seed-img {
+    width: 42%;
+    max-width: 64px;
+    transform: translate(-50%, -26%);
+}
+
+.garden-page .slot-plant-growing-img {
+    width: 66%;
+    max-width: 112px;
+    transform: translate(-50%, -35%);
+}
+
 .garden-page .slot-plant-bud-img {
     width: 82%;
     max-width: 118px;
+    max-height: calc(100% - 18px);
+    transform: translate(-50%, -42%);
 }
 
 .garden-page .slot-plant-flower-img {
     width: 90%;
     max-width: 132px;
+    max-height: calc(100% - 18px);
+    transform: translate(-50%, -42%);
 }
 
 @keyframes gardenPlantFloat {
@@ -245,47 +370,85 @@
     }
 }
 
-.garden-page .slot-number {
+.garden-page .slot-growing-label {
     position: absolute;
     left: 50%;
-    bottom: 8px;
-    z-index: 2;
+    bottom: 7px;
+    z-index: 3;
     transform: translateX(-50%);
-    padding: 0.2rem 0.55rem;
-    border-radius: 999px;
-    background: rgba(255, 248, 232, 0.78);
+    padding: 0.2rem 0.5rem;
+    border: 2px solid rgba(122, 80, 53, 0.34);
+    border-radius: 6px;
+    background: rgba(255, 248, 232, 0.86);
     color: var(--color-brown-dark);
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.72rem;
+    font-weight: 800;
     line-height: 1.2;
     box-shadow: 0 2px 8px rgba(90, 60, 35, 0.14);
     pointer-events: none;
+    text-shadow: none;
 }
 
 .garden-page .planted-slot {
     box-shadow: 0 10px 22px rgba(79, 122, 53, 0.24);
 }
 
-.garden-page .planted-slot .slot-number {
-    top: 8px;
-    bottom: auto;
-    left: 8px;
-    transform: none;
+.garden-page .seed-storage-bar {
+    width: min(760px, 100%);
+    margin: 1rem auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.72rem 1rem;
+    border: 3px solid #aa7651;
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgba(255, 251, 240, 0.98) 0%, rgba(246, 227, 190, 0.98) 100%);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.56),
+        0 8px 0 rgba(112, 76, 48, 0.18);
+    color: var(--color-brown-dark);
+    font-size: 1.08rem;
+    font-weight: 800;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
 }
 
-.garden-page .slot-state-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    z-index: 2;
-    padding: 0.2rem 0.55rem;
-    border-radius: 999px;
-    background: rgba(199, 236, 247, 0.94);
-    color: var(--color-sky-dark);
-    font-size: 0.76rem;
-    font-weight: 800;
-    line-height: 1.2;
-    box-shadow: 0 4px 10px rgba(71, 127, 159, 0.18);
+.garden-page .seed-storage-bar:hover {
+    filter: brightness(1.03);
+    transform: translateY(-1px);
+}
+
+.garden-page .seed-storage-bar:focus-visible {
+    outline: 3px solid rgba(142, 203, 232, 0.82);
+    outline-offset: 3px;
+}
+
+.garden-page .seed-storage-bar-label {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.garden-page .seed-storage-bar-label img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.garden-page .seed-storage-bar-arrow {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    color: #8a5e3e;
+    font-size: 1.25rem;
+    line-height: 1;
 }
 
 .garden-page .seed-storage-tray {
@@ -816,47 +979,57 @@
     font-weight: 800;
 }
 
-.garden-copy {
-    margin-top: 1.75rem;
-    color: var(--color-brown-dark);
-}
-
-.garden-copy .eyebrow {
-    margin-bottom: 0.5rem;
-    color: var(--color-brown);
-}
-
-.garden-copy h2 {
-    font-size: 2.6rem;
-    margin-bottom: 0.8rem;
-}
-
-.garden-note {
-    color: var(--color-brown-dark);
-    font-size: 1rem;
-    margin-bottom: 0;
-    text-align: center;
-}
-
 .garden-page .btn {
     border-radius: 999px;
 }
 
 @media (max-width: 768px) {
+    main.garden-page {
+        padding-bottom: 0;
+    }
+
+    .garden-summary-bar {
+        flex-wrap: wrap;
+    }
+
+    .garden-summary-item {
+        flex-basis: 155px;
+        padding: 0.55rem 0.7rem;
+        font-size: 0.88rem;
+    }
+
+    .garden-summary-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .garden-scene {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .garden-plot-frame {
+        padding: 0.7rem 0.75rem 1rem;
+    }
+
+    .garden-title-box {
+        padding: 0.62rem 1rem;
+        font-size: 1.05rem;
+    }
+
     .garden-page .garden-grid {
-        gap: 6px;
-        padding: 8px;
-        border-width: 6px;
+        gap: 7px;
     }
 
-    .garden-page .slot-number {
-        bottom: 4px;
-        padding: 0.14rem 0.38rem;
-        font-size: 0.68rem;
+    .garden-page .slot-growing-label {
+        bottom: 5px;
+        padding: 0.14rem 0.34rem;
+        font-size: 0.58rem;
     }
 
-    .garden-page .slot-state-badge {
-        font-size: 0.62rem;
+    .garden-page .seed-storage-bar {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.95rem;
     }
 
     .garden-page .seed-storage-tray {
@@ -900,5 +1073,136 @@
 
     .garden-header .container {
         gap: 1rem;
+    }
+}
+
+/* =========================================================
+   Garden visual polish
+   Fixed desktop garden layout stays compact; plant slot art is unchanged.
+   ========================================================= */
+
+.garden-screen {
+    gap: clamp(0.28rem, 0.8vh, 0.72rem);
+}
+
+.garden-summary-bar,
+.garden-plot-frame,
+.garden-page .seed-storage-bar,
+.garden-page .seed-storage-tray,
+.garden-page .planting-confirmation,
+.garden-page .focus-session-card {
+    border-color: var(--sprout-panel-border);
+    border-width: 4px;
+    border-radius: 18px;
+    background: var(--sprout-panel-bg);
+    box-shadow: var(--sprout-panel-shadow);
+}
+
+.garden-summary-item {
+    border-right-color: var(--sprout-panel-border-soft);
+    padding-top: clamp(0.38rem, 0.8vh, 0.55rem);
+    padding-bottom: clamp(0.38rem, 0.8vh, 0.55rem);
+}
+
+.garden-summary-icon:not([src$="icon_sprout.png"]) {
+    width: clamp(40px, 3.6vw, 56px);
+    height: clamp(40px, 3.6vw, 56px);
+}
+
+.garden-title-box {
+    border-color: rgba(122, 80, 53, 0.52);
+    border-radius: 14px;
+    background: #c7ecf7;
+    color: var(--color-brown-dark);
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 248, 232, 0.65),
+        0 4px 0 rgba(75, 47, 34, 0.24);
+    text-shadow: 0 2px 0 rgba(255, 248, 232, 0.75);
+}
+
+.garden-page .seed-storage-bar {
+    margin-top: clamp(0.55rem, 1vh, 0.85rem);
+    min-height: 76px;
+    border-width: 4px;
+    background: var(--sprout-panel-bg);
+}
+
+.garden-page .seed-storage-bar-label img:not([src$="icon_sprout.png"]) {
+    width: 62px;
+    height: 62px;
+}
+
+.garden-page .seed-storage-bar-arrow {
+    width: 36px;
+    height: 36px;
+}
+
+.garden-page .seed-card,
+.garden-page .seed-storage-empty,
+.garden-page .planting-summary div,
+.garden-page .focus-session-meta div,
+.garden-page .watering-panel,
+.garden-page .focus-watering-row,
+.garden-page .focus-result-panel,
+.garden-page .focus-result-summary div {
+    border: 2px solid var(--sprout-panel-border-soft);
+    border-radius: 14px;
+    background: var(--sprout-panel-bg-inner);
+    box-shadow: var(--sprout-card-shadow);
+}
+
+.garden-page .focus-watering-row.watered {
+    background: rgba(207, 232, 162, 0.78);
+}
+
+.garden-page .planting-summary div,
+.garden-page .focus-session-meta div,
+.garden-page .focus-result-summary div {
+    min-height: 72px;
+}
+
+.garden-page .seed-card {
+    min-height: 116px;
+}
+
+.garden-page .focus-session-close,
+.garden-page .seed-storage-close {
+    width: 52px;
+    height: 52px;
+    border: 3px solid var(--sprout-panel-border-soft);
+    border-radius: 12px;
+    background: var(--sprout-panel-bg-inner);
+    box-shadow: var(--sprout-card-shadow);
+}
+
+@media (max-height: 820px) and (min-width: 769px) {
+    .garden-summary-icon:not([src$="icon_sprout.png"]) {
+        width: 44px;
+        height: 44px;
+    }
+
+    .garden-page .seed-storage-bar {
+        min-height: 64px;
+    }
+
+    .garden-page .seed-storage-bar-label img:not([src$="icon_sprout.png"]) {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media (max-width: 768px) {
+    .garden-summary-icon:not([src$="icon_sprout.png"]) {
+        width: 38px;
+        height: 38px;
+    }
+
+    .garden-title-box {
+        border-radius: 12px;
+    }
+
+    .garden-page .seed-storage-bar-label img:not([src$="icon_sprout.png"]) {
+        width: 46px;
+        height: 46px;
     }
 }

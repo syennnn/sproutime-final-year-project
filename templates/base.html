@@ -26,7 +26,7 @@
             <a class="game-nav-item {% if request.resolver_match.app_name == 'tasks' and request.resolver_match.url_name == 'create_task' %}game-nav-item-active{% endif %}"
                href="{% url 'tasks:create_task' %}">
                 <span class="game-nav-icon" aria-hidden="true">
-                    <img class="pixel-art" src="{% static 'images/game/icons/icon_sprout_soil.png' %}" alt="">
+                    <img class="pixel-art" src="{% static 'images/game/icons/icon_seed_packet.png' %}" alt="">
                 </span>
                 <span class="game-nav-label">Create Seed</span>
             </a>
@@ -122,87 +122,89 @@
             <h2 id="game-settings-title">Sproutime Settings</h2>
         </div>
 
-        <p class="settings-section-label settings-section-label-top">
-            <span></span>
-            Game Options
-            <span></span>
-        </p>
+        <div class="settings-modal-scroll">
+            <p class="settings-section-label settings-section-label-top">
+                <span></span>
+                Game Options
+                <span></span>
+            </p>
 
-        <div class="settings-card settings-feel-card">
-            <h3 class="settings-card-title">Game Feel</h3>
+            <div class="settings-card settings-feel-card">
+                <h3 class="settings-card-title">Game Feel</h3>
 
-            <label class="settings-row settings-toggle">
-                <span class="settings-row-icon" aria-hidden="true">
-                    <img class="pixel-art" src="{% static 'images/game/icons/icon_bg_music.png' %}" alt="">
-                </span>
-                <span class="settings-row-copy">
-                    <strong>Background Music</strong>
-                    <small>Play gentle garden music while focusing.</small>
-                </span>
-                <input type="checkbox" data-setting-key="backgroundMusic">
-                <span class="settings-switch-ui" aria-hidden="true"></span>
-            </label>
+                <label class="settings-row settings-toggle">
+                    <span class="settings-row-icon" aria-hidden="true">
+                        <img class="pixel-art" src="{% static 'images/game/icons/icon_bg_music.png' %}" alt="">
+                    </span>
+                    <span class="settings-row-copy">
+                        <strong>Background Music</strong>
+                        <small>Play gentle garden music while focusing.</small>
+                    </span>
+                    <input type="checkbox" data-setting-key="backgroundMusic">
+                    <span class="settings-switch-ui" aria-hidden="true"></span>
+                </label>
 
-            <label class="settings-row settings-toggle">
-                <span class="settings-row-icon" aria-hidden="true">
-                    <img class="pixel-art" src="{% static 'images/game/icons/icon_sound.png' %}" alt="">
-                </span>
-                <span class="settings-row-copy">
-                    <strong>Sound Effects</strong>
-                    <small>Button clicks, planting, watering, and result sounds.</small>
-                </span>
-                <input type="checkbox" data-setting-key="soundEffects" checked>
-                <span class="settings-switch-ui" aria-hidden="true"></span>
-            </label>
+                <label class="settings-row settings-toggle">
+                    <span class="settings-row-icon" aria-hidden="true">
+                        <img class="pixel-art" src="{% static 'images/game/icons/icon_sound.png' %}" alt="">
+                    </span>
+                    <span class="settings-row-copy">
+                        <strong>Sound Effects</strong>
+                        <small>Button clicks, planting, watering, and result sounds.</small>
+                    </span>
+                    <input type="checkbox" data-setting-key="soundEffects" checked>
+                    <span class="settings-switch-ui" aria-hidden="true"></span>
+                </label>
 
-            <label class="settings-row settings-toggle">
-                <span class="settings-row-icon" aria-hidden="true">
-                    <img class="pixel-art" src="{% static 'images/game/icons/icon_touch.png' %}" alt="">
-                </span>
-                <span class="settings-row-copy">
-                    <strong>Touch / Click Feedback</strong>
-                    <small>Add small animations when buttons are clicked.</small>
-                </span>
-                <input type="checkbox" data-setting-key="touchFeedback" checked>
-                <span class="settings-switch-ui" aria-hidden="true"></span>
-            </label>
-        </div>
+                <label class="settings-row settings-toggle">
+                    <span class="settings-row-icon" aria-hidden="true">
+                        <img class="pixel-art" src="{% static 'images/game/icons/icon_touch.png' %}" alt="">
+                    </span>
+                    <span class="settings-row-copy">
+                        <strong>Touch / Click Feedback</strong>
+                        <small>Add small animations when buttons are clicked.</small>
+                    </span>
+                    <input type="checkbox" data-setting-key="touchFeedback" checked>
+                    <span class="settings-switch-ui" aria-hidden="true"></span>
+                </label>
+            </div>
 
-        <div class="settings-card settings-about-card">
-            <h3 class="settings-card-title">About &amp; Privacy</h3>
+            <div class="settings-card settings-about-card">
+                <h3 class="settings-card-title">About &amp; Privacy</h3>
 
-            <article class="settings-info-row">
-                <span class="settings-row-icon" aria-hidden="true">
-                    <img class="pixel-art" src="{% static 'images/game/icons/icon_pp.png' %}" alt="">
-                </span>
-                <span class="settings-row-copy">
-                    <strong>Privacy Policy</strong>
-                    <small>Your tasks and garden progress stay personal to your account.</small>
-                </span>
-                <button class="settings-mini-btn" type="button">View Privacy</button>
-            </article>
+                <article class="settings-info-row">
+                    <span class="settings-row-icon" aria-hidden="true">
+                        <img class="pixel-art" src="{% static 'images/game/icons/icon_pp.png' %}" alt="">
+                    </span>
+                    <span class="settings-row-copy">
+                        <strong>Privacy Policy</strong>
+                        <small>Your tasks and garden progress stay personal to your account.</small>
+                    </span>
+                    <button class="settings-mini-btn" type="button">View Privacy</button>
+                </article>
 
-            <article class="settings-info-row">
-                <span class="settings-row-icon" aria-hidden="true">
-                    <img class="pixel-art" src="{% static 'images/game/icons/icon_sprout.png' %}" alt="">
-                </span>
-                <span class="settings-row-copy">
-                    <strong>About Sproutime</strong>
-                    <small>Sproutime turns study tasks into seeds, focus time into growth, and progress into flowers or buds.</small>
-                </span>
-                <button class="settings-mini-btn" type="button">Learn More</button>
-            </article>
+                <article class="settings-info-row">
+                    <span class="settings-row-icon" aria-hidden="true">
+                        <img class="pixel-art" src="{% static 'images/game/icons/icon_sprout.png' %}" alt="">
+                    </span>
+                    <span class="settings-row-copy">
+                        <strong>About Sproutime</strong>
+                        <small>Sproutime turns study tasks into seeds, focus time into growth, and progress into flowers or buds.</small>
+                    </span>
+                    <button class="settings-mini-btn" type="button">Learn More</button>
+                </article>
 
-            <article class="settings-info-row">
-                <span class="settings-row-icon" aria-hidden="true">
-                    <img class="pixel-art" src="{% static 'images/game/icons/icon_asset.png' %}" alt="">
-                </span>
-                <span class="settings-row-copy">
-                    <strong>Asset Credits</strong>
-                    <small>Pixel art assets are used for this student project prototype.</small>
-                </span>
-                <button class="settings-mini-btn" type="button">View Credits</button>
-            </article>
+                <article class="settings-info-row">
+                    <span class="settings-row-icon" aria-hidden="true">
+                        <img class="pixel-art" src="{% static 'images/game/icons/icon_asset.png' %}" alt="">
+                    </span>
+                    <span class="settings-row-copy">
+                        <strong>Asset Credits</strong>
+                        <small>Pixel art assets are used for this student project prototype.</small>
+                    </span>
+                    <button class="settings-mini-btn" type="button">View Credits</button>
+                </article>
+            </div>
         </div>
 
         <div class="settings-actions">

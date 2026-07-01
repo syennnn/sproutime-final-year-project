@@ -38,9 +38,6 @@
             <div class="landing-hero-actions">
                 {% if user.is_authenticated %}
                     <a class="btn landing-btn landing-btn-primary" href="{% url 'garden:garden_home' %}">
-                        <img class="landing-btn-icon pixel-art"
-                             src="{% static 'images/game/icons/icon_sprout.png' %}"
-                             alt="">
                         Start Growing
                     </a>
                 {% else %}
@@ -93,7 +90,7 @@
             </article>
             <article class="landing-step-card">
                 <img class="landing-step-icon pixel-art"
-                    src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                    src="{% static 'images/game/icons/icon_flower.png' %}"
                     alt="Flower icon">
                 <h3>Bloom or Bud</h3>
                 <p>Complete work for a flower, or save partial progress as a bud.</p>
@@ -103,14 +100,14 @@
 
     <footer class="landing-footer">
         <img class="landing-footer-star pixel-art"
-             src="{% static 'images/game/icons/icon_star_small.png' %}"
+             src="{% static 'images/game/icons/icon_asset.png' %}"
              alt="">
         <span>Sproutime</span>
         <a href="#">Privacy</a>
         <a href="#how-it-works">About</a>
         <a href="#">Credits</a>
         <img class="landing-footer-star pixel-art"
-             src="{% static 'images/game/icons/icon_star_small.png' %}"
+             src="{% static 'images/game/icons/icon_asset.png' %}"
              alt="">
     </footer>
 </div>

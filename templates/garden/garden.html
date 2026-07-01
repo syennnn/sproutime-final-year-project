@@ -30,62 +30,107 @@
 <main class="garden-page"
       data-seed-image="{% static 'images/seed.png' %}"
       data-sprout-image="{% static 'images/sprout.png' %}">
-    <div class="garden-root">
-        <div class="garden-side garden-side-left"></div>
-        <div class="garden-side garden-side-right"></div>
-        <div class="garden-scene">
-            <div class="garden-plot-frame">
-                <div class="garden-grid">
-                    {% for item in garden_slots %}
-                        {% with slot=item.slot plant=item.plant %}
-                            <button type="button"
-                                    class="garden-slot{% if plant %} planted-slot focus-slot-clickable{% elif not slot.is_occupied %} empty-slot garden-slot-clickable{% else %} occupied-slot{% endif %}"
-                                    data-slot-id="{{ slot.id }}"
-                                    data-slot-number="{{ slot.slot_number }}"
-                                    data-occupied="{{ slot.is_occupied|yesno:'true,false' }}"
-                                    {% if plant %}
-                                        data-plant-id="{{ plant.id }}"
-                                        data-seed-type="{{ plant.seed_type }}"
-                                        data-bud-image-url="{% static plant.bud_image_path %}"
-                                        data-flower-image-url="{% static plant.flower_image_path %}"
-                                    {% endif %}
-                                    aria-label="{% if plant %}Slot {{ slot.slot_number }} planted with {{ plant.get_seed_type_display }} seed{% else %}Empty soil slot {{ slot.slot_number }}{% endif %}"
-                                    {% if not plant and slot.is_occupied %}disabled{% endif %}>
-                                <img src="{% static 'images/empty_soil.jpg' %}"
-                                     alt="Soil slot"
-                                     class="slot-soil-image">
-                                {% if plant %}
-                                    {% if plant.state == 'seed' %}
-                                        <img src="{% static 'images/seed.png' %}"
-                                             alt="Seed"
-                                             class="slot-plant-image slot-plant-seed-img pixel-art">
-                                    {% elif plant.state == 'growing' %}
-                                        <img src="{% static 'images/sprout.png' %}"
-                                             alt="Growing sprout"
-                                             class="slot-plant-image slot-plant-growing-img pixel-art">
-                                    {% elif plant.state == 'flower' %}
-                                        <img src="{% static plant.flower_image_path %}"
-                                             alt="{{ plant.get_seed_type_display }} flower"
-                                             class="slot-plant-image slot-plant-flower-img pixel-art">
-                                    {% elif plant.state == 'bud' %}
-                                        <img src="{% static plant.bud_image_path %}"
-                                             alt="{{ plant.get_seed_type_display }} bud"
-                                             class="slot-plant-image slot-plant-bud-img pixel-art">
-                                    {% endif %}
-                                {% endif %}
-                                <span class="slot-number">Slot {{ slot.slot_number }}</span>
-                                {% if plant %}
-                                    <span class="slot-state-badge">{{ plant.state|title }}</span>
-                                {% endif %}
-                            </button>
-                        {% endwith %}
-                    {% endfor %}
-                </div>
+    <div class="garden-screen">
+        <section class="garden-summary-bar" aria-label="Garden summary">
+            <div class="garden-summary-item garden-summary-welcome">
+                <img class="garden-summary-icon pixel-art"
+                     src="{% static 'images/game/mascots/cat_face_white.png' %}"
+                     alt="">
+                <span>Welcome, {{ username }}</span>
             </div>
-            <div class="garden-copy text-center mt-4">
-                <p class="eyebrow">Your focus garden</p>
-                <h2>Welcome to your personal garden, {{ request.user.username }}.</h2>
-                <p class="garden-note">Create tasks to grow seeds, then return here to watch them bloom.</p>
+            <div class="garden-summary-item">
+                <img class="garden-summary-icon pixel-art"
+                     src="{% static 'images/game/icons/icon_seed_packet.png' %}"
+                     alt="">
+                <span>Stored Seeds: {{ stored_seeds_count }}</span>
+            </div>
+            <div class="garden-summary-item">
+                <img class="garden-summary-icon pixel-art"
+                     src="{% static 'images/game/icons/icon_flower.png' %}"
+                     alt="">
+                <span>Flowers: {{ flowers_count }}</span>
+            </div>
+            <div class="garden-summary-item">
+                <img class="garden-summary-icon pixel-art"
+                     src="{% static 'images/game/icons/icon_bud.png' %}"
+                     alt="">
+                <span>Buds: {{ buds_count }}</span>
+            </div>
+            <div class="garden-summary-item garden-summary-active">
+                {% if active_plant_flower_image_path %}
+                    <img class="garden-summary-icon garden-summary-active-icon pixel-art"
+                         src="{% static active_plant_flower_image_path %}"
+                         alt="">
+                {% endif %}
+                <span>Active Plant: {{ active_plant_name|default:"None" }}</span>
+            </div>
+        </section>
+
+        <div class="garden-root">
+            <div class="garden-scene">
+                <div class="garden-plot-frame">
+                    <div class="garden-title-box">
+                        <span>Your Focus Garden</span>
+                    </div>
+                    <div class="garden-grid">
+                        {% for item in garden_slots %}
+                            {% with slot=item.slot plant=item.plant %}
+                                <button type="button"
+                                        class="garden-slot{% if plant %} has-plant planted-slot focus-slot-clickable{% elif not slot.is_occupied %} empty-slot garden-slot-clickable{% else %} occupied-slot{% endif %}"
+                                        data-slot-id="{{ slot.id }}"
+                                        data-slot-number="{{ slot.slot_number }}"
+                                        data-occupied="{{ slot.is_occupied|yesno:'true,false' }}"
+                                        {% if plant %}
+                                            data-plant-id="{{ plant.id }}"
+                                            data-seed-type="{{ plant.seed_type }}"
+                                            data-bud-image-url="{% static plant.bud_image_path %}"
+                                            data-flower-image-url="{% static plant.flower_image_path %}"
+                                        {% endif %}
+                                        aria-label="{% if plant %}Slot {{ slot.slot_number }} planted with {{ plant.get_seed_type_display }} seed{% else %}Empty soil slot {{ slot.slot_number }}{% endif %}"
+                                        {% if not plant and slot.is_occupied %}disabled{% endif %}>
+                                    <img src="{% static 'images/empty_soil.png' %}"
+                                         alt="Soil slot"
+                                         class="slot-soil-image">
+                                    {% if plant %}
+                                        {% if plant.state == 'seed' %}
+                                            <img src="{% static 'images/seed.png' %}"
+                                                 alt="Seed"
+                                                 class="slot-plant-image slot-plant-seed-img pixel-art">
+                                        {% elif plant.state == 'growing' %}
+                                            <img src="{% static 'images/sprout.png' %}"
+                                                 alt="Growing sprout"
+                                                 class="slot-plant-image slot-plant-growing-img pixel-art">
+                                        {% elif plant.state == 'flower' %}
+                                            <img src="{% static plant.flower_image_path %}"
+                                                 alt="{{ plant.get_seed_type_display }} flower"
+                                                 class="slot-plant-image slot-plant-flower-img pixel-art">
+                                        {% elif plant.state == 'bud' %}
+                                            <img src="{% static plant.bud_image_path %}"
+                                                 alt="{{ plant.get_seed_type_display }} bud"
+                                                 class="slot-plant-image slot-plant-bud-img pixel-art">
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if plant.state == 'growing' %}
+                                        <span class="slot-growing-label">Growing</span>
+                                    {% endif %}
+                                </button>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <button type="button"
+                        class="seed-storage-bar"
+                        id="seed-storage-toggle"
+                        aria-controls="seed-storage-tray"
+                        aria-expanded="false">
+                    <span class="seed-storage-bar-label">
+                        <img class="pixel-art"
+                             src="{% static 'images/game/icons/icon_seed_packet.png' %}"
+                             alt="">
+                        <span>Seed Storage</span>
+                    </span>
+                    <span class="seed-storage-bar-arrow">v</span>
+                </button>
             </div>
         </div>
     </div>
@@ -95,7 +140,7 @@
             <div class="seed-storage-header">
                 <div>
                     <p class="seed-storage-label">Seed Storage</p>
-                    <p id="seed-storage-message" class="seed-storage-message">Choose a seed to plant in Slot <span id="selected-slot-number">1</span>.</p>
+                    <p id="seed-storage-message" class="seed-storage-message">Choose an empty garden slot first, then pick a seed to plant.</p>
                 </div>
                 <button type="button" class="seed-storage-close" id="seed-storage-close" aria-label="Close tray">&times;</button>
             </div>

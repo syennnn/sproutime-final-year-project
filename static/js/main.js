@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const seedStorageTray = document.getElementById('seed-storage-tray');
+    const seedStorageToggle = document.getElementById('seed-storage-toggle');
     const selectedSlotNumberElement = document.getElementById('selected-slot-number');
     const seedStorageClose = document.getElementById('seed-storage-close');
     const seedStorageMessage = document.getElementById('seed-storage-message');
@@ -270,17 +271,32 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!seedStorageTray) {
             return;
         }
-        selectedSlotId = slotId;
-        selectedSlotNumber = slotNumber;
-        if (selectedSlotNumberElement) {
-            selectedSlotNumberElement.textContent = slotNumber;
-        }
-        if (seedStorageMessage) {
-            seedStorageMessage.textContent = `Choose a seed to plant in Slot ${slotNumber}.`;
-        }
         resetPlantingConfirmation();
+        selectedSlotId = slotId || null;
+        selectedSlotNumber = slotNumber || null;
+
+        if (selectedSlotId && selectedSlotNumber) {
+            if (selectedSlotNumberElement) {
+                selectedSlotNumberElement.textContent = selectedSlotNumber;
+            }
+            if (seedStorageMessage) {
+                seedStorageMessage.textContent = `Choose a seed to plant in Slot ${selectedSlotNumber}.`;
+            }
+        } else {
+            clearSelectedSlot();
+            if (selectedSlotNumberElement) {
+                selectedSlotNumberElement.textContent = '';
+            }
+            if (seedStorageMessage) {
+                seedStorageMessage.textContent = 'Choose an empty garden slot first.';
+            }
+        }
+
         seedStorageTray.classList.add('open');
         seedStorageTray.setAttribute('aria-hidden', 'false');
+        if (seedStorageToggle) {
+            seedStorageToggle.setAttribute('aria-expanded', 'true');
+        }
     }
 
     function closeSeedStorageTray() {
@@ -289,6 +305,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         seedStorageTray.classList.remove('open');
         seedStorageTray.setAttribute('aria-hidden', 'true');
+        if (seedStorageToggle) {
+            seedStorageToggle.setAttribute('aria-expanded', 'false');
+        }
         selectedSlotId = null;
         selectedSlotNumber = null;
         clearSelectedSlot();
@@ -351,6 +370,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (seedStorageClose) {
         seedStorageClose.addEventListener('click', closeSeedStorageTray);
+    }
+
+    if (seedStorageToggle) {
+        seedStorageToggle.addEventListener('click', () => {
+            openSeedStorageTray();
+        });
     }
 
     seedCards.forEach((card) => {
@@ -604,7 +629,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         let visual = slot.querySelector('.slot-plant-image');
-        const marker = slot.querySelector('.slot-state-badge');
+        let marker = slot.querySelector('.slot-growing-label');
         const soilImage = slot.querySelector('.slot-soil-image');
 
         if (payload) {
@@ -652,8 +677,15 @@ document.addEventListener('DOMContentLoaded', function () {
             image.alt = `${getSeedTypeLabel(payload)} ${state}`;
         }
 
-        if (marker) {
+        if (state === 'growing') {
+            if (!marker) {
+                marker = document.createElement('span');
+                marker.className = 'slot-growing-label';
+                slot.appendChild(marker);
+            }
             marker.textContent = formatPlantStateLabel(state);
+        } else if (marker) {
+            marker.remove();
         }
     }
 

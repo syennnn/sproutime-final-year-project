@@ -138,3 +138,53 @@ button#suggest-steps-btn:disabled {
         margin-top: 0;
     }
 }
+
+/* =========================================================
+   Create seed visual polish
+   ========================================================= */
+
+.create-seed-page .create-seed-card,
+.create-seed-page .seed-form-panel > div,
+.create-seed-page .seed-helper-panel > div {
+    border: 4px solid var(--sprout-panel-border) !important;
+    border-radius: 18px !important;
+    background: var(--sprout-panel-bg) !important;
+    box-shadow: var(--sprout-panel-shadow);
+}
+
+.create-seed-page .seed-preview,
+.create-seed-page .seed-chip {
+    border: 2px solid var(--sprout-panel-border-soft) !important;
+    border-radius: 14px !important;
+    background: var(--sprout-panel-bg-inner) !important;
+    box-shadow: var(--sprout-card-shadow);
+}
+
+.create-seed-page .form-control,
+.create-seed-page textarea,
+.create-seed-page select {
+    border: 2px solid var(--sprout-panel-border-soft);
+    border-radius: 14px;
+    background: var(--sprout-panel-bg-inner);
+    color: var(--sprout-brown);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35);
+}
+
+.create-seed-page .form-label,
+.create-seed-page h1,
+.create-seed-page h2,
+.create-seed-page .fw-semibold {
+    color: var(--sprout-brown);
+}
+
+.create-seed-page .btn {
+    border-width: 2px;
+    border-radius: 12px;
+    box-shadow: var(--sprout-button-shadow);
+    font-weight: 900;
+}
+
+.create-seed-page .btn-primary {
+    background: var(--color-green);
+    border-color: var(--color-green-dark);
+}

@@ -943,3 +943,242 @@ body.dashboard-page {
         min-height: auto;
     }
 }
+
+/* =========================================================
+   Dashboard visual polish
+   ========================================================= */
+
+.dashboard-shell {
+    border-color: var(--sprout-panel-border);
+    border-width: 4px;
+    border-radius: 18px;
+    background: var(--sprout-panel-bg);
+    box-shadow: var(--sprout-panel-shadow);
+}
+
+.dashboard-top-panel,
+.active-session-panel,
+.recent-results-section {
+    background: var(--sprout-panel-bg);
+}
+
+.dashboard-panel-heading {
+    border-bottom-color: var(--sprout-panel-border-soft);
+}
+
+.dashboard-action,
+.continue-focus-link,
+.session-metrics div,
+.result-detail-list div,
+.empty-results {
+    border-color: var(--sprout-panel-border-soft);
+    border-width: 2px;
+    border-radius: 14px;
+    background: var(--sprout-panel-bg-inner);
+    box-shadow: var(--sprout-card-shadow);
+}
+
+.dashboard-action-primary,
+.continue-focus-link {
+    background: var(--color-green);
+    border-color: var(--color-green-dark);
+    color: var(--color-panel-light);
+}
+
+.stats-grid {
+    gap: 0.75rem;
+    padding: 0.85rem;
+    background: var(--sprout-panel-bg);
+}
+
+.stat-card {
+    min-height: 136px;
+    grid-template-columns: 124px minmax(0, 1fr);
+    border: 3px solid var(--sprout-panel-border-soft);
+    border-top-width: 8px;
+    border-radius: 14px;
+    background: var(--sprout-panel-bg-inner);
+    box-shadow: var(--sprout-card-shadow);
+}
+
+.stat-card.seeds {
+    border-top-color: #7351a8;
+}
+
+.stat-card.active {
+    border-top-color: #78a945;
+}
+
+.stat-card.flowers {
+    border-top-color: #d86f90;
+}
+
+.stat-card.buds {
+    border-top-color: #4c70b8;
+}
+
+.result-card,
+.dashboard-result-modal .modal-content {
+    border-color: var(--sprout-panel-border-soft);
+    border-width: 3px;
+    border-radius: 16px;
+    background: var(--sprout-panel-bg-inner);
+    box-shadow: var(--sprout-card-shadow);
+}
+
+.dashboard-result-modal .modal-content {
+    border-color: var(--sprout-panel-border);
+    border-width: 4px;
+    border-radius: 18px;
+}
+
+.dashboard-kicker-icon[src$="icon_sprout.png"] {
+    width: 34px;
+    height: 34px;
+}
+
+.dashboard-kicker-icon:not([src$="icon_sprout.png"]) {
+    width: 62px;
+    height: 62px;
+}
+
+.dashboard-section-icon:not([src$="icon_sprout.png"]) {
+    width: 48px;
+    height: 48px;
+}
+
+.dashboard-action-icon:not([src$="icon_sprout.png"]) {
+    width: 64px;
+    height: 64px;
+}
+
+.stat-icon:not([src$="icon_sprout.png"]) {
+    width: 108px;
+    height: 108px;
+}
+
+.active-plant-img:not([src$="icon_sprout.png"]),
+.empty-plant-img:not([src$="icon_sprout.png"]) {
+    width: 150px;
+    height: 150px;
+}
+
+.result-badge-icon:not([src$="icon_sprout.png"]) {
+    width: 32px;
+    height: 32px;
+}
+
+.result-plant-icon:not([src$="icon_sprout.png"]) {
+    width: 70px;
+    height: 70px;
+}
+
+.result-meta-icon:not([src$="icon_sprout.png"]) {
+    width: 28px;
+    height: 28px;
+}
+
+@media (max-height: 820px) and (min-width: 1061px) {
+    .stats-grid {
+        gap: 0.45rem;
+        padding: 0.55rem;
+    }
+
+    .stat-card {
+        min-height: 104px;
+        grid-template-columns: 92px minmax(0, 1fr);
+        padding: 0.5rem 0.6rem;
+    }
+
+    .dashboard-kicker-icon[src$="icon_sprout.png"] {
+        width: 28px;
+        height: 28px;
+    }
+
+    .dashboard-kicker-icon:not([src$="icon_sprout.png"]) {
+        width: 42px;
+        height: 42px;
+    }
+
+    .dashboard-section-icon:not([src$="icon_sprout.png"]) {
+        width: 36px;
+        height: 36px;
+    }
+
+    .dashboard-action-icon:not([src$="icon_sprout.png"]) {
+        width: 44px;
+        height: 44px;
+    }
+
+    .stat-icon:not([src$="icon_sprout.png"]) {
+        width: 78px;
+        height: 78px;
+    }
+
+    .active-plant-img:not([src$="icon_sprout.png"]),
+    .empty-plant-img:not([src$="icon_sprout.png"]) {
+        width: 116px;
+        height: 116px;
+    }
+
+    .result-badge-icon:not([src$="icon_sprout.png"]) {
+        width: 24px;
+        height: 24px;
+    }
+
+    .result-plant-icon:not([src$="icon_sprout.png"]) {
+        width: 48px;
+        height: 48px;
+    }
+
+    .result-meta-icon:not([src$="icon_sprout.png"]) {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 1060px) {
+    .stats-grid {
+        gap: 0.55rem;
+        padding: 0.65rem;
+    }
+
+    .stat-card {
+        border: 2px solid var(--sprout-panel-border-soft);
+        border-top-width: 7px;
+        grid-template-columns: 94px minmax(0, 1fr);
+    }
+
+    .stat-card.seeds {
+        border-top-color: #7351a8;
+    }
+
+    .stat-card.active {
+        border-top-color: #78a945;
+    }
+
+    .stat-card.flowers {
+        border-top-color: #d86f90;
+    }
+
+    .stat-card.buds {
+        border-top-color: #4c70b8;
+    }
+}
+
+@media (max-width: 640px) {
+    .stat-card {
+        grid-template-columns: 82px minmax(0, 1fr);
+    }
+
+    .stat-icon:not([src$="icon_sprout.png"]) {
+        width: 70px;
+        height: 70px;
+    }
+
+    .active-plant-img:not([src$="icon_sprout.png"]),
+    .empty-plant-img:not([src$="icon_sprout.png"]) {
+        width: 96px;
+        height: 96px;
+    }
+}

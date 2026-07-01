@@ -19,7 +19,7 @@
                          alt="">
                     Sproutime Dashboard
                     <img class="dashboard-kicker-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_leaf_small.png' %}"
+                         src="{% static 'images/game/icons/icon_sprout_plain.png' %}"
                          alt="">
                 </p>
 
@@ -31,7 +31,7 @@
             <div class="dashboard-panel-heading">
                 <h2 id="active-session-heading">
                     <img class="dashboard-section-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_leaf_small.png' %}"
+                         src="{% static 'images/game/icons/icon_footer.png' %}"
                          alt="">
                     Active Session
                 </h2>
@@ -56,7 +56,7 @@
                                  alt="">
                         {% else %}
                             <img class="active-plant-img pixel-art"
-                                 src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                                 src="{% static 'images/game/icons/icon_flower.png' %}"
                                  alt="">
                         {% endif %}
                     </div>
@@ -83,7 +83,7 @@
                             </div>
                         </dl>
 
-                        <div class="progress-block">
+                        {% comment %} <div class="progress-block">
                             <div class="progress-copy">
                                 <span>Watering progress</span>
                                 <strong>{{ active_session.watered_count }} / {{ active_session.total_subtasks }} watered</strong>
@@ -91,7 +91,7 @@
                             <div class="dashboard-progress" aria-hidden="true">
                                 <span style="width: {{ active_session.progress_percent }}%;"></span>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
 
                         <a class="dashboard-action dashboard-action-primary continue-focus-link" href="{% url 'garden:garden_home' %}">
                             Continue Focus Session
@@ -142,7 +142,7 @@
 
             <article class="stat-card flowers">
                 <img class="stat-icon pixel-art"
-                     src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                     src="{% static 'images/game/icons/icon_flower.png' %}"
                      alt="">
                 <div>
                     <p>Flowers</p>
@@ -152,7 +152,7 @@
 
             <article class="stat-card buds">
                 <img class="stat-icon pixel-art"
-                     src="{% static 'images/game/icons/icon_bud_blue.png' %}"
+                     src="{% static 'images/game/icons/icon_bud.png' %}"
                      alt="">
                 <div>
                     <p>Buds</p>
@@ -164,9 +164,6 @@
         <section class="dashboard-panel recent-results-section" aria-labelledby="recent-results-heading">
             <div class="dashboard-panel-heading">
                 <h2 id="recent-results-heading">
-                    <img class="dashboard-section-icon pixel-art"
-                         src="{% static 'images/game/icons/icon_sprout.png' %}"
-                         alt="">
                     Latest flower and bud outcomes
                 </h2>
             </div>
@@ -188,11 +185,11 @@
                             <span class="result-badge">
                                 {% if result.plant_state == 'flower' %}
                                     <img class="result-badge-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                                         src="{% static 'images/game/icons/icon_flower.png' %}"
                                          alt="">
                                 {% else %}
                                     <img class="result-badge-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_bud_blue.png' %}"
+                                         src="{% static 'images/game/icons/icon_bud.png' %}"
                                          alt="">
                                 {% endif %}
                                 {{ result.plant_state_label }}
@@ -203,11 +200,11 @@
 
                                 {% if result.plant_state == 'flower' %}
                                     <img class="result-plant-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_register_flower.png' %}"
+                                         src="{% static 'images/game/icons/icon_flower.png' %}"
                                          alt="">
                                 {% else %}
                                     <img class="result-plant-icon pixel-art"
-                                         src="{% static 'images/game/icons/icon_bud_blue.png' %}"
+                                         src="{% static 'images/game/icons/icon_bud.png' %}"
                                          alt="">
                                 {% endif %}
                             </div>
@@ -216,7 +213,7 @@
 
                             <span class="result-meta">
                                 <img class="result-meta-icon pixel-art"
-                                     src="{% static 'images/game/icons/icon_watering_can.png' %}"
+                                     src="{% static 'images/game/icons/icon_watercan.png' %}"
                                      alt="">
                                 {{ result.watered_count }} / {{ result.total_subtasks }} watered
                             </span>

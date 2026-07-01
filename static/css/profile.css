@@ -491,3 +491,225 @@ body.profile-page {
         align-items: flex-start;
     }
 }
+
+/* =========================================================
+   Profile visual polish
+   ========================================================= */
+
+.profile-screen {
+    padding: 1rem max(13.25rem, 15vw);
+}
+
+.profile-card {
+    width: min(800px, calc(100vw - 28rem));
+    min-width: 680px;
+    max-width: 800px;
+    padding: 1.35rem 1.5rem 1.1rem;
+    border-color: var(--sprout-panel-border);
+    border-width: 4px;
+    border-radius: 18px;
+    background: var(--sprout-panel-bg);
+    box-shadow: var(--sprout-panel-shadow);
+}
+
+.profile-card-header {
+    align-items: center;
+    gap: 1.2rem;
+    padding-bottom: 0.85rem;
+    margin-bottom: 0.9rem;
+}
+
+.profile-card h1 {
+    font-size: clamp(2.2rem, 2.7vw, 2.65rem);
+}
+
+.profile-subtitle {
+    margin-top: 0.42rem;
+}
+
+.profile-form {
+    gap: 0.85rem;
+}
+
+.profile-form-grid {
+    gap: 0.8rem 1rem;
+}
+
+.profile-field {
+    gap: 0.32rem;
+}
+
+.profile-input-wrap,
+.profile-identity,
+.profile-identity-item {
+    border-color: var(--sprout-panel-border-soft);
+    border-width: 3px;
+    border-radius: 14px;
+    background: var(--sprout-panel-bg-inner);
+    box-shadow: var(--sprout-card-shadow);
+}
+
+.profile-avatar {
+    width: 92px;
+    height: 92px;
+    border-color: var(--sprout-panel-border);
+    border-width: 4px;
+    border-radius: 18px;
+    background: var(--color-green-soft);
+    font-size: 2.35rem;
+    box-shadow: var(--sprout-card-shadow);
+}
+
+.profile-kicker-icon[src$="icon_sprout.png"] {
+    width: 30px;
+    height: 30px;
+}
+
+.profile-identity-icon {
+    width: 62px;
+    height: 62px;
+}
+
+.profile-identity-icon img:not([src$="icon_sprout.png"]) {
+    width: 54px;
+    height: 54px;
+}
+
+.profile-note-icon:not([src$="icon_sprout.png"]) {
+    width: 48px;
+    height: 48px;
+}
+
+.profile-btn-secondary,
+.profile-btn-danger {
+    background: var(--sprout-panel-bg-inner);
+}
+
+.profile-input-wrap {
+    min-height: 56px;
+    padding-right: 0.9rem;
+    padding-left: 0.9rem;
+}
+
+.profile-actions {
+    gap: 0.75rem;
+    margin-top: 0.1rem;
+}
+
+.profile-identity {
+    margin-top: 0.9rem;
+    padding: 0.85rem;
+}
+
+.profile-identity h2 {
+    margin-bottom: 0.65rem;
+}
+
+.profile-identity-grid {
+    gap: 0.65rem;
+}
+
+.profile-identity-item {
+    min-height: 78px;
+    gap: 0.7rem;
+    padding: 0.65rem;
+}
+
+.profile-identity-item p {
+    margin-bottom: 0.12rem;
+}
+
+.profile-identity-item strong {
+    font-size: 0.92rem;
+    line-height: 1.1;
+}
+
+.profile-btn {
+    min-height: 50px;
+    padding: 0.6rem 0.8rem;
+    border-width: 3px;
+    border-radius: 14px;
+    font-size: 0.96rem;
+    box-shadow: var(--sprout-button-shadow);
+}
+
+.profile-btn-save {
+    background: var(--color-green);
+}
+
+@media (max-height: 820px) and (min-width: 1061px) {
+    .profile-screen {
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+    }
+
+    .profile-card {
+        width: 740px;
+        min-width: 740px;
+        max-width: 740px;
+        padding: 0.95rem 1.15rem 0.85rem;
+    }
+
+    .profile-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+
+    .profile-identity-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .profile-identity-icon img:not([src$="icon_sprout.png"]) {
+        width: 44px;
+        height: 44px;
+    }
+
+    .profile-note-icon:not([src$="icon_sprout.png"]) {
+        width: 36px;
+        height: 36px;
+    }
+
+    .profile-input-wrap {
+        min-height: 48px;
+    }
+
+    .profile-identity-item {
+        min-height: 62px;
+    }
+
+    .profile-note {
+        margin-top: 0.6rem;
+    }
+}
+
+@media (max-width: 1060px) {
+    .profile-screen {
+        padding-right: 0.75rem;
+        padding-left: 0.75rem;
+    }
+
+    .profile-card {
+        width: min(800px, 100%);
+        min-width: 0;
+    }
+}
+
+@media (max-width: 720px) {
+    .profile-avatar {
+        width: 84px;
+        height: 84px;
+        font-size: 2.15rem;
+    }
+
+    .profile-identity-icon {
+        width: 58px;
+        height: 58px;
+    }
+
+    .profile-identity-icon img:not([src$="icon_sprout.png"]) {
+        width: 50px;
+        height: 50px;
+    }
+}
