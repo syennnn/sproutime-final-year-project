@@ -936,7 +936,7 @@ main.garden-page {
 .garden-page .focus-session-meta div {
     padding: 0.75rem;
     background: rgba(255, 248, 232, 0.74);
-    border: 1px solid rgba(122, 80, 53, 0.14);
+    border: 0.75px solid rgba(122, 80, 53, 0.14);
     border-radius: 16px;
 }
 
@@ -1386,5 +1386,1552 @@ main.garden-page {
     .garden-page .seed-storage-bar-label img:not([src$="icon_sprout.png"]) {
         width: 46px;
         height: 46px;
+    }
+}
+
+/* =========================================================
+   Focus Session redesign - cozy modal matching Sproutime UI
+   Keeps existing backend IDs/classes used by main.js.
+   ========================================================= */
+
+.garden-page .focus-session-modal {
+    padding: clamp(0.6rem, 2vh, 1rem);
+}
+
+.garden-page .focus-session-backdrop {
+    background: rgba(37, 47, 24, 0.56);
+    backdrop-filter: blur(4px);
+}
+
+.garden-page .focus-session-card.sprout-focus-card {
+    position: relative;
+    width: min(660px, calc(100vw - 2rem));
+    max-height: min(90vh, 760px);
+    padding: 2.45rem 1.35rem 1.1rem;
+    border: 4px solid #9d6f4f;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255, 242, 202, 0.99) 0%, rgba(255, 231, 177, 0.99) 100%);
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 250, 229, 0.78),
+        0 8px 0 rgba(80, 48, 28, 0.34),
+        0 28px 60px rgba(42, 29, 20, 0.32);
+    overflow: visible;
+}
+
+.garden-page .focus-ribbon-title {
+    position: absolute;
+    left: 50%;
+    top: -1.05rem;
+    z-index: 3;
+    transform: translateX(-50%);
+    min-width: 270px;
+    padding: 0.55rem 1.5rem 0.62rem;
+    border: 4px solid #9c5a74;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #e08aa5 0%, #cf6e91 100%);
+    color: #fff8ee;
+    text-align: center;
+    font-size: clamp(1.1rem, 2vw, 1.55rem);
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 3px 0 rgba(90, 53, 65, 0.45);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 199, 215, 0.5),
+        0 5px 0 rgba(93, 58, 47, 0.3);
+}
+
+.garden-page .focus-session-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 4;
+    width: 48px;
+    height: 48px;
+    border: 4px solid #b1835d;
+    border-radius: 12px;
+    background: #fff7e9;
+    color: #4b2f22;
+    font-size: 1.8rem;
+    font-weight: 900;
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.62),
+        0 5px 0 rgba(95, 62, 40, 0.28);
+}
+
+.garden-page .focus-session-close:hover {
+    filter: brightness(1.04);
+    transform: translateY(-1px);
+}
+
+.garden-page .focus-session-top {
+    display: grid;
+    grid-template-columns: 155px minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.garden-page .focus-plant-preview {
+    min-height: 138px;
+    display: grid;
+    place-items: center;
+}
+
+.garden-page .focus-plant-stage {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    display: grid;
+    place-items: center;
+}
+
+.garden-page .focus-preview-image {
+    position: relative;
+    z-index: 2;
+    width: 118px;
+    height: 118px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 8px 8px rgba(70, 45, 25, 0.18));
+}
+
+.garden-page .focus-preview-shadow {
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    width: 112px;
+    height: 22px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: rgba(86, 57, 30, 0.16);
+}
+
+.garden-page .focus-sleep-bubble {
+    position: absolute;
+    right: 0;
+    top: 12px;
+    z-index: 3;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 3px solid #c7b397;
+    border-radius: 50%;
+    background: #fff9ef;
+    color: #7a58b4;
+    font-weight: 900;
+    box-shadow: 0 3px 0 rgba(95, 62, 40, 0.14);
+}
+
+.garden-page .focus-session-kicker {
+    margin: 0 3.7rem 0.55rem 0;
+    color: #7a5035;
+    font-size: 0.9rem;
+    font-weight: 900;
+    text-align: center;
+    text-transform: none;
+}
+
+.garden-page .focus-task-box {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: center;
+    min-height: 60px;
+    margin-bottom: 0.65rem;
+    padding: 0.55rem 0.75rem;
+    border: 2px solid #c39a74;
+    border-radius: 10px;
+    background: rgba(255, 248, 232, 0.72);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.34);
+}
+
+.garden-page .focus-task-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.garden-page .focus-task-label {
+    display: block;
+    color: #7a5035;
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.garden-page .focus-task-box h3 {
+    margin: 0;
+    color: var(--color-brown-dark);
+    font-size: 1.12rem;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.garden-page .focus-session-meta {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin: 0;
+}
+
+.garden-page .focus-session-meta div {
+    min-height: 76px;
+    padding: 0.5rem 0.45rem;
+    border: 2px solid #c39a74;
+    border-radius: 10px;
+    background: rgba(255, 248, 232, 0.74);
+    text-align: center;
+    box-shadow: 0 3px 0 rgba(108, 72, 45, 0.16);
+}
+
+.garden-page .focus-meta-icon {
+    display: block;
+    margin-bottom: 0.18rem;
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+.garden-page .focus-session-meta span:not(.focus-meta-icon) {
+    display: block;
+    margin-bottom: 0.12rem;
+    color: #7a5035;
+    font-size: 0.74rem;
+    font-weight: 900;
+}
+
+.garden-page .focus-session-meta strong {
+    display: block;
+    color: #3f7b3a;
+    font-size: 0.9rem;
+    font-weight: 900;
+    line-height: 1.12;
+}
+
+.garden-page .focus-timer-panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto max-content auto;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.65rem;
+    margin: 0.55rem 0 0.75rem;
+    padding: 0.72rem 1rem 0.65rem;
+    border: 2px solid #c39a74;
+    border-radius: 10px;
+    background: rgba(255, 248, 232, 0.62);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.34);
+}
+
+.garden-page .focus-timer-decoration {
+    color: #f3bd4c;
+    font-size: 1.15rem;
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.55);
+}
+
+.garden-page .focus-timer {
+    margin: 0;
+    color: #4b2f22;
+    font-size: clamp(2.6rem, 7vw, 4.15rem);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-shadow: 0 3px 0 rgba(255, 248, 232, 0.5);
+}
+
+.garden-page .focus-session-message {
+    grid-column: 1 / -1;
+    min-height: 1.05rem;
+    margin: 0.32rem 0 0;
+    color: #7a5035;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.garden-page .focus-session-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin: 0 0 0.75rem;
+}
+
+.garden-page .focus-session-actions .btn {
+    flex: initial;
+    min-height: 46px;
+    border-width: 3px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 900;
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.35),
+        0 4px 0 rgba(75, 47, 34, 0.24);
+}
+
+.garden-page .focus-start-btn,
+.garden-page .focus-resume-btn {
+    background: #8fbe58;
+    border-color: #4f7a35;
+    color: #fff8ee;
+    text-shadow: 0 2px 0 rgba(57, 85, 33, 0.36);
+}
+
+.garden-page .focus-pause-btn {
+    background: #f5d665;
+    border-color: #ba9148;
+    color: #4b2f22;
+}
+
+.garden-page .focus-end-btn {
+    background: #d75b68;
+    border-color: #a33f4d;
+    color: #fff8ee;
+    text-shadow: 0 2px 0 rgba(91, 35, 45, 0.4);
+}
+
+.garden-page .watering-panel {
+    min-height: 0;
+    padding: 0.7rem 0.75rem;
+    border: 2px solid #c39a74;
+    border-radius: 12px;
+    background: rgba(255, 248, 232, 0.58);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.34);
+}
+
+.garden-page .watering-panel-header {
+    margin-bottom: 0.5rem;
+}
+
+.garden-page .watering-panel-header h4 {
+    color: #4b2f22;
+    font-size: 0.98rem;
+    font-weight: 900;
+}
+
+.garden-page .watering-panel-header span {
+    color: #3d7da0;
+    font-weight: 900;
+}
+
+.garden-page .watering-steps-list {
+    max-height: min(27vh, 220px);
+    gap: 0.48rem;
+    padding: 0.1rem 0.32rem 0.15rem 0;
+    scrollbar-width: thin;
+}
+
+.garden-page .watering-steps-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.garden-page .watering-steps-list::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: rgba(122, 80, 53, 0.12);
+}
+
+.garden-page .watering-steps-list::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(122, 80, 53, 0.45);
+}
+
+.garden-page .focus-watering-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 58px;
+    padding: 0.5rem 0.55rem;
+    border: 2px solid #c39a74;
+    border-radius: 10px;
+    background: rgba(255, 248, 232, 0.82);
+    box-shadow: 0 3px 0 rgba(108, 72, 45, 0.14);
+}
+
+.garden-page .focus-watering-number {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #b98b62;
+    border-radius: 6px;
+    background: #fff2cf;
+    color: #7a5035;
+    font-size: 0.86rem;
+    font-weight: 900;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.garden-page .focus-watering-copy strong {
+    color: #4b2f22;
+    font-size: 0.88rem;
+    font-weight: 900;
+    line-height: 1.14;
+}
+
+.garden-page .focus-watering-copy span {
+    color: #7a5035;
+    font-size: 0.76rem;
+    font-weight: 800;
+}
+
+.garden-page .water-step-btn {
+    min-width: 104px;
+    min-height: 38px;
+    border: 2px solid #7fb5ca;
+    border-radius: 999px;
+    background: #c8eff8;
+    color: #4b2f22;
+    font-size: 0.86rem;
+    font-weight: 900;
+    box-shadow: 0 3px 0 rgba(71, 127, 159, 0.18);
+}
+
+.garden-page .focus-watering-row.watered {
+    background: #d9efb7;
+    border-color: #a7c978;
+}
+
+.garden-page .focus-watering-row.watered .water-step-btn {
+    background: #b9d98b;
+    border-color: #95b967;
+    color: #51712d;
+}
+
+.garden-page .focus-result-panel {
+    display: block;
+    padding: 2.55rem 1.05rem 0.85rem;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: center;
+}
+
+.garden-page .focus-result-panel[hidden] {
+    display: none;
+}
+
+.garden-page .focus-result-title-box {
+    position: absolute;
+    left: 50%;
+    top: -1.05rem;
+    z-index: 5;
+    transform: translateX(-50%);
+    min-width: 250px;
+    padding: 0.55rem 1.4rem 0.62rem;
+    border: 4px solid #9c5a74;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #e08aa5 0%, #cf6e91 100%);
+    color: #fff8ee;
+    font-size: 1.42rem;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 3px 0 rgba(90, 53, 65, 0.45);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 199, 215, 0.5),
+        0 5px 0 rgba(93, 58, 47, 0.3);
+}
+
+.garden-page .is-bud-result .focus-result-title-box {
+    background: linear-gradient(180deg, #dd86a2 0%, #c95f86 100%);
+}
+
+.garden-page .is-flower-result .focus-result-title-box {
+    background: linear-gradient(180deg, #e38fa9 0%, #cf6e91 100%);
+}
+
+.garden-page .focus-result-message-block h4 {
+    margin: 0 0 0.22rem;
+    color: #4b2f22;
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.garden-page .focus-result-message-block p {
+    max-width: 470px;
+    margin: 0 auto 0.75rem;
+    color: #7a5035;
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.garden-page .focus-result-content-grid {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 0.95rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.garden-page .focus-result-plant-area {
+    position: relative;
+    min-height: 210px;
+    display: grid;
+    place-items: center;
+    align-content: center;
+}
+
+.garden-page .focus-result-image {
+    position: relative;
+    z-index: 2;
+    width: 170px;
+    height: 170px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 12px 12px rgba(66, 47, 25, 0.2));
+}
+
+.garden-page .focus-result-ground {
+    position: absolute;
+    left: 50%;
+    bottom: 42px;
+    z-index: 1;
+    width: 168px;
+    height: 34px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: rgba(90, 58, 28, 0.16);
+}
+
+.garden-page .focus-result-sparkle {
+    position: absolute;
+    z-index: 3;
+    color: #f7c84c;
+    font-size: 1.25rem;
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.6);
+}
+
+.garden-page .focus-result-sparkle-one {
+    left: 22px;
+    top: 48px;
+}
+
+.garden-page .focus-result-sparkle-two {
+    right: 24px;
+    top: 78px;
+}
+
+.garden-page .focus-progress-saved {
+    position: relative;
+    z-index: 4;
+    margin-top: -0.3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    padding: 0.45rem 0.8rem;
+    border: 2px solid #4f7a35;
+    border-radius: 8px;
+    background: #8fbe58;
+    color: #fff8ee;
+    font-size: 0.88rem;
+    font-weight: 900;
+    text-shadow: 0 2px 0 rgba(57, 85, 33, 0.35);
+    box-shadow: 0 4px 0 rgba(75, 47, 34, 0.22);
+}
+
+.garden-page .focus-result-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 2px solid #d3aa7b;
+    border-radius: 10px;
+    background: rgba(255, 248, 232, 0.58);
+}
+
+.garden-page .focus-result-summary div {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(130px, 0.85fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.65rem;
+    border: 0;
+    border-bottom: 1px solid rgba(195, 154, 116, 0.58);
+    border-radius: 0;
+    background: rgba(255, 248, 232, 0.42);
+    box-shadow: none;
+    text-align: left;
+}
+
+.garden-page .focus-result-summary div:last-child {
+    border-bottom: 0;
+}
+
+.garden-page .focus-result-summary dt {
+    margin: 0;
+    color: #7a5035;
+    font-size: 0.86rem;
+    font-weight: 900;
+}
+
+.garden-page .focus-result-summary dd {
+    margin: 0;
+    color: #4b2f22;
+    font-size: 0.9rem;
+    font-weight: 900;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.garden-page .focus-result-note {
+    margin: 0.4rem 0 0.75rem;
+    padding: 0.58rem 0.8rem;
+    border: 2px solid #e0bda1;
+    border-radius: 10px;
+    background: rgba(255, 229, 207, 0.76);
+    color: #6b3e2a;
+    font-size: 0.88rem;
+    font-weight: 850;
+    line-height: 1.32;
+}
+
+.garden-page .focus-result-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.78fr;
+    gap: 0.6rem;
+}
+
+.garden-page .focus-result-actions .btn {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 3px;
+    border-radius: 9px;
+    font-size: 0.86rem;
+    font-weight: 900;
+    text-decoration: none;
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.34),
+        0 4px 0 rgba(75, 47, 34, 0.22);
+}
+
+.garden-page .focus-result-garden-btn {
+    background: #8fbe58;
+    border-color: #4f7a35;
+    color: #fff8ee;
+}
+
+.garden-page .focus-result-dashboard-btn {
+    background: #68a5d9;
+    border-color: #3d7da0;
+    color: #fff8ee;
+}
+
+.garden-page .focus-result-close-btn {
+    background: #fff8e8;
+    border-color: #c39a74;
+    color: #4b2f22;
+}
+
+.garden-page .focus-session-modal.is-result .focus-session-top,
+.garden-page .focus-session-modal.is-result .focus-timer-panel,
+.garden-page .focus-session-modal.is-result .focus-session-actions,
+.garden-page .focus-session-modal.is-result .watering-panel,
+.garden-page .focus-session-modal.is-result .focus-ribbon-title {
+    display: none;
+}
+
+.garden-page .focus-session-modal.is-paused .focus-timer-panel {
+    background: rgba(255, 248, 232, 0.72);
+}
+
+.garden-page .focus-session-modal.is-paused .focus-timer::after {
+    content: 'Paused';
+    display: block;
+    margin-top: 0.22rem;
+    color: #9a6a36;
+    font-size: 1rem;
+    letter-spacing: 0;
+}
+
+.garden-page .focus-session-modal.is-running .focus-preview-image {
+    animation: focusPlantBreathe 1.8s ease-in-out infinite;
+}
+
+@keyframes focusPlantBreathe {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-4px) scale(1.025);
+    }
+}
+
+@media (max-height: 780px) and (min-width: 769px) {
+    .garden-page .focus-session-card.sprout-focus-card {
+        width: min(620px, calc(100vw - 2rem));
+        max-height: 92vh;
+        padding: 2.15rem 1.05rem 0.85rem;
+    }
+
+    .garden-page .focus-session-top {
+        grid-template-columns: 120px minmax(0, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 0.48rem;
+    }
+
+    .garden-page .focus-plant-preview {
+        min-height: 108px;
+    }
+
+    .garden-page .focus-plant-stage {
+        width: 110px;
+        height: 110px;
+    }
+
+    .garden-page .focus-preview-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .garden-page .focus-session-kicker {
+        margin-bottom: 0.35rem;
+        font-size: 0.82rem;
+    }
+
+    .garden-page .focus-task-box {
+        min-height: 52px;
+        margin-bottom: 0.48rem;
+        padding: 0.42rem 0.62rem;
+    }
+
+    .garden-page .focus-session-meta div {
+        min-height: 64px;
+        padding: 0.38rem;
+    }
+
+    .garden-page .focus-timer-panel {
+        margin: 0.4rem 0 0.55rem;
+        padding: 0.55rem 0.8rem;
+    }
+
+    .garden-page .focus-timer {
+        font-size: 3.15rem;
+    }
+
+    .garden-page .focus-session-actions .btn {
+        min-height: 40px;
+    }
+
+    .garden-page .watering-steps-list {
+        max-height: 170px;
+    }
+
+    .garden-page .focus-watering-row {
+        min-height: 50px;
+        padding: 0.38rem 0.48rem;
+    }
+
+    .garden-page .focus-result-content-grid {
+        grid-template-columns: 185px minmax(0, 1fr);
+        gap: 0.7rem;
+    }
+
+    .garden-page .focus-result-plant-area {
+        min-height: 176px;
+    }
+
+    .garden-page .focus-result-image {
+        width: 145px;
+        height: 145px;
+    }
+
+    .garden-page .focus-result-note {
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .garden-page .focus-session-card.sprout-focus-card {
+        max-height: 92vh;
+        padding: 2.2rem 0.9rem 0.9rem;
+        overflow-y: auto;
+    }
+
+    .garden-page .focus-ribbon-title,
+    .garden-page .focus-result-title-box {
+        min-width: 220px;
+        font-size: 1.12rem;
+    }
+
+    .garden-page .focus-session-top,
+    .garden-page .focus-result-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-plant-preview {
+        min-height: 110px;
+    }
+
+    .garden-page .focus-session-kicker {
+        margin-right: 0;
+    }
+
+    .garden-page .focus-session-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-session-actions,
+    .garden-page .focus-result-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-watering-row {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .garden-page .water-step-btn {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .garden-page .focus-result-summary div {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-result-summary dd {
+        text-align: left;
+    }
+}
+
+
+/* =========================================================
+   Focus session small layout fix
+   - removes extra instruction line spacing
+   - makes plant preview larger
+   - hides small field icons
+   - uses icon_footer beside timer
+   ========================================================= */
+
+.garden-page .focus-session-card.sprout-focus-card {
+    width: min(690px, calc(100vw - 2rem));
+    max-height: min(92vh, 790px);
+    padding-top: 2.35rem;
+}
+
+.garden-page .focus-session-top {
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 1.05rem;
+    align-items: center;
+    margin-bottom: 0.62rem;
+}
+
+.garden-page .focus-session-kicker {
+    display: none !important;
+}
+
+.garden-page .focus-plant-preview {
+    min-height: 164px;
+}
+
+.garden-page .focus-plant-stage {
+    width: 168px;
+    height: 168px;
+}
+
+.garden-page .focus-preview-image {
+    width: 150px;
+    height: 150px;
+}
+
+.garden-page .focus-preview-shadow {
+    bottom: 16px;
+    width: 142px;
+    height: 26px;
+}
+
+.garden-page .focus-sleep-bubble {
+    right: 2px;
+    top: 10px;
+}
+
+.garden-page .focus-task-box {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 58px;
+    margin-bottom: 0.62rem;
+    padding: 0.58rem 0.78rem;
+}
+
+.garden-page .focus-task-icon,
+.garden-page .focus-meta-icon {
+    display: none !important;
+}
+
+.garden-page .focus-session-meta div {
+    min-height: 72px;
+    padding: 0.58rem 0.48rem;
+}
+
+.garden-page .focus-timer-panel {
+    margin-top: 0.45rem;
+    padding: 0.72rem 1rem 0.62rem;
+}
+
+.garden-page .focus-timer-decoration.focus-timer-leaf {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    opacity: 0.95;
+    filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.48));
+}
+
+.garden-page .focus-timer {
+    font-size: clamp(2.9rem, 7.5vw, 4.45rem);
+}
+
+@media (max-width: 760px) {
+    .garden-page .focus-session-card.sprout-focus-card {
+        width: min(96vw, 620px);
+    }
+
+    .garden-page .focus-session-top {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-plant-preview {
+        min-height: 132px;
+    }
+
+    .garden-page .focus-plant-stage {
+        width: 136px;
+        height: 136px;
+    }
+
+    .garden-page .focus-preview-image {
+        width: 122px;
+        height: 122px;
+    }
+}
+
+/* =========================================================
+   Focus modal stability fixes
+   Keeps pause/resume from shifting the close button or bottom panel.
+   ========================================================= */
+
+.garden-page .focus-session-modal {
+    position: fixed;
+}
+
+.garden-page .focus-session-card.sprout-focus-card {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.garden-page .focus-close-btn,
+.garden-page #closeFocusModal,
+.garden-page .focus-session-close,
+.garden-page #focus-session-close {
+    position: absolute;
+    top: 22px;
+    right: 24px;
+    z-index: 30;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 4px solid #b88763;
+    border-radius: 14px;
+    background: #fff7df;
+    color: #4b2b1f;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 0 5px 0 #8a634b;
+    cursor: pointer;
+}
+
+.garden-page .focus-close-btn:hover,
+.garden-page #closeFocusModal:hover,
+.garden-page .focus-session-close:hover,
+.garden-page #focus-session-close:hover {
+    transform: translateY(1px);
+    box-shadow: 0 4px 0 #8a634b;
+    filter: none;
+}
+
+.garden-page .focus-task-box,
+.garden-page .task-info-box,
+.garden-page .focus-session-task {
+    margin-right: 80px;
+}
+
+.garden-page .focus-timer-panel,
+.garden-page .focus-timer-box,
+.garden-page .timer-display-box {
+    margin-bottom: 18px;
+}
+
+.garden-page .focus-session-message,
+.garden-page #timerMessage {
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.garden-page .focus-session-actions,
+.garden-page .focus-action-buttons,
+.garden-page .timer-buttons {
+    margin-bottom: 18px;
+}
+
+.garden-page .watering-panel,
+.garden-page .watering-steps-box,
+.garden-page .focus-steps-box {
+    max-height: 315px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.garden-page .watering-steps-list,
+.garden-page #focus-watering-steps,
+.garden-page #wateringStepsList {
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 10px;
+    padding-bottom: 28px;
+    scroll-padding-bottom: 28px;
+    box-sizing: border-box;
+}
+
+.garden-page .watering-steps-list::after,
+.garden-page #focus-watering-steps::after,
+.garden-page #wateringStepsList::after {
+    content: "";
+    display: block;
+    min-height: 18px;
+}
+
+.garden-page .watering-steps-list > *:last-child,
+.garden-page #focus-watering-steps > *:last-child,
+.garden-page #wateringStepsList > *:last-child {
+    margin-bottom: 18px;
+}
+
+.garden-page .focus-session-modal.is-paused .focus-timer::after {
+    content: none;
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .garden-page .focus-close-btn,
+    .garden-page #closeFocusModal,
+    .garden-page .focus-session-close,
+    .garden-page #focus-session-close {
+        top: 16px;
+        right: 16px;
+        width: 46px;
+        height: 46px;
+        font-size: 28px;
+    }
+
+    .garden-page .focus-task-box,
+    .garden-page .task-info-box,
+    .garden-page .focus-session-task {
+        margin-right: 0;
+    }
+
+    .garden-page .watering-panel,
+    .garden-page .watering-steps-box,
+    .garden-page .focus-steps-box {
+        max-height: none;
+    }
+}
+
+/* =========================================================
+   Focus result summary polish
+   Makes the result detail list read like cozy status rows.
+   ========================================================= */
+
+.garden-page .focus-result-content-grid {
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 1.15rem;
+    align-items: center;
+}
+
+.garden-page .focus-result-summary {
+    position: relative;
+    gap: 0.42rem;
+    padding: 2.35rem 0.58rem 0.58rem;
+    border: 3px solid #c89a72;
+    border-radius: 14px;
+    background: rgba(255, 247, 229, 0.84);
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.4),
+        0 4px 0 rgba(75, 47, 34, 0.16);
+}
+
+.garden-page .focus-result-summary::before {
+    content: "Result details";
+    position: absolute;
+    top: 0.58rem;
+    left: 0.72rem;
+    color: #7a5035;
+    font-size: 0.84rem;
+    font-weight: 900;
+}
+
+.garden-page .focus-result-summary div {
+    min-height: 44px;
+    grid-template-columns: minmax(0, 1fr) minmax(108px, auto);
+    gap: 0.7rem;
+    padding: 0.48rem 0.58rem;
+    border: 2px solid rgba(195, 154, 116, 0.5);
+    border-radius: 10px;
+    background: rgba(255, 252, 242, 0.82);
+    box-shadow: 0 2px 0 rgba(108, 72, 45, 0.08);
+}
+
+.garden-page .focus-result-summary div:last-child {
+    border-bottom: 2px solid rgba(195, 154, 116, 0.5);
+}
+
+.garden-page .focus-result-summary dt {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #7a5035;
+    font-size: 0.86rem;
+    line-height: 1.15;
+}
+
+.garden-page .focus-result-summary dd {
+    justify-self: end;
+    max-width: 190px;
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.28rem 0.55rem;
+    border: 2px solid rgba(195, 154, 116, 0.45);
+    border-radius: 8px;
+    background: #fff8e8;
+    color: #4b2f22;
+    font-size: 0.9rem;
+    line-height: 1.1;
+    text-align: right;
+}
+
+.garden-page #focus-result-task {
+    max-width: 210px;
+}
+
+@media (max-width: 768px) {
+    .garden-page .focus-result-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-result-summary div {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-result-summary dd {
+        justify-self: stretch;
+        max-width: none;
+        text-align: left;
+        justify-content: flex-start;
+    }
+}
+
+/* =========================================================
+   Focus result modal final arrangement
+   Keeps the saved-result card readable and adds the garden delete action.
+   ========================================================= */
+
+.garden-page .focus-result-panel {
+    padding-inline: 1.25rem;
+}
+
+.garden-page .focus-result-message-block {
+    max-width: 610px;
+    margin: 0 auto 0.95rem;
+}
+
+.garden-page .focus-result-content-grid {
+    width: min(100%, 760px);
+    margin: 0 auto 0.9rem;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 1.2rem;
+}
+
+.garden-page .focus-result-plant-area {
+    min-height: 230px;
+    border: 2px solid rgba(218, 179, 125, 0.42);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255, 244, 198, 0.2), rgba(255, 236, 180, 0.3));
+}
+
+.garden-page .focus-result-summary {
+    min-height: 230px;
+    align-content: start;
+}
+
+.garden-page .focus-result-summary div {
+    min-height: 42px;
+}
+
+.garden-page .focus-result-summary div:first-child {
+    background: #fff3d2;
+}
+
+.garden-page .focus-result-summary dt {
+    min-width: 0;
+}
+
+.garden-page .focus-result-summary dd {
+    max-width: min(230px, 100%);
+}
+
+.garden-page #focus-result-task {
+    max-width: 250px;
+}
+
+.garden-page .focus-result-note {
+    width: min(100%, 760px);
+    margin: 0 auto 0.85rem;
+}
+
+.garden-page .focus-result-actions {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    grid-template-columns: 1.06fr 1.06fr 0.82fr 1fr;
+}
+
+.garden-page .focus-result-actions .btn {
+    min-width: 0;
+    padding-inline: 0.55rem;
+    white-space: normal;
+}
+
+.garden-page .focus-result-delete-btn {
+    background: #de6b6b;
+    border-color: #9d4444;
+    color: #fff8ee;
+}
+
+.garden-page .focus-result-delete-btn:hover {
+    background: #cf5a5f;
+    color: #fff8ee;
+}
+
+.garden-page .focus-result-delete-btn:disabled,
+.garden-page .focus-result-delete-btn.is-deleted {
+    background: #d7c3a4;
+    border-color: #a88764;
+    color: #6b4b35;
+    cursor: default;
+    opacity: 1;
+}
+
+@media (max-width: 860px) {
+    .garden-page .focus-result-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .garden-page .focus-result-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-result-plant-area,
+    .garden-page .focus-result-summary {
+        min-height: auto;
+    }
+
+    .garden-page .focus-result-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   Clear plant confirmation modal
+   ========================================================= */
+
+.garden-page .clear-plant-modal[hidden] {
+    display: none;
+}
+
+.garden-page .clear-plant-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.garden-page .clear-plant-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(75, 47, 34, 0.42);
+    backdrop-filter: blur(2px);
+}
+
+.garden-page .clear-plant-card {
+    position: relative;
+    z-index: 1;
+    width: min(430px, 100%);
+    padding: 1.45rem 1.25rem 1.2rem;
+    border: 4px solid #9d6f4f;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fffaf0 0%, #f3dfb9 100%);
+    color: #4b2f22;
+    text-align: center;
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, 0.62),
+        0 10px 0 rgba(112, 76, 48, 0.22),
+        0 24px 54px rgba(69, 45, 31, 0.3);
+}
+
+.garden-page .clear-plant-close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.75rem;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 3px solid #b88763;
+    border-radius: 10px;
+    background: #fff7df;
+    color: #4b2f22;
+    font-size: 1.6rem;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 0 3px 0 #8a634b;
+    cursor: pointer;
+}
+
+.garden-page .clear-plant-close:hover {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 #8a634b;
+}
+
+.garden-page .clear-plant-card h3 {
+    margin: 0 2.5rem 0.5rem;
+    color: #4b2f22;
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.garden-page .clear-plant-card p {
+    margin: 0 auto 1.15rem;
+    max-width: 330px;
+    color: #7a5035;
+    font-size: 0.98rem;
+    font-weight: 800;
+    line-height: 1.38;
+}
+
+.garden-page .clear-plant-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+}
+
+.garden-page .clear-plant-actions .btn {
+    min-height: 44px;
+    border-width: 3px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 900;
+    box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.34),
+        0 4px 0 rgba(75, 47, 34, 0.22);
+}
+
+.garden-page .clear-plant-confirm-btn {
+    background: #8fbe58;
+    border-color: #4f7a35;
+    color: #fff8ee;
+    text-shadow: 0 2px 0 rgba(57, 85, 33, 0.35);
+}
+
+.garden-page .clear-plant-confirm-btn:hover {
+    background: #82b24f;
+    color: #fff8ee;
+}
+
+.garden-page .clear-plant-cancel-btn {
+    background: #fff8e8;
+    border-color: #c39a74;
+    color: #4b2f22;
+}
+
+.garden-page .clear-plant-cancel-btn:hover {
+    background: #f6e7ca;
+    color: #4b2f22;
+}
+
+.garden-page .result-detail-list dt {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.garden-page .result-detail-row-icon {
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+@media (max-width: 480px) {
+    .garden-page .clear-plant-card {
+        padding: 1.35rem 1rem 1rem;
+    }
+
+    .garden-page .clear-plant-card h3 {
+        margin-inline: 2rem;
+        font-size: 1.28rem;
+    }
+
+    .garden-page .clear-plant-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .result-detail-row-icon {
+        flex-basis: 24px;
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* =========================================================
+   Focus result quick polish
+   Tightens the result card shown after a focus session.
+   ========================================================= */
+
+.garden-page .focus-session-modal.is-result {
+    overflow-y: auto;
+    padding-top: 2.35rem;
+    padding-bottom: 1rem;
+}
+
+.garden-page .focus-session-modal.is-result .focus-session-card.sprout-focus-card {
+    width: min(820px, calc(100vw - 2rem));
+    max-height: none;
+    padding: 2.15rem 1rem 0.95rem;
+    overflow: visible;
+}
+
+.garden-page .focus-result-panel {
+    padding: 2.15rem 0.65rem 0.75rem;
+}
+
+.garden-page .focus-result-message-block {
+    margin-bottom: 0.75rem;
+}
+
+.garden-page .focus-result-message-block h4 {
+    font-size: 1.18rem;
+}
+
+.garden-page .focus-result-message-block p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.garden-page .focus-result-content-grid {
+    width: min(100%, 700px);
+    grid-template-columns: 225px minmax(0, 1fr);
+    gap: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.garden-page .focus-result-plant-area {
+    min-height: 205px;
+}
+
+.garden-page .focus-result-image {
+    width: 148px;
+    height: 148px;
+}
+
+.garden-page .focus-result-ground {
+    bottom: 39px;
+    width: 150px;
+}
+
+.garden-page .focus-result-summary {
+    min-height: auto;
+    padding: 2.05rem 0.55rem 0.55rem;
+}
+
+.garden-page .focus-result-summary div {
+    min-height: 42px;
+    grid-template-columns: minmax(178px, 1fr) minmax(78px, auto);
+    gap: 0.55rem;
+    padding: 0.38rem 0.52rem;
+}
+
+.garden-page .focus-result-summary dt {
+    gap: 0.38rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.garden-page .focus-result-summary dd {
+    min-height: 28px;
+    padding: 0.24rem 0.5rem;
+    font-size: 0.86rem;
+}
+
+.garden-page .result-detail-row-icon {
+    flex-basis: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+.garden-page .focus-result-note {
+    width: min(100%, 700px);
+    margin-bottom: 0.7rem;
+    padding: 0.52rem 0.7rem;
+    font-size: 0.84rem;
+}
+
+.garden-page .focus-result-actions {
+    width: min(100%, 700px);
+    gap: 0.55rem;
+}
+
+.garden-page .focus-result-actions .btn {
+    min-height: 44px;
+    font-size: 0.82rem;
+    line-height: 1.25;
+}
+
+@media (min-width: 769px) {
+    .garden-page .focus-result-actions .btn {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .garden-page .focus-session-modal.is-result .focus-session-card.sprout-focus-card {
+        padding: 2rem 0.85rem 0.85rem;
+    }
+
+    .garden-page .focus-result-content-grid {
+        width: min(100%, 430px);
+    }
+
+    .garden-page .focus-result-summary div {
+        grid-template-columns: 1fr;
+    }
+
+    .garden-page .focus-result-summary dt {
+        white-space: normal;
     }
 }

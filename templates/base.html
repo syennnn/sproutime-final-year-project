@@ -199,13 +199,21 @@
 
                 <article class="settings-info-row">
                     <span class="settings-row-icon" aria-hidden="true">
-                        <img class="pixel-art" src="{% static 'images/game/icons/icon_asset.png' %}" alt="">
+                        <img
+                            class="pixel-art"
+                            src="{% static 'images/game/icons/icon_asset.png' %}"
+                            alt=""
+                        >
                     </span>
+
                     <span class="settings-row-copy">
                         <strong>Asset Credits</strong>
-                        <small>Pixel art assets are used for this student project prototype.</small>
+                        <small>View the pixel art and music credits used in this student project prototype.</small>
                     </span>
-                    <button class="settings-mini-btn" type="button">View Credits</button>
+
+                    <a class="settings-mini-btn" href="{% url 'credits' %}">
+                        View Credits
+                    </a>
                 </article>
             </div>
         </div>
@@ -219,11 +227,11 @@
             </button>
         </div>
 
-        <p class="settings-footnote">
+        {% comment %} <p class="settings-footnote">
             <img class="pixel-art" src="{% static 'images/game/icons/icon_footer.png' %}" alt="">
             Some options are visual placeholders for the final year project prototype.
             <img class="pixel-art" src="{% static 'images/game/icons/icon_footer.png' %}" alt="">
-        </p>
+        </p> {% endcomment %}
     </section>
 </div>
 

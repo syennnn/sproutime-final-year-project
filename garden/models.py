@@ -48,8 +48,10 @@ class Plant(models.Model):
     )
     slot = models.OneToOneField(
         GardenSlot,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='plant',
+        null=True,
+        blank=True,
     )
     seed_type = models.CharField(max_length=32, choices=Task.SEED_TYPES)
     state = models.CharField(
@@ -64,7 +66,9 @@ class Plant(models.Model):
         ordering = ['slot__slot_number']
 
     def __str__(self):
-        return f'{self.task.title} in slot {self.slot.slot_number}'
+        if self.slot_id and self.slot:
+            return f'{self.task.title} in slot {self.slot.slot_number}'
+        return f'{self.task.title} saved result'
 
     def get_bud_image_path(self):
         return f'images/game/buds/{self.seed_type}_bud.png'

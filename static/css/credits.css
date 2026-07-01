@@ -1,0 +1,234 @@
+.credits-page {
+    min-height: 100vh;
+    background:
+        linear-gradient(rgba(248, 236, 194, 0.18), rgba(248, 236, 194, 0.18)),
+        url("../images/game/backgrounds/bg_public_garden.png") center / cover fixed no-repeat;
+    color: var(--color-brown, #4b2f24);
+}
+
+.credits-screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.credits-panel {
+    width: min(860px, 94vw);
+    padding: 2rem;
+    border: 4px solid #8f6344;
+    border-radius: 26px;
+    background: #f7e7bf;
+    box-shadow:
+        0 8px 0 rgba(96, 64, 43, 0.42),
+        0 20px 36px rgba(63, 43, 27, 0.18);
+}
+
+.credits-header {
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+.credits-header-icon {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    margin-bottom: 0.35rem;
+}
+
+.credits-kicker {
+    margin: 0 0 0.35rem;
+    color: #8c5a3c;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.credits-header h1 {
+    margin: 0;
+    color: #4b2f24;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+    text-shadow: 0 3px 0 rgba(255, 255, 255, 0.55);
+}
+
+.credits-subtitle {
+    max-width: 620px;
+    margin: 0.8rem auto 0;
+    color: #7a4d36;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.credits-card-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.credit-card {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border: 3px solid #b88b61;
+    border-radius: 18px;
+    background: #fff2d4;
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, 0.38),
+        0 5px 0 rgba(109, 79, 52, 0.22);
+}
+
+.credit-icon-box {
+    width: 82px;
+    height: 82px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #d2ad7c;
+    border-radius: 16px;
+    background: #f6dca9;
+    box-shadow: inset 0 -4px 0 rgba(132, 89, 54, 0.12);
+}
+
+.credit-icon {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+}
+
+.credit-content h2 {
+    margin: 0 0 0.45rem;
+    color: #4b2f24;
+    font-size: 1.35rem;
+}
+
+.credit-content p {
+    margin: 0 0 0.8rem;
+    color: #70472f;
+    line-height: 1.5;
+}
+
+.credit-link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.credit-link,
+.credits-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0.65rem 1rem;
+    border: 2px solid #6f8d43;
+    border-radius: 11px;
+    background: #cfeaa4;
+    color: #4b2f24;
+    font-weight: 900;
+    text-decoration: none;
+    box-shadow: 0 4px 0 rgba(94, 120, 55, 0.38);
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        filter 0.12s ease;
+}
+
+.credit-link:hover,
+.credits-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+}
+
+.credit-link:active,
+.credits-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(94, 120, 55, 0.38);
+}
+
+.credit-link.secondary,
+.credits-button {
+    border-color: #b88b61;
+    background: #fff0cf;
+    box-shadow: 0 4px 0 rgba(143, 99, 68, 0.28);
+}
+
+.credits-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    margin: 1.5rem 0 1rem;
+    padding: 0.85rem 1rem;
+    border: 2px dashed #d4ad79;
+    border-radius: 16px;
+    background: rgba(255, 246, 221, 0.72);
+    color: #7a4d36;
+    text-align: center;
+}
+
+.credits-note p {
+    margin: 0;
+    line-height: 1.45;
+}
+
+.credits-note-icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+.credits-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.credits-button.primary {
+    border-color: #5e8439;
+    background: #8bc157;
+    color: #fff7e8;
+    text-shadow: 0 2px 0 rgba(60, 84, 38, 0.45);
+}
+
+.pixel-art {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+@media (max-width: 680px) {
+    .credits-screen {
+        padding: 1.4rem 0.8rem;
+        align-items: flex-start;
+    }
+
+    .credits-panel {
+        padding: 1.2rem;
+        border-radius: 20px;
+    }
+
+    .credit-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .credit-icon-box {
+        margin: 0 auto;
+    }
+
+    .credit-link-row,
+    .credits-actions {
+        flex-direction: column;
+    }
+
+    .credit-link,
+    .credits-button {
+        width: 100%;
+    }
+}

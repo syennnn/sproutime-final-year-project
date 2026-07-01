@@ -219,6 +219,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const focusResultTask = document.getElementById('focus-result-task');
     const focusResultSteps = document.getElementById('focus-result-steps');
     const focusResultTime = document.getElementById('focus-result-time');
+    const focusPreviewImage = document.getElementById('focus-preview-image');
+    const focusSleepBubble = document.getElementById('focus-sleep-bubble');
+    const focusTimerPanel = document.getElementById('focus-timer-panel');
+    const focusResultImage = document.getElementById('focus-result-image');
+    const focusResultSubtitle = document.getElementById('focus-result-subtitle');
+    const focusResultSeedType = document.getElementById('focus-result-seed-type');
+    const focusResultState = document.getElementById('focus-result-state');
+    const focusResultNote = document.getElementById('focus-result-note');
+    const focusResultDeleteButton = document.getElementById('focus-result-delete-btn');
+    const focusResultCompleted = document.getElementById('focus-result-completed') || document.getElementById('result-detail-focus-completed');
+    const clearPlantModal = document.getElementById('clear-plant-modal');
+    const clearPlantConfirmButton = document.getElementById('clear-plant-confirm-btn');
+    const gardenFlowerCount = document.getElementById('garden-flower-count');
+    const gardenBudCount = document.getElementById('garden-bud-count');
+    let pendingClearPlantAction = null;
+    let clearPlantReturnFocusTarget = null;
     let selectedFocusPlantId = null;
     let selectedFocusSessionId = null;
     let focusTargetSeconds = 0;
@@ -352,21 +368,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const gardenSlots = document.querySelectorAll('.garden-slot-clickable');
-    gardenSlots.forEach((slot) => {
-        slot.addEventListener('click', function () {
-            const occupied = this.dataset.occupied === 'true';
-            if (occupied) {
-                return;
-            }
+    function handleGardenSlotButtonClick() {
+        const occupied = this.dataset.occupied === 'true';
+        if (occupied) {
+            return;
+        }
 
-            clearSelectedSlot();
-            this.classList.add('garden-slot-selected');
-            const slotId = this.dataset.slotId;
-            const slotNumber = this.dataset.slotNumber || this.dataset.slotNumber;
-            openSeedStorageTray(slotId, slotNumber);
-        });
-    });
+        clearSelectedSlot();
+        this.classList.add('garden-slot-selected');
+        const slotId = this.dataset.slotId;
+        const slotNumber = this.dataset.slotNumber;
+        openSeedStorageTray(slotId, slotNumber);
+    }
+
+    function bindGardenSlotClick(slot) {
+        if (!slot || slot.dataset.gardenClickBound === 'true') {
+            return;
+        }
+        slot.dataset.gardenClickBound = 'true';
+        slot.addEventListener('click', handleGardenSlotButtonClick);
+    }
+
+    const gardenSlots = document.querySelectorAll('.garden-slot-clickable');
+    gardenSlots.forEach(bindGardenSlotClick);
 
     if (seedStorageClose) {
         seedStorageClose.addEventListener('click', closeSeedStorageTray);
@@ -533,6 +557,13 @@ document.addEventListener('DOMContentLoaded', function () {
         focusTimerInterval = setInterval(updateFocusTimerDisplay, 1000);
     }
 
+    function stopFocusTimerLoop() {
+        if (focusTimerInterval) {
+            clearInterval(focusTimerInterval);
+            focusTimerInterval = null;
+        }
+    }
+
     function setFocusMessage(message) {
         if (focusSessionMessage && message) {
             focusSessionMessage.textContent = message;
@@ -556,6 +587,77 @@ document.addEventListener('DOMContentLoaded', function () {
             focusEndButton.hidden = !focusHasStarted || focusIsCompleted;
             focusEndButton.disabled = !focusHasStarted || focusIsCompleted;
         }
+    }
+
+    function updateTimerStateUI(isPaused) {
+        const canToggleTimer = focusHasStarted && !focusIsCompleted;
+
+        if (focusPauseButton) {
+            const showPause = canToggleTimer && !isPaused;
+            focusPauseButton.hidden = !showPause;
+            focusPauseButton.disabled = !showPause;
+            focusPauseButton.style.display = showPause ? 'flex' : 'none';
+        }
+
+        if (focusResumeButton) {
+            const showResume = canToggleTimer && isPaused;
+            focusResumeButton.hidden = !showResume;
+            focusResumeButton.disabled = !showResume;
+            focusResumeButton.style.display = showResume ? 'flex' : 'none';
+        }
+
+        if (focusSessionModal) {
+            focusSessionModal.classList.toggle('is-running', canToggleTimer && !isPaused);
+            focusSessionModal.classList.toggle('is-paused', canToggleTimer && isPaused);
+        }
+
+        if (focusTimerPanel) {
+            focusTimerPanel.classList.toggle('timer-running', canToggleTimer && !isPaused);
+            focusTimerPanel.classList.toggle('timer-paused', canToggleTimer && isPaused);
+        }
+
+        if (focusSleepBubble) {
+            focusSleepBubble.hidden = !(canToggleTimer && isPaused);
+        }
+
+        if (canToggleTimer) {
+            setFocusMessage(
+                isPaused
+                    ? 'Session is paused. You can resume when ready.'
+                    : 'Timer is running. Water each step when you finish it.'
+            );
+        }
+    }
+
+    function syncFocusTimerPayload(payload) {
+        if (!payload || !payload.success || payload.is_completed) {
+            return false;
+        }
+
+        selectedFocusSessionId = payload.session_id;
+        selectedFocusPlantId = payload.plant_id || selectedFocusPlantId;
+        focusTargetSeconds = payload.target_duration_seconds || 0;
+        focusElapsedSeconds = payload.elapsed_seconds || 0;
+        focusLastSyncMs = Date.now();
+        focusIsRunning = Boolean(payload.is_running);
+        focusHasStarted = Boolean(payload.has_started);
+        focusIsCompleted = Boolean(payload.is_completed);
+        focusAllWatered = Boolean(payload.all_watered);
+
+        updateFocusModalState(payload, payload.plant_state, false);
+        updateFocusTimerDisplay();
+        updateFocusButtons();
+        updateTimerStateUI(!focusIsRunning);
+
+        if (focusIsRunning) {
+            startFocusTimerLoop();
+            startFocusHeartbeatLoop();
+        } else {
+            stopFocusTimerLoop();
+            stopFocusHeartbeatLoop();
+        }
+
+        return true;
     }
 
     function isResultState(state) {
@@ -621,6 +723,45 @@ document.addEventListener('DOMContentLoaded', function () {
             return payload.seed_type.replace(/_/g, ' ');
         }
         return 'Plant';
+    }
+
+    function getFocusPreviewImageUrl(state, payload) {
+        if (state === 'flower') {
+            return (payload && payload.flower_image_url) || '';
+        }
+        if (state === 'bud') {
+            return (payload && payload.bud_image_url) || '';
+        }
+        if (state === 'growing') {
+            return gardenPage ? gardenPage.dataset.sproutImage : '';
+        }
+        return gardenPage ? gardenPage.dataset.seedImage : '';
+    }
+
+    function updateFocusModalState(payload, displayPlantState, showingResult) {
+        if (!focusSessionModal) {
+            return;
+        }
+
+        focusSessionModal.classList.toggle('is-not-started', !focusHasStarted && !showingResult);
+        focusSessionModal.classList.toggle('is-running', focusIsRunning && !showingResult);
+        focusSessionModal.classList.toggle('is-paused', focusHasStarted && !focusIsRunning && !focusIsCompleted && !showingResult);
+        focusSessionModal.classList.toggle('is-result', Boolean(showingResult));
+        focusSessionModal.classList.toggle('is-flower-result', showingResult && displayPlantState === 'flower');
+        focusSessionModal.classList.toggle('is-bud-result', showingResult && displayPlantState === 'bud');
+
+        const previewUrl = getFocusPreviewImageUrl(displayPlantState, payload);
+        if (focusPreviewImage && previewUrl) {
+            focusPreviewImage.src = previewUrl;
+            focusPreviewImage.alt = `${getSeedTypeLabel(payload)} ${formatPlantStateLabel(displayPlantState)}`;
+        }
+        if (focusSleepBubble) {
+            focusSleepBubble.hidden = !(focusHasStarted && !focusIsRunning && !showingResult);
+        }
+        if (focusTimerPanel) {
+            focusTimerPanel.classList.toggle('timer-running', focusIsRunning && !showingResult);
+            focusTimerPanel.classList.toggle('timer-paused', focusHasStarted && !focusIsRunning && !focusIsCompleted && !showingResult);
+        }
     }
 
     function updatePlantSlotVisual(plantId, state, payload) {
@@ -689,28 +830,185 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function updateGardenResultCounts(payload) {
+        if (gardenFlowerCount && typeof payload.flowers_count !== 'undefined') {
+            gardenFlowerCount.textContent = payload.flowers_count;
+        }
+        if (gardenBudCount && typeof payload.buds_count !== 'undefined') {
+            gardenBudCount.textContent = payload.buds_count;
+        }
+    }
+
+    function clearGardenSlotVisual(plantId) {
+        const slot = document.querySelector(`.garden-slot[data-plant-id="${plantId}"]`);
+        if (!slot) {
+            return;
+        }
+
+        slot.querySelectorAll('.slot-plant-image, .slot-growing-label').forEach((element) => {
+            element.remove();
+        });
+        slot.classList.remove('has-plant', 'planted-slot', 'focus-slot-clickable', 'occupied-slot', 'garden-slot-selected');
+        slot.classList.add('empty-slot', 'garden-slot-clickable');
+        slot.dataset.occupied = 'false';
+        delete slot.dataset.plantId;
+        delete slot.dataset.seedType;
+        delete slot.dataset.budImageUrl;
+        delete slot.dataset.flowerImageUrl;
+        slot.removeAttribute('data-plant-id');
+        slot.removeAttribute('data-seed-type');
+        slot.removeAttribute('data-bud-image-url');
+        slot.removeAttribute('data-flower-image-url');
+        slot.disabled = false;
+        slot.setAttribute('aria-label', `Empty soil slot ${slot.dataset.slotNumber || ''}`.trim());
+        bindGardenSlotClick(slot);
+    }
+
+    function setFocusResultDeleteState(isDeleted) {
+        if (!focusResultDeleteButton) {
+            return;
+        }
+
+        focusResultDeleteButton.disabled = Boolean(isDeleted);
+        focusResultDeleteButton.textContent = isDeleted ? 'Deleted from Garden' : 'Delete from Garden';
+        focusResultDeleteButton.classList.toggle('is-deleted', Boolean(isDeleted));
+    }
+
+    function closeClearPlantModal(restoreFocus = true) {
+        if (!clearPlantModal) {
+            return;
+        }
+
+        clearPlantModal.hidden = true;
+        clearPlantModal.setAttribute('aria-hidden', 'true');
+        pendingClearPlantAction = null;
+
+        if (restoreFocus && clearPlantReturnFocusTarget && typeof clearPlantReturnFocusTarget.focus === 'function') {
+            clearPlantReturnFocusTarget.focus();
+        }
+        clearPlantReturnFocusTarget = null;
+    }
+
+    function openClearPlantModal(onConfirm, returnFocusTarget) {
+        if (!clearPlantModal) {
+            if (typeof onConfirm === 'function') {
+                onConfirm();
+            }
+            return;
+        }
+
+        pendingClearPlantAction = typeof onConfirm === 'function' ? onConfirm : null;
+        clearPlantReturnFocusTarget = returnFocusTarget || null;
+        clearPlantModal.hidden = false;
+        clearPlantModal.setAttribute('aria-hidden', 'false');
+
+        if (clearPlantConfirmButton) {
+            clearPlantConfirmButton.focus();
+        }
+    }
+
+    function runClearPlantAction(plantId, triggerButton) {
+        if (!plantId) {
+            return;
+        }
+
+        if (triggerButton) {
+            triggerButton.disabled = true;
+            triggerButton.textContent = 'Deleting...';
+        }
+
+        postFocusAction('/garden/clear-slot/', {
+            plant_id: plantId,
+        }).then((payload) => {
+            if (!payload || !payload.success) {
+                if (triggerButton === focusResultDeleteButton) {
+                    setFocusResultDeleteState(false);
+                } else if (triggerButton) {
+                    triggerButton.disabled = false;
+                    triggerButton.textContent = 'Delete from Garden';
+                }
+                if (focusResultNote) {
+                    focusResultNote.textContent = payload && payload.message
+                        ? payload.message
+                        : 'The garden slot could not be cleared. Please refresh and try again.';
+                }
+                return;
+            }
+
+            clearGardenSlotVisual(payload.plant_id || plantId);
+            updateGardenResultCounts(payload);
+            if (triggerButton === focusResultDeleteButton) {
+                setFocusResultDeleteState(true);
+            } else if (triggerButton) {
+                triggerButton.disabled = true;
+                triggerButton.textContent = 'Deleted from Garden';
+                triggerButton.classList.add('is-deleted');
+            }
+            if (focusResultNote) {
+                focusResultNote.textContent = payload.message || 'Deleted from the garden slot. The result is still saved on your dashboard.';
+            }
+        }).catch(() => {
+            if (triggerButton === focusResultDeleteButton) {
+                setFocusResultDeleteState(false);
+            } else if (triggerButton) {
+                triggerButton.disabled = false;
+                triggerButton.textContent = 'Delete from Garden';
+            }
+            if (focusResultNote) {
+                focusResultNote.textContent = 'The garden slot could not be cleared. Please refresh and try again.';
+            }
+        });
+    }
+
     function renderFocusResult(payload, result) {
         const isFlower = result === 'flower';
+        const seedTypeLabel = payload.seed_type_display || payload.seed_type || 'Seed';
+        const resultImageUrl = isFlower ? payload.flower_image_url : payload.bud_image_url;
+
         if (focusResultIcon) {
             focusResultIcon.textContent = isFlower ? '🌸' : '🌱';
         }
         if (focusResultLabel) {
-            focusResultLabel.textContent = isFlower ? 'Flower result' : 'Bud result';
+            focusResultLabel.textContent = isFlower ? 'Flower Result' : 'Bud Result';
         }
         if (focusResultTitle) {
             focusResultTitle.textContent = payload.message || (
                 isFlower ? 'Your plant has bloomed!' : 'Your plant became a bud.'
             );
         }
+        if (focusResultSubtitle) {
+            focusResultSubtitle.textContent = isFlower
+                ? 'Great focus work — your seed grew into a flower.'
+                : 'You still made progress. This bud shows the effort you started.';
+        }
+        if (focusResultImage && resultImageUrl) {
+            focusResultImage.src = resultImageUrl;
+            focusResultImage.alt = `${seedTypeLabel} ${isFlower ? 'flower' : 'bud'}`;
+        }
         if (focusResultTask) {
             focusResultTask.textContent = payload.task_title || 'Selected task';
+        }
+        if (focusResultSeedType) {
+            focusResultSeedType.textContent = seedTypeLabel;
+        }
+        if (focusResultState) {
+            focusResultState.textContent = isFlower ? 'Flower' : 'Bud';
         }
         if (focusResultSteps) {
             focusResultSteps.textContent = `${payload.watered_count || 0} / ${payload.total_subtasks || 0}`;
         }
+        if (focusResultCompleted) {
+            focusResultCompleted.textContent = payload.is_completed ? 'Yes' : 'No';
+        }
         if (focusResultTime) {
             focusResultTime.textContent = formatTimer(payload.elapsed_seconds || 0);
         }
+        if (focusResultNote) {
+            focusResultNote.textContent = isFlower
+                ? 'You completed your focus time and watering steps. This flower will stay in your garden as proof of your progress.'
+                : 'This bud represents partial progress, not failure. You can grow more flowers in your next focus session.';
+        }
+        setFocusResultDeleteState(false);
     }
 
     function renderWateringSteps(subtasks) {
@@ -727,9 +1025,13 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        subtasks.forEach((subtask) => {
+        subtasks.forEach((subtask, index) => {
             const row = document.createElement('div');
             row.className = `focus-watering-row${subtask.is_watered ? ' watered' : ''}`;
+
+            const number = document.createElement('span');
+            number.className = 'focus-watering-number';
+            number.textContent = String(index + 1);
 
             const copy = document.createElement('div');
             copy.className = 'focus-watering-copy';
@@ -738,7 +1040,7 @@ document.addEventListener('DOMContentLoaded', function () {
             title.textContent = subtask.title;
 
             const status = document.createElement('span');
-            status.textContent = subtask.is_watered ? 'Watered' : 'Not watered';
+            status.textContent = subtask.is_watered ? '💧 Watered' : 'Not watered';
 
             copy.appendChild(title);
             copy.appendChild(status);
@@ -747,9 +1049,10 @@ document.addEventListener('DOMContentLoaded', function () {
             button.type = 'button';
             button.className = 'btn water-step-btn';
             button.dataset.subtaskId = subtask.id;
-            button.textContent = subtask.is_watered ? 'Watered' : 'Water Plant';
+            button.textContent = subtask.is_watered ? 'Done' : 'Water Plant';
             button.disabled = !focusHasStarted || subtask.is_watered || focusIsCompleted;
 
+            row.appendChild(number);
             row.appendChild(copy);
             row.appendChild(button);
             focusWateringSteps.appendChild(row);
@@ -774,6 +1077,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const result = getPayloadResult(payload);
         const showingResult = focusIsCompleted && Boolean(result);
         const displayPlantState = showingResult ? result : payload.plant_state;
+        updateFocusModalState(payload, displayPlantState, showingResult);
 
         if (focusSessionTitle) {
             focusSessionTitle.textContent = payload.task_title || 'Selected task';
@@ -799,12 +1103,12 @@ document.addEventListener('DOMContentLoaded', function () {
             renderFocusResult(payload, result);
         }
         updateFocusButtons();
+        if (!showingResult) {
+            updateTimerStateUI(focusHasStarted && !focusIsRunning && !focusIsCompleted);
+        }
 
         if (showingResult) {
-            if (focusTimerInterval) {
-                clearInterval(focusTimerInterval);
-                focusTimerInterval = null;
-            }
+            stopFocusTimerLoop();
             updateFocusTimerDisplay();
         } else {
             startFocusTimerLoop();
@@ -843,8 +1147,68 @@ document.addEventListener('DOMContentLoaded', function () {
         if (focusSessionModal) {
             focusSessionModal.hidden = true;
             focusSessionModal.setAttribute('aria-hidden', 'true');
+            focusSessionModal.classList.remove('is-not-started', 'is-running', 'is-paused', 'is-result', 'is-flower-result', 'is-bud-result');
         }
     }
+
+    if (focusSessionModal) {
+        focusSessionModal.addEventListener('click', (event) => {
+            if (event.target.closest('[data-focus-result-close]')) {
+                closeFocusModal();
+            }
+        });
+    }
+
+    if (gardenPage) {
+        gardenPage.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!(target instanceof Element)) {
+                return;
+            }
+
+            const triggerButton = target.closest('.focus-result-delete-btn, [data-clear-plant-trigger]');
+            if (!triggerButton || !gardenPage.contains(triggerButton)) {
+                return;
+            }
+
+            event.preventDefault();
+            if (triggerButton.disabled) {
+                return;
+            }
+
+            const plantId = triggerButton.dataset.plantId || selectedFocusPlantId;
+            if (!plantId) {
+                return;
+            }
+
+            openClearPlantModal(() => runClearPlantAction(plantId, triggerButton), triggerButton);
+        });
+    }
+
+    if (clearPlantModal) {
+        clearPlantModal.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target instanceof Element && target.closest('[data-clear-plant-cancel]')) {
+                closeClearPlantModal();
+            }
+        });
+    }
+
+    if (clearPlantConfirmButton) {
+        clearPlantConfirmButton.addEventListener('click', () => {
+            const action = pendingClearPlantAction;
+            closeClearPlantModal(false);
+            if (typeof action === 'function') {
+                action();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && clearPlantModal && !clearPlantModal.hidden) {
+            closeClearPlantModal();
+        }
+    });
 
     const focusSlots = document.querySelectorAll('.focus-slot-clickable');
     focusSlots.forEach((slot) => {
@@ -876,7 +1240,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             setFocusMessage('Pausing focus session...');
-            postFocusAction('/focus/pause/', { session_id: selectedFocusSessionId }).then(renderFocusSession);
+            postFocusAction('/focus/pause/', { session_id: selectedFocusSessionId }).then((payload) => {
+                if (!syncFocusTimerPayload(payload)) {
+                    renderFocusSession(payload);
+                }
+            });
         });
     }
 
@@ -886,7 +1254,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             setFocusMessage('Resuming focus session...');
-            postFocusAction('/focus/resume/', { session_id: selectedFocusSessionId }).then(renderFocusSession);
+            postFocusAction('/focus/resume/', { session_id: selectedFocusSessionId }).then((payload) => {
+                if (!syncFocusTimerPayload(payload)) {
+                    renderFocusSession(payload);
+                }
+            });
         });
     }
 

@@ -2,7 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
 from django.db.models import Count
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.http import require_POST
 
 from .models import GardenSlot, Plant
 from tasks.models import Task
@@ -19,6 +21,7 @@ def garden_home(request):
     slots = GardenSlot.objects.filter(user=request.user).order_by('slot_number')
     plants = list(Plant.objects.filter(
         user=request.user,
+        slot__isnull=False,
     ).select_related(
         'task',
         'slot',
@@ -135,3 +138,60 @@ def plant_seed(request):
 
     messages.success(request, 'Your seed has been planted!')
     return redirect('garden:garden_home')
+
+
+@login_required
+@require_POST
+def clear_garden_slot(request):
+    plant_id = request.POST.get('plant_id')
+    if not plant_id:
+        return JsonResponse({
+            'success': False,
+            'message': 'Choose a saved result before deleting it from the garden.',
+        }, status=400)
+
+    with transaction.atomic():
+        plant = Plant.objects.select_for_update().select_related('slot').filter(
+            id=plant_id,
+            user=request.user,
+        ).first()
+        if plant is None:
+            return JsonResponse({
+                'success': False,
+                'message': 'That saved result is not available.',
+            }, status=404)
+
+        if plant.state not in [Plant.STATE_FLOWER, Plant.STATE_BUD]:
+            return JsonResponse({
+                'success': False,
+                'message': 'Only finished flower or bud results can be deleted from the garden.',
+            }, status=400)
+
+        slot_id = plant.slot_id
+        slot_number = plant.slot.slot_number if plant.slot else None
+        if plant.slot_id:
+            slot = GardenSlot.objects.select_for_update().filter(
+                id=plant.slot_id,
+                user=request.user,
+            ).first()
+            plant.slot = None
+            plant.save(update_fields=['slot'])
+
+            if slot:
+                slot.is_occupied = False
+                slot.save(update_fields=['is_occupied', 'updated_at'])
+
+    visible_results = Plant.objects.filter(
+        user=request.user,
+        slot__isnull=False,
+    )
+
+    return JsonResponse({
+        'success': True,
+        'message': 'Deleted from the garden slot. The result is still saved on your dashboard.',
+        'plant_id': plant.id,
+        'slot_id': slot_id,
+        'slot_number': slot_number,
+        'flowers_count': visible_results.filter(state=Plant.STATE_FLOWER).count(),
+        'buds_count': visible_results.filter(state=Plant.STATE_BUD).count(),
+    })

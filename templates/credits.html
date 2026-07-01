@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sproutime Credits{% endblock %}
+
+{% block body_class %}credits-page{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/credits.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="credits-screen">
+    <section class="credits-panel pixel-panel">
+        <div class="credits-header">
+            <img
+                class="credits-header-icon pixel-art"
+                src="{% static 'images/game/icons/icon_footer.png' %}"
+                alt=""
+            >
+            <p class="credits-kicker">Sproutime Project</p>
+            <h1>Asset Credits</h1>
+            <p class="credits-subtitle">
+                Sproutime uses cozy pixel art and background music assets for this student project prototype.
+            </p>
+        </div>
+
+        <div class="credits-card-list">
+            <article class="credit-card">
+                <div class="credit-icon-box">
+                    <img
+                        class="credit-icon pixel-art"
+                        src="{% static 'images/game/icons/icon_flower.png' %}"
+                        alt=""
+                    >
+                </div>
+
+                <div class="credit-content">
+                    <h2>Pixel Art Assets</h2>
+                    <p>
+                        Pixel art assets used in Sproutime are credited to
+                        <strong>Cup Nooble</strong>, including the Sprout Lands asset packs.
+                    </p>
+
+                    <a
+                        class="credit-link"
+                        href="https://cupnooble.itch.io/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Visit Cup Nooble on itch.io
+                    </a>
+                </div>
+            </article>
+
+            <article class="credit-card">
+                <div class="credit-icon-box">
+                    <img
+                        class="credit-icon pixel-art"
+                        src="{% static 'images/game/icons/icon_music.png' %}"
+                        alt=""
+                        onerror="this.src='{% static 'images/game/icons/icon_footer.png' %}'"
+                    >
+                </div>
+
+                <div class="credit-content">
+                    <h2>Background Music</h2>
+                    <p>
+                        Background music is credited to
+                        <strong>Inaudio / Infraction</strong> for the track
+                        <strong>Happy Farm</strong>.
+                    </p>
+
+                    <div class="credit-link-row">
+                        <a
+                            class="credit-link"
+                            href="https://youtu.be/kLEjF6M_FsE?si=eqCBuXMCGqDatazv"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            View on YouTube
+                        </a>
+
+                        <a
+                            class="credit-link secondary"
+                            href="https://inaudio.org/track/happy-farm-comedy-orchestra/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            View on Inaudio
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="credits-note">
+            <img
+                class="credits-note-icon pixel-art"
+                src="{% static 'images/game/icons/icon_footer.png' %}"
+                alt=""
+            >
+            <p>
+                This credits page is included to acknowledge the artists and music creators whose assets helped shape the cozy Sproutime experience.
+            </p>
+            <img
+                class="credits-note-icon pixel-art"
+                src="{% static 'images/game/icons/icon_footer.png' %}"
+                alt=""
+            >
+        </div>
+
+        <div class="credits-actions">
+            <a class="credits-button primary" href="{% url 'home' %}">
+                Back Home
+            </a>
+
+            <a class="credits-button" href="{% url 'dashboard' %}">
+                Back to Dashboard
+            </a>
+        </div>
+    </section>
+</main>
+{% endblock %}

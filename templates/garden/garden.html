@@ -48,13 +48,13 @@
                 <img class="garden-summary-icon pixel-art"
                      src="{% static 'images/game/icons/icon_flower.png' %}"
                      alt="">
-                <span>Flowers: {{ flowers_count }}</span>
+                <span>Flowers: <span id="garden-flower-count">{{ flowers_count }}</span></span>
             </div>
             <div class="garden-summary-item">
                 <img class="garden-summary-icon pixel-art"
                      src="{% static 'images/game/icons/icon_bud.png' %}"
                      alt="">
-                <span>Buds: {{ buds_count }}</span>
+                <span>Buds: <span id="garden-bud-count">{{ buds_count }}</span></span>
             </div>
             <div class="garden-summary-item garden-summary-active">
                 {% if active_plant_flower_image_path %}
@@ -260,66 +260,161 @@
 
     <div class="focus-session-modal" id="focus-session-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="focus-session-title">
         <div class="focus-session-backdrop"></div>
-        <section class="focus-session-card">
-            <div class="focus-session-header">
-                <div>
-                    <p class="focus-session-kicker">Focus Session</p>
-                    <h3 id="focus-session-title">Selected task</h3>
-                </div>
-                <button type="button" class="focus-session-close" id="focus-session-close" aria-label="Close focus session">&times;</button>
+        <section class="focus-session-card sprout-focus-card" aria-live="polite">
+            <div class="focus-ribbon-title">
+                <span>Focus Session</span>
             </div>
 
-            <div class="focus-session-meta">
-                <div>
-                    <span>Seed type</span>
-                    <strong id="focus-seed-type">Seed</strong>
+            <button type="button" class="focus-session-close" id="focus-session-close" aria-label="Close focus session">&times;</button>
+
+            <div class="focus-session-top">
+                <div class="focus-plant-preview" aria-hidden="true">
+                    <div class="focus-plant-stage">
+                        <img id="focus-preview-image"
+                             class="focus-preview-image pixel-art"
+                             src="{% static 'images/game/icons/icon_seed.png' %}"
+                             alt="">
+                        <span class="focus-preview-shadow"></span>
+                        <span class="focus-sleep-bubble" id="focus-sleep-bubble">Zz</span>
+                    </div>
                 </div>
-                <div>
-                    <span>Plant state</span>
-                    <strong id="focus-plant-state">Seed</strong>
-                </div>
-                <div>
-                    <span>Focus time</span>
-                    <strong><span id="focus-duration">0</span> min</strong>
+
+                <div class="focus-session-info">
+                    <p class="focus-session-kicker">Help your seed grow by focusing and watering each step.</p>
+                    <div class="focus-task-box">
+                        <span class="focus-task-icon">📖</span>
+                        <div>
+                            <span class="focus-task-label">Task</span>
+                            <h3 id="focus-session-title">Selected task</h3>
+                        </div>
+                    </div>
+
+                    <div class="focus-session-meta">
+                        <div>
+                            <span>Seed type</span>
+                            <strong id="focus-seed-type">Seed</strong>
+                        </div>
+                        <div>
+                            <span>Plant state</span>
+                            <strong id="focus-plant-state">Seed</strong>
+                        </div>
+                        <div>
+                            <span>Focus time</span>
+                            <strong><span id="focus-duration">0</span> min</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="focus-timer" id="focus-timer">00:00</div>
-            <p class="focus-session-message" id="focus-session-message">Start the session to begin watering your steps.</p>
+            <div class="focus-timer-panel" id="focus-timer-panel">
+                <span class="focus-timer-decoration">✦</span>
+                <div class="focus-timer" id="focus-timer">00:00</div>
+                <span class="focus-timer-decoration">✦</span>
+                <p class="focus-session-message" id="focus-session-message">Start the session to begin watering your steps.</p>
+            </div>
 
             <div class="focus-session-actions" id="focus-active-actions">
-                <button type="button" class="btn focus-start-btn" id="focus-start-btn">Start</button>
-                <button type="button" class="btn focus-pause-btn" id="focus-pause-btn" disabled>Pause</button>
-                <button type="button" class="btn focus-resume-btn" id="focus-resume-btn" disabled>Resume</button>
+                <button type="button" class="btn focus-start-btn" id="focus-start-btn">▶ Start</button>
+                <button type="button" class="btn focus-pause-btn" id="focus-pause-btn" disabled>⏸ Pause</button>
+                <button type="button" class="btn focus-resume-btn" id="focus-resume-btn" disabled>🌱 Resume</button>
                 <button type="button" class="btn focus-end-btn" id="focus-end-btn" disabled>End Session</button>
             </div>
 
             <div class="watering-panel" id="focus-watering-panel">
                 <div class="watering-panel-header">
-                    <h4>Watering steps</h4>
+                    <h4>💧 Watering steps</h4>
                     <span id="watering-progress">0 / 0 watered</span>
                 </div>
                 <div class="watering-steps-list" id="focus-watering-steps"></div>
             </div>
 
             <div class="focus-result-panel" id="focus-result-panel" hidden>
-                <div class="focus-result-icon" id="focus-result-icon">🌸</div>
-                <p class="focus-result-label" id="focus-result-label">Flower result</p>
-                <h4 id="focus-result-title">Your plant has bloomed!</h4>
-                <dl class="focus-result-summary">
-                    <div>
-                        <dt>Task</dt>
-                        <dd id="focus-result-task">Selected task</dd>
+                <div class="focus-result-title-box" id="focus-result-label">Flower Result</div>
+                <div class="focus-result-message-block">
+                    <h4 id="focus-result-title">Your plant has bloomed!</h4>
+                    <p id="focus-result-subtitle">Great focus work — your progress has been saved.</p>
+                </div>
+                <div class="focus-result-content-grid">
+                    <div class="focus-result-plant-area">
+                        <span class="focus-result-sparkle focus-result-sparkle-one">✦</span>
+                        <span class="focus-result-sparkle focus-result-sparkle-two">✧</span>
+                        <img id="focus-result-image"
+                             class="focus-result-image pixel-art"
+                             src="{% static 'images/game/icons/icon_flower.png' %}"
+                             alt="">
+                        <span class="focus-result-ground"></span>
+                        <span class="focus-progress-saved">✓ Progress saved</span>
                     </div>
-                    <div>
-                        <dt>Watered steps</dt>
-                        <dd id="focus-result-steps">0 / 0</dd>
-                    </div>
-                    <div>
-                        <dt>Time spent</dt>
-                        <dd id="focus-result-time">00:00</dd>
-                    </div>
-                </dl>
+                    <dl class="focus-result-summary result-detail-list">
+                        <div>
+                            <dt>
+                                <img class="result-detail-row-icon pixel-art"
+                                     src="{% static 'images/game/icons/icon_footer.png' %}"
+                                     alt="">
+                                Task
+                            </dt>
+                            <dd id="result-detail-task"><span id="focus-result-task">Selected task</span></dd>
+                        </div>
+                        <div>
+                            <dt>
+                                <img class="result-detail-row-icon pixel-art"
+                                     src="{% static 'images/game/icons/icon_seed_packet.png' %}"
+                                     alt="">
+                                Seed Type
+                            </dt>
+                            <dd id="result-detail-seed"><span id="focus-result-seed-type">Seed</span></dd>
+                        </div>
+                        <div>
+                            <dt>
+                                <img class="result-detail-row-icon pixel-art"
+                                     src="{% static 'images/game/icons/icon_bud.png' %}"
+                                     alt="">
+                                Plant State
+                            </dt>
+                            <dd id="result-detail-state"><span id="focus-result-state">Flower</span></dd>
+                        </div>
+                        <div>
+                            <dt>
+                                <img class="result-detail-row-icon pixel-art"
+                                     src="{% static 'images/game/icons/icon_watercan.png' %}"
+                                     alt="">
+                                Watered Steps
+                            </dt>
+                            <dd id="result-detail-watered"><span id="focus-result-steps">0 / 0</span></dd>
+                        </div>
+                        <div>
+                            <dt>
+                                <img class="result-detail-row-icon pixel-art"
+                                     src="{% static 'images/game/icons/icon_clock.png' %}"
+                                     alt="">
+                                Time Spent
+                            </dt>
+                            <dd id="result-detail-time-spent"><span id="focus-result-time">00:00</span></dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="focus-result-note" id="focus-result-note">
+                    This flower will stay in your garden as proof of your progress.
+                </div>
+                <div class="focus-result-actions">
+                    <a class="btn focus-result-garden-btn" href="/garden/">Back to Garden</a>
+                    <a class="btn focus-result-dashboard-btn" href="/dashboard/">View Dashboard</a>
+                    <button type="button" class="btn focus-result-close-btn" data-focus-result-close>Close</button>
+                    <button type="button" class="btn focus-result-delete-btn" id="focus-result-delete-btn">Delete from Garden</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="clear-plant-modal" id="clear-plant-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="clear-plant-title" aria-describedby="clear-plant-message">
+        <div class="clear-plant-backdrop" data-clear-plant-cancel></div>
+        <section class="clear-plant-card" role="document">
+            <button type="button" class="clear-plant-close" id="clear-plant-close" data-clear-plant-cancel aria-label="Close clear plant confirmation">&times;</button>
+            <h3 id="clear-plant-title">Clear Plant?</h3>
+            <p id="clear-plant-message">Delete this plant from the garden slot? Your dashboard result will stay saved.</p>
+            <div class="clear-plant-actions">
+                <button type="button" class="btn clear-plant-confirm-btn" id="clear-plant-confirm-btn">Yes, Clear</button>
+                <button type="button" class="btn clear-plant-cancel-btn" id="clear-plant-cancel-btn" data-clear-plant-cancel>Cancel</button>
             </div>
         </section>
     </div>
