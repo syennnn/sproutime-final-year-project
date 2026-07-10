@@ -68,8 +68,8 @@
                 </div>
 
                 <div class="auth-row">
-                    <label class="auth-check" for="rememberMe">
-                        <input type="checkbox" id="rememberMe" name="remember_me">
+                    <label class="auth-check" for="remember_me">
+                        <input type="checkbox" id="remember_me" name="remember_me" value="on" {% if request.POST.remember_me %}checked{% endif %}>
                         <span class="auth-check-box" aria-hidden="true">
                             <img class="pixel-art"
                                  src="{% static 'images/game/icons/icon_tick.png' %}"

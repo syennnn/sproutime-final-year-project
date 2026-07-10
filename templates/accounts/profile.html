@@ -9,6 +9,10 @@
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 
+{% block page_js %}
+<script src="{% static 'js/profile-image.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="profile-screen">
     <section class="profile-card" aria-labelledby="profile-title">
@@ -28,12 +32,24 @@
                 </p>
             </div>
 
-            <div class="profile-avatar pixel-art" aria-label="Profile avatar">
-                {{ request.user.username|slice:":1"|upper }}
-            </div>
+            <button type="button"
+                    class="profile-avatar-trigger"
+                    id="profile-avatar-trigger"
+                    aria-label="Manage profile image"
+                    aria-haspopup="dialog">
+                <div class="profile-avatar pixel-art" aria-label="Profile avatar">
+                    {% if profile.profile_image %}
+                        <img class="profile-avatar-image" src="{{ profile.profile_image.url }}" alt="{{ request.user.username }} profile image" id="profile-avatar-image">
+                    {% else %}
+                        <img class="profile-avatar-image" src="" alt="" id="profile-avatar-image" hidden>
+                    {% endif %}
+                    <span class="profile-avatar-fallback" id="profile-avatar-fallback" {% if profile.profile_image %}hidden{% endif %}>{{ request.user.username|slice:":1"|upper }}</span>
+                </div>
+                <span class="profile-avatar-overlay" aria-hidden="true">✎</span>
+            </button>
         </div>
 
-        <form class="profile-form" method="post" novalidate>
+        <form class="profile-form" method="post" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
             {% if form.non_field_errors %}
@@ -41,6 +57,26 @@
                     {{ form.non_field_errors }}
                 </div>
             {% endif %}
+
+            {% if form.errors %}
+                <div class="profile-error" role="alert">
+                    {% for field, field_errors in form.errors.items %}
+                        {% for error in field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="profile-avatar-upload" hidden>
+                <label for="id_profile_image">Profile image</label>
+                {{ form.profile_image }}
+                {% for error in form.profile_image.errors %}
+                    <div class="profile-field-error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
 
             <div class="profile-form-grid">
                 <div class="profile-field">
@@ -109,6 +145,58 @@
                 </a>
             </div>
         </form>
+
+        <div class="profile-image-actions-modal" id="profile-image-actions-modal" hidden>
+            <div class="profile-image-actions-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-image-actions-title">
+                <h3 id="profile-image-actions-title">Profile Image</h3>
+                <div class="profile-image-actions-preview">
+                    {% if profile.profile_image %}
+                        <img class="profile-image-preview" src="{{ profile.profile_image.url }}" alt="Current profile image">
+                    {% else %}
+                        <div class="profile-image-preview profile-image-preview-empty">{{ request.user.username|slice:":1"|upper }}</div>
+                    {% endif %}
+                </div>
+                <div class="profile-image-actions-buttons">
+                    <button type="button" class="profile-btn profile-btn-save" id="profile-image-edit-open">Edit Image</button>
+                    <button type="button" class="profile-btn profile-btn-danger" id="profile-image-delete-open" {% if not profile.profile_image %}disabled{% endif %}>Delete Image</button>
+                    <button type="button" class="profile-btn profile-btn-secondary" id="profile-image-actions-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-image-edit-modal" id="profile-image-edit-modal" hidden>
+            <div class="profile-image-edit-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-image-edit-title">
+                <h3 id="profile-image-edit-title">Update Profile Image</h3>
+                <div class="profile-image-edit-preview" id="profile-image-edit-preview">
+                    {% if profile.profile_image %}
+                        <img class="profile-image-preview" src="{{ profile.profile_image.url }}" alt="Current profile image preview">
+                    {% else %}
+                        <div class="profile-image-preview profile-image-preview-empty">{{ request.user.username|slice:":1"|upper }}</div>
+                    {% endif %}
+                </div>
+                <input type="file" id="profile-image-input" accept=".jpg,.jpeg,.png,.webp" hidden>
+                <div class="profile-image-file-row">
+                    <button type="button" class="profile-btn profile-btn-secondary" id="profile-image-choose-btn">Choose New Image</button>
+                    <span class="profile-image-file-name" id="profile-image-file-name">No file chosen</span>
+                </div>
+                <div class="profile-image-error" id="profile-image-error" role="alert"></div>
+                <div class="profile-image-actions-buttons">
+                    <button type="button" class="profile-btn profile-btn-save" id="profile-image-save-btn" disabled>Save Image</button>
+                    <button type="button" class="profile-btn profile-btn-secondary" id="profile-image-edit-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-image-delete-modal" id="profile-image-delete-modal" hidden>
+            <div class="profile-image-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-image-delete-title">
+                <h3 id="profile-image-delete-title">Remove Profile Image?</h3>
+                <p>Are you sure you want to remove your profile image?</p>
+                <div class="profile-image-actions-buttons">
+                    <button type="button" class="profile-btn profile-btn-danger" id="profile-image-delete-confirm">Delete Image</button>
+                    <button type="button" class="profile-btn profile-btn-secondary" id="profile-image-delete-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
 
         <section class="profile-identity" aria-labelledby="profile-identity-title">
             <h2 id="profile-identity-title">Garden Identity</h2>

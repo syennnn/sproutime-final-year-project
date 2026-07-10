@@ -276,34 +276,25 @@ body.create-seed-page .game-content {
 
 #watering-steps {
     display: grid;
-    gap: 0.65rem;
+    gap: 0.55rem;
 }
 
 .watering-step-row {
     position: relative;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: start;
-    gap: 0.65rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.55rem;
     margin: 0;
-    padding: 0.62rem;
-    border: 2px solid var(--sprout-panel-border-soft);
-    border-radius: 14px;
-    background: rgba(255, 252, 242, 0.92);
-    box-shadow: 0 3px 0 rgba(96, 69, 47, 0.12);
+    padding: 0.55rem 0.6rem;
+    border: 1px solid var(--sprout-panel-border-soft);
+    border-radius: 12px;
+    background: rgba(255, 252, 242, 0.95);
+    box-shadow: none;
 }
 
 .watering-step-row::before {
-    content: "";
-    width: 34px;
-    height: 34px;
-    margin-top: 0.42rem;
-    border: 2px solid rgba(71, 127, 159, 0.35);
-    border-radius: 10px;
-    background:
-        url("/static/images/game/icons/icon_watercan.png") center / 24px 24px no-repeat,
-        #e7f5f8;
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.44);
+    content: none;
 }
 
 .watering-step-row.d-flex {
@@ -319,15 +310,16 @@ body.create-seed-page .game-content {
 }
 
 .watering-step-input {
-    min-height: 58px;
-    padding: 0.68rem 0.78rem;
-    line-height: 1.32;
+    min-height: 52px;
+    padding: 0.62rem 0.7rem;
+    line-height: 1.28;
     overflow-wrap: anywhere;
 }
 
 .watering-step-row .remove-step-btn {
     align-self: center;
     margin-top: 0;
+    white-space: nowrap;
 }
 
 .create-seed-page .btn {

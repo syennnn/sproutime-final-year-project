@@ -128,15 +128,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function appendWateringStep(value = '') {
         const stepGroup = document.createElement('div');
-        stepGroup.className = 'watering-step-row d-flex align-items-flex-start gap-2 mb-3';
+        stepGroup.className = 'watering-step-row';
         const textarea = document.createElement('textarea');
         textarea.name = 'subtasks[]';
-        textarea.className = 'watering-step-input form-control flex-grow-1';
+        textarea.className = 'watering-step-input form-control';
         textarea.placeholder = 'Watering step description';
         textarea.value = value;
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
-        removeBtn.className = 'btn btn-outline-secondary btn-sm remove-step-btn';
+        removeBtn.className = 'btn btn-sm remove-step-btn';
         removeBtn.textContent = 'Remove';
         stepGroup.appendChild(textarea);
         stepGroup.appendChild(removeBtn);

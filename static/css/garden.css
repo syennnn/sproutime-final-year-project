@@ -1655,6 +1655,12 @@ main.garden-page {
     margin: 0 0 0.75rem;
 }
 
+.garden-page .focus-session-start-wrap {
+    display: flex;
+    justify-content: center;
+    grid-column: 1 / -1;
+}
+
 .garden-page .focus-session-actions .btn {
     flex: initial;
     min-height: 46px;
@@ -1665,6 +1671,12 @@ main.garden-page {
     box-shadow:
         inset 0 0 0 2px rgba(255, 255, 255, 0.35),
         0 4px 0 rgba(75, 47, 34, 0.24);
+}
+
+.garden-page .focus-session-start-wrap .focus-start-btn {
+    min-width: 400px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
 
 .garden-page .focus-start-btn,
